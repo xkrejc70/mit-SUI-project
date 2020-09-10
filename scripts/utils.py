@@ -5,7 +5,7 @@ import tempfile
 import numpy as np
 import random
 
-from dicewars.server.game.summary import GameSummary
+from dicewars.server.summary import GameSummary
 
 
 class BoardDefinition:
