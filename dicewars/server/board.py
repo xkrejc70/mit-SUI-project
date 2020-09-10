@@ -1,7 +1,7 @@
 from .area import Area
 
 
-class Board(object):
+class Board:
     """Object representing the game board
     """
     def __init__(self, board):

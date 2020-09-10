@@ -1,7 +1,7 @@
 import logging
 
 
-class Area(object):
+class Area:
     """Object representing a single area.
     """
     def __init__(self, name, adjacent_areas):

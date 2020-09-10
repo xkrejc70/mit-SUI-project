@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-class GameSummary(object):
+class GameSummary:
     def __init__(self):
         self.winner = None
         self.nb_battles = 0

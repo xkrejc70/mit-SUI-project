@@ -1,4 +1,4 @@
-class Player(object):
+class Player:
     """Representation of a single player
     """
     def __init__(self, name, score):

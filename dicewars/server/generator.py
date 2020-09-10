@@ -2,7 +2,7 @@ import hexutil
 from random import randint, choice as rand_choice, shuffle
 
 
-class BoardGenerator(object):
+class BoardGenerator:
     """Generator of game board
     """
     def __init__(self):

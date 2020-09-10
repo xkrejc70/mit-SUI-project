@@ -2,7 +2,7 @@ import logging
 import socket
 
 
-class Player(object):
+class Player:
     """Object representing a player
     """
     def __init__(self, name):

@@ -2,7 +2,7 @@ import hexutil
 from typing import List
 
 
-class Area(object):
+class Area:
     """Game board area
     """
     def __init__(self, name, owner, dice, neighbours, hexes):

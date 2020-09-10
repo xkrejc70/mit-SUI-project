@@ -2,7 +2,7 @@ from .area import Area
 from typing import List, Optional
 
 
-class Board(object):
+class Board:
     """Game board
     """
     def __init__(self, areas, board):

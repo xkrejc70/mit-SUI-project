@@ -10,7 +10,7 @@ from .player import Player
 from dicewars.client.socket_listener import SocketListener
 
 
-class Game(object):
+class Game:
     """Represantation of the game state
     """
     def __init__(self, addr, port, hello_msg):

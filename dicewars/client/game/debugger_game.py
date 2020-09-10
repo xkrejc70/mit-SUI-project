@@ -3,7 +3,7 @@ from queue import Queue
 from .player import Player
 
 
-class StaticGame(object):
+class StaticGame:
     """Represantation of the game state
     """
     def __init__(self, f):

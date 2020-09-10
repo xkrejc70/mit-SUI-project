@@ -13,7 +13,7 @@ MAX_PASS_ROUNDS = 8
 MAX_BATTLES_PER_GAME = 10000  # obsevered maximum of 5671 over over 100k games
 
 
-class Game(object):
+class Game:
     """Instance of the game
     """
     def __init__(self, board, area_ownership, players, addr, port, nicknames_order):
