@@ -124,7 +124,7 @@ def main():
 
     random.seed(args.board)
     generator = BoardGenerator()
-    board = Board(generator.generate_board())
+    board = Board(generator.generate_board(30))
 
     random.seed(args.ownership)
     # area_ownership = area_player_mapping(args.number_of_players, board.get_number_of_areas())

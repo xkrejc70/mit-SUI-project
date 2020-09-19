@@ -5,15 +5,13 @@ from random import randint, choice as rand_choice, shuffle
 class BoardGenerator:
     """Generator of game board
     """
-    def __init__(self, nb_max_extra_areas=0):
+    def __init__(self):
         """
         Attributes
         ----------
         min_x, max_x, min_y, max_y : int
             Boundary values for Hex coordinates
         """
-        self.nb_max_extra_areas = nb_max_extra_areas
-
         self.min_x = -32
         self.max_x = 30
         self.min_y = -14
@@ -42,7 +40,7 @@ class BoardGenerator:
                 break
         return hexutil.Hex(x, y)
 
-    def generate_board(self):
+    def generate_board(self, nb_base_areas, nb_max_extra_areas=0):
         """Method generating the board
 
         Returns
@@ -62,7 +60,7 @@ class BoardGenerator:
                 for j in range(self.min_x + 1, self.max_x + 2, 2):
                     self.a[i][j] = 0
 
-        for i in range(1, 30 + randint(0, self.nb_max_extra_areas)):
+        for i in range(1, nb_base_areas + randint(0, nb_max_extra_areas)):
             self.__create_area(i)
         self.__add_neighbours()
 
