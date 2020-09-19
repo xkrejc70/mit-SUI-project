@@ -28,6 +28,42 @@ def area_player_mapping(nb_players, nb_areas):
     return assignment
 
 
+def continuous_area_player_mapping(nb_players, board):
+    assignment = {}
+    nb_areas = board.get_number_of_areas()
+    unassigned_areas = set(range(1, nb_areas+1))
+    player_cycle = cycle(range(1, nb_players+1))
+
+    def unassigned_neighbours(area):
+        return {area for area in board.get_area_by_name(area_no).get_adjacent_areas_names() if area in unassigned_areas}
+        
+
+    player_available = dict()
+    for player_no in range(1, nb_players+1):
+        area_no = random.choice(list(unassigned_areas))
+        assignment[area_no] = player_no
+        unassigned_areas.remove(area_no)
+        player_available[player_no] = unassigned_neighbours(area_no)
+
+    while unassigned_areas:
+        player_no = next(player_cycle)
+        player_available[player_no] &= unassigned_areas
+        if player_available[player_no]:
+            area_no = random.choice(list(player_available[player_no]))
+        else:
+            print(f"Having to start a new region for player {player_no}")
+            area_no = random.choice(list(unassigned_areas))
+
+        assignment[area_no] = player_no
+        unassigned_areas.remove(area_no)
+        if player_available[player_no]:
+            player_available[player_no].remove(area_no)
+
+        player_available[player_no] |= unassigned_neighbours(area_no)
+
+    return assignment
+
+
 def players_areas(ownership, the_player):
     return [area for area, player in ownership.items() if player == the_player]
 
@@ -85,7 +121,8 @@ def main():
     board = Board(generator.generate_board())
 
     random.seed(args.ownership)
-    area_ownership = area_player_mapping(args.number_of_players, board.get_number_of_areas())
+    # area_ownership = area_player_mapping(args.number_of_players, board.get_number_of_areas())
+    area_ownership = continuous_area_player_mapping(args.number_of_players, board)
 
     random.seed(args.strength)
     assign_dice(board, args.number_of_players, area_ownership)
