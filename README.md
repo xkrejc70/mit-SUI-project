@@ -46,7 +46,7 @@ However, they all expose a common set of parameters for controlling the pseudo-r
 
 When not set, the source of pseudo-random numbers is seeded from current time, becoming effectively random.
 
-Finally, individual AIs are refered to as follows:
+Finally, individual AIs are referred to as follows:
 For every ``module`` in ``dicewars.ai``, which contains a class ``AI``, the ``AI`` is identified by ``module``. Examples are given throughout the following sections.
 
 ### Playing with human
@@ -90,7 +90,7 @@ For every board, all rotations of a random permutation of the player order are p
 
 An example:
 
-    python3 ./scripts/dicewars-tournament.py -r -g 2 -n 50 -b 101 -s 1337 -l ../logs --save ../tournaments/tournament-g2-n5000.pickle
+    python3 ./scripts/dicewars-tournament.py -r -g 2 -n 50 -b 101 -s 1337 -l ../logs --save ../tournaments/tournament-g2-n50.pickle
 
 This script can also be used for evaluation of a specific AI, ensuring that it takes part in every game played.
 This is achieved through ``--ai-under-test``, e.g.:
@@ -100,7 +100,7 @@ This is achieved through ``--ai-under-test``, e.g.:
 ### Observing convergence of winrates
 If you have saved games from a tournament (through its ``--save`` option), you can display the evolution of the winrates:
 
-    python3 ./scripts/winrate-progress.py --xmin 10 ../tournaments/tournament-g2-n5000.pickle 
+    python3 ./scripts/winrate-progress.py --xmin 10 ../tournaments/tournament-g2-n50.pickle 
 
 Note that the evolution of winrates does not have any other interpretation than the rate of convergence!
 
@@ -113,7 +113,7 @@ An AI is a class implementing two standard functions: ``__init__()`` and ``ai_tu
 Players and areas exist primary as instances of Player and Area.
 However -- originally for serialization purposes -- they are both referred to by their "name".
 These names are instances of `int`.
-Board can return Areas as given by name` every Area knows its name.
+Board can return Areas as given by name and every Area knows its name.
 
 There is no reason for an AI to access instances of Player.
 
@@ -122,12 +122,12 @@ There is no reason for an AI to access instances of Player.
 The constructor is expected to take following parameters:
 
     player_name     the name of the player this AI will control
-    board           an instance of ``dicewars.client.game.Board``
+    board           an instance of dicewars.client.game.Board
     players_order   in what order do players take turns
 
 The turn making method is expected to take following parameters:
 
-    board               an instance of ``dicewars.client.game.Board``   
+    board               an instance of dicewars.client.game.Board   
     nb_moves_this_turn  number of attacks made in this turn
     nb_turns_this_game  number of turns ended so far
     previous_time_left  time (in seconds) left after last decision making
@@ -138,12 +138,12 @@ Multi-module implementation is possible, see ``xlogin42`` for an example.
 
 ## Learning about the world
 Board's ``get_player_areas()``, ``get_player_border()``, and ``get_players_regions()`` can be used to discover areas belonging to any player in the game.
-Instances of ``Area`` then allow inquiry through ``get_adjacent_areas()``, ``get_owner_name()`` and ``get_dice()``.
+Instances of ``Area`` then allow further inquiry through ``get_adjacent_areas()``, ``get_owner_name()`` and ``get_dice()``.
 
 It may also be practical to acquire all possible moves from ``dicewars.ai.utils.possible_attacks()``.
 This module also provides formulas for probability of conquering and holding an Area.
 
-The instance of ``Board`` passed to AI is a deepcopy, so the AI is free to mangle it in any way it deemed useful.
+The instance of ``Board`` passed to AI is a deepcopy, so the AI is free to mangle it in any way deemed useful.
 
 ### Debuging visually
 In addition to whatever favourite debugging method you have, Dicewars provide a simplistic way of visually inspecting the state of the game.
@@ -161,5 +161,5 @@ It is expected that the developers of new AI will adjust the debugger's `Detaile
 Additionally, a [Fischer clock](https://en.wikipedia.org/wiki/Time_control#Increment_and_delay_methods) of 10s and 0.25s increment limits time for decision making.
 AI failing to make a decision will be stopped in deciding and a ``EndTurnCommand`` will be sent instead (but the increment is made anyway, so the AI will be able to continue playing).
 AIs are informed about the time they have left through ``time_left``. 
-* Stupid AI -- AI attempting to make an illegal move will be switched off, idling for the rest of the game.
+* Stupid AI -- AI attempting to make an illegal move will be switched off, idling it for the rest of the game.
 * Passive AI -- AI sending only ``EndTurnCommand`` will be quickly taken care of by other players. However, if no AI makes a move for 8 consecutive rounds, the game will be contumated and every player scores a defeat.
