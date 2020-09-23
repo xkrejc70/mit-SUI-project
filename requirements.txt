@@ -1,4 +1,4 @@
 hexutil
 numpy
-pyqt5
+pyqt5==5.14
 matplotlib
