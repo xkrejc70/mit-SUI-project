@@ -158,7 +158,7 @@ It is expected that the developers of new AI will adjust the debugger's `Detaile
 ## Dealing with misbehaving AIs
 
 * Slow AI -- AIs have a fixed 10s time for constructing themselves.
-Additionally, a [Fischer clock](https://en.wikipedia.org/wiki/Time_control#Increment_and_delay_methods) of 10s and 0.1s increment limits time for decision making.
+Additionally, a [Fischer clock](https://en.wikipedia.org/wiki/Time_control#Increment_and_delay_methods) of 10s and 0.25s increment limits time for decision making.
 AI failing to make a decision will be stopped in deciding and a ``EndTurnCommand`` will be sent instead (but the increment is made anyway, so the AI will be able to continue playing).
 AIs are informed about the time they have left through ``time_left``. 
 * Stupid AI -- AI attempting to make an illegal move will be switched off, idling for the rest of the game.
