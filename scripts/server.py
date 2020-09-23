@@ -112,7 +112,8 @@ def main():
     parser.add_argument('-o', '--ownership', help="Random seed to be used for province assignment", type=int)
     parser.add_argument('-s', '--strength', help="Random seed to be used for dice assignment", type=int)
     parser.add_argument('-f', '--fixed', help="Random seed to be used for player order and dice rolls", type=int)
-    parser.add_argument('--dice-assignment', help="Random seed to be used for player order and dice rolls", choices=['orig', 'flat'], default='orig')
+    parser.add_argument('--area-assignment', help="Method of assigning areas to players", choices=['orig', 'continuous'], default='orig')
+    parser.add_argument('--dice-assignment', help="Method of assigning dice to areas", choices=['orig', 'flat'], default='orig')
     parser.add_argument('-r', '--order', nargs='+',
                         help="Random seed to be used for dice assignment")
     args = parser.parse_args()
@@ -127,8 +128,10 @@ def main():
     board = Board(generator.generate_board(30))
 
     random.seed(args.ownership)
-    # area_ownership = area_player_mapping(args.number_of_players, board.get_number_of_areas())
-    area_ownership = continuous_area_player_mapping(args.number_of_players, board)
+    if args.area_assignment == 'orig':
+        area_ownership = area_player_mapping(args.number_of_players, board.get_number_of_areas())
+    elif args.area_assignment == 'continous':
+        area_ownership = continuous_area_player_mapping(args.number_of_players, board)
 
     random.seed(args.strength)
 
