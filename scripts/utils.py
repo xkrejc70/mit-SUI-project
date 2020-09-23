@@ -77,6 +77,7 @@ def run_ai_only_game(
         "-n", str(len(ais)),
         "-p", str(port),
         "-a", str(address),
+        "--dice-assignment", 'flat',
     ]
     server_cmd.append('-r')
     server_cmd.extend(ai_nicks)
@@ -97,7 +98,6 @@ def run_ai_only_game(
             "-p", str(port),
             "-a", str(address),
             "--ai", str(ai_version),
-            "--dice-assignment", 'flat',
         ]
         if client_seed is not None:
             client_cmd.extend(['-s', str(client_seed)])
