@@ -54,8 +54,10 @@ class AIDriver:
 
         self.ai_disabled = False
         try:
+            board_copy = copy.deepcopy(self.board)
+            players_order_copy = copy.deepcopy(self.game.players_order)
             with FixedTimer(TIME_LIMIT_CONSTRUCTOR):
-                self.ai = ai_constructor(self.player_name, copy.deepcopy(self.board), copy.deepcopy(self.game.players_order))
+                self.ai = ai_constructor(self.player_name, board_copy, players_order_copy)
         except TimeoutError:
             self.logger.error("The AI failed to construct itself in {}s. Disabling it.".format(TIME_LIMIT_CONSTRUCTOR))
             self.ai_disabled = True
@@ -90,9 +92,10 @@ class AIDriver:
                     continue
 
                 try:
+                    board_copy = copy.deepcopy(self.board)
                     with self.timer as time_left:
                         command = self.ai.ai_turn(
-                            copy.deepcopy(self.board),
+                            board_copy,
                             self.moves_this_turn,
                             self.turns_finished,
                             time_left
