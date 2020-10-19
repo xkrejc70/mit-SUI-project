@@ -1,5 +1,6 @@
 import numpy
 from dicewars.client.game.board import Board
+from dicewars.client.game.area import Area
 from typing import Iterator, Tuple
 import pickle
 
