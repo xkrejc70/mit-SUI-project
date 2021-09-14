@@ -36,7 +36,6 @@ def continuous_area_player_mapping(nb_players, board):
 
     def unassigned_neighbours(area):
         return {area for area in board.get_area_by_name(area_no).get_adjacent_areas_names() if area in unassigned_areas}
-        
 
     player_available = dict()
     for player_no in range(1, nb_players+1):
