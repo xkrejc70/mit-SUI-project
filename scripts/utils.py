@@ -77,7 +77,6 @@ def run_ai_only_game(
         "-n", str(len(ais)),
         "-p", str(port),
         "-a", str(address),
-        "--dice-assignment", 'flat',
     ]
     server_cmd.append('-r')
     server_cmd.extend(ai_nicks)

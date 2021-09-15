@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from argparse import ArgumentParser
+import configparser
 import logging
 import random
 
@@ -112,10 +113,15 @@ def main():
     parser.add_argument('-s', '--strength', help="Random seed to be used for dice assignment", type=int)
     parser.add_argument('-f', '--fixed', help="Random seed to be used for player order and dice rolls", type=int)
     parser.add_argument('--area-assignment', help="Method of assigning areas to players", choices=['orig', 'continuous'], default='orig')
-    parser.add_argument('--dice-assignment', help="Method of assigning dice to areas", choices=['orig', 'flat'], default='orig')
     parser.add_argument('-r', '--order', nargs='+',
                         help="Random seed to be used for dice assignment")
     args = parser.parse_args()
+
+    config = configparser.ConfigParser()
+    config.read('dicewars.config')
+    board_config = config['BOARD']
+    dice_assignment_method = board_config.get('DiceAssignment')
+
     log_level = get_logging_level(args)
 
     logging.basicConfig(level=log_level)
@@ -134,10 +140,12 @@ def main():
 
     random.seed(args.strength)
 
-    if args.dice_assignment == 'orig':
+    if dice_assignment_method == 'orig':
         assign_dice(board, args.number_of_players, area_ownership)
-    elif args.dice_assignment == 'flat':
+    elif dice_assignment_method == 'flat':
         assign_dice_flat(board, args.number_of_players, area_ownership)
+    else:
+        raise ValueError(f'Unsupport dice assignment method "{dice_assignment_method}"')
 
     random.seed(args.fixed)
     game = Game(board, area_ownership, args.number_of_players, args.address, args.port, args.order)
