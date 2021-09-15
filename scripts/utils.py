@@ -113,7 +113,8 @@ def run_ai_only_game(
         log.close()
 
     server_output.seek(0)
-    game_summary = GameSummary.from_repr(server_output.read())
+    server_output = server_output.read()
+    game_summary = GameSummary.from_repr(server_output)
     return game_summary
 
 
