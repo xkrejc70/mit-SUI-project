@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from argparse import ArgumentParser
+import configparser
 import logging
 import random
 
@@ -36,7 +37,6 @@ def continuous_area_player_mapping(nb_players, board):
 
     def unassigned_neighbours(area):
         return {area for area in board.get_area_by_name(area_no).get_adjacent_areas_names() if area in unassigned_areas}
-        
 
     player_available = dict()
     for player_no in range(1, nb_players+1):
@@ -51,7 +51,7 @@ def continuous_area_player_mapping(nb_players, board):
         if player_available[player_no]:
             area_no = random.choice(list(player_available[player_no]))
         else:
-            print(f"Having to start a new region for player {player_no}")
+            logging.info(f"Having to start a new region for player {player_no}")
             area_no = random.choice(list(unassigned_areas))
 
         assignment[area_no] = player_no
@@ -73,7 +73,7 @@ def assign_dice_flat(board, nb_players, ownership):
         area.set_dice(3)
 
 
-def assign_dice(board, nb_players, ownership):
+def assign_dice_random(board, nb_players, ownership):
     dice_total = 3 * board.get_number_of_areas() - random.randint(0, 5)
     players_processed = 0
 
@@ -98,6 +98,33 @@ def assign_dice(board, nb_players, ownership):
         players_processed += 1
 
 
+def create_board(board_config):
+    generator = BoardGenerator()
+    return Board(generator.generate_board(board_config.getint('BoardSize')))
+
+
+def produce_area_assignment(board_config, board, nb_players):
+    area_assignment_method = board_config.get('AreaAssignment')
+    if area_assignment_method == 'orig':
+        area_ownership = area_player_mapping(nb_players, board.get_number_of_areas())
+    elif area_assignment_method == 'continuous':
+        area_ownership = continuous_area_player_mapping(nb_players, board)
+    else:
+        raise ValueError(f'Unsupported area assignment method "{area_assignment_method}"')
+
+    return area_ownership
+
+
+def assign_dice(board_config, board, nb_players, area_ownership):
+    dice_assignment_method = board_config.get('DiceAssignment')
+    if dice_assignment_method == 'orig':
+        assign_dice_random(board, nb_players, area_ownership)
+    elif dice_assignment_method == 'flat':
+        assign_dice_flat(board, nb_players, area_ownership)
+    else:
+        raise ValueError(f'Unsupport dice assignment method "{dice_assignment_method}"')
+
+
 def main():
     """
     Server for Dice Wars
@@ -112,11 +139,14 @@ def main():
     parser.add_argument('-o', '--ownership', help="Random seed to be used for province assignment", type=int)
     parser.add_argument('-s', '--strength', help="Random seed to be used for dice assignment", type=int)
     parser.add_argument('-f', '--fixed', help="Random seed to be used for player order and dice rolls", type=int)
-    parser.add_argument('--area-assignment', help="Method of assigning areas to players", choices=['orig', 'continuous'], default='orig')
-    parser.add_argument('--dice-assignment', help="Method of assigning dice to areas", choices=['orig', 'flat'], default='orig')
     parser.add_argument('-r', '--order', nargs='+',
                         help="Random seed to be used for dice assignment")
     args = parser.parse_args()
+
+    config = configparser.ConfigParser()
+    config.read('dicewars.config')
+    board_config = config['BOARD']
+
     log_level = get_logging_level(args)
 
     logging.basicConfig(level=log_level)
@@ -124,21 +154,13 @@ def main():
     logger.debug("Command line arguments: {0}".format(args))
 
     random.seed(args.board)
-    generator = BoardGenerator()
-    board = Board(generator.generate_board(30))
+    board = create_board(board_config)
 
     random.seed(args.ownership)
-    if args.area_assignment == 'orig':
-        area_ownership = area_player_mapping(args.number_of_players, board.get_number_of_areas())
-    elif args.area_assignment == 'continous':
-        area_ownership = continuous_area_player_mapping(args.number_of_players, board)
+    area_ownership = produce_area_assignment(board_config, board, args.number_of_players)
 
     random.seed(args.strength)
-
-    if args.dice_assignment == 'orig':
-        assign_dice(board, args.number_of_players, area_ownership)
-    elif args.dice_assignment == 'flat':
-        assign_dice_flat(board, args.number_of_players, area_ownership)
+    assign_dice(board_config, board, args.number_of_players, area_ownership)
 
     random.seed(args.fixed)
     game = Game(board, area_ownership, args.number_of_players, args.address, args.port, args.order)

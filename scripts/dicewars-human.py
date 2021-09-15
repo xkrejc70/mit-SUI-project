@@ -50,7 +50,6 @@ def main():
             "-n", str(len(args.ai) + 1),
             "-p", str(args.port),
             "-a", str(args.address),
-            "--dice-assignment", 'flat',
         ]
         if args.board is not None:
             cmd.extend(['-b', str(args.board)])
