@@ -229,9 +229,8 @@ class Game:
         """
         affected_areas = []
         player = self.current_player
-        free_dice = player.get_reserve() + player.get_largest_region(self.board)
-        if free_dice > 64:
-            free_dice = 64
+
+        free_dice = self.get_player_dice_for_distribution(player)
 
         areas = []
         for area in self.current_player.get_areas():
@@ -258,6 +257,13 @@ class Game:
             }
 
         return list_of_areas
+
+    def get_player_dice_for_distribution(self, player):
+        dice = player.get_reserve() + player.get_largest_region(self.board)
+        if dice > 64:
+            dice = 64
+
+        return dice
 
     def set_first_player(self):
         """Set first player
