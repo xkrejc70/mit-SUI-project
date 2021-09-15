@@ -112,7 +112,6 @@ def main():
     parser.add_argument('-o', '--ownership', help="Random seed to be used for province assignment", type=int)
     parser.add_argument('-s', '--strength', help="Random seed to be used for dice assignment", type=int)
     parser.add_argument('-f', '--fixed', help="Random seed to be used for player order and dice rolls", type=int)
-    parser.add_argument('--area-assignment', help="Method of assigning areas to players", choices=['orig', 'continuous'], default='orig')
     parser.add_argument('-r', '--order', nargs='+',
                         help="Random seed to be used for dice assignment")
     args = parser.parse_args()
@@ -121,6 +120,7 @@ def main():
     config.read('dicewars.config')
     board_config = config['BOARD']
     dice_assignment_method = board_config.get('DiceAssignment')
+    area_assignment_method = board_config.get('AreaAssignment')
 
     log_level = get_logging_level(args)
 
@@ -133,10 +133,12 @@ def main():
     board = Board(generator.generate_board(30))
 
     random.seed(args.ownership)
-    if args.area_assignment == 'orig':
+    if area_assignment_method == 'orig':
         area_ownership = area_player_mapping(args.number_of_players, board.get_number_of_areas())
-    elif args.area_assignment == 'continous':
+    elif area_assignment_method == 'continuous':
         area_ownership = continuous_area_player_mapping(args.number_of_players, board)
+    else:
+        raise ValueError(f'Unsupported area assignment method "{area_assignment_method}"')
 
     random.seed(args.strength)
 
