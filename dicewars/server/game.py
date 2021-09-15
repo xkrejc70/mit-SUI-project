@@ -227,25 +227,11 @@ class Game:
         dict
             Dictionary of affected areas including number of dice in these areas
         """
-        affected_areas = []
-        player = self.current_player
 
-        free_dice = self.get_player_dice_for_distribution(player)
+        free_dice = self.get_player_dice_for_distribution(self.current_player)
 
-        areas = []
-        for area in self.current_player.get_areas():
-            areas.append(area)
-
-        while free_dice and areas:
-            area = random.choice(areas)
-            if not area.add_die():
-                areas.remove(area)
-            else:
-                if area not in affected_areas:
-                    affected_areas.append(area)
-                free_dice -= 1
-
-        player.set_reserve(free_dice)
+        free_dice, affected_areas = self.distribute_player_dice(self.current_player, free_dice)
+        self.current_player.set_reserve(free_dice)
 
         self.set_next_player()
 
@@ -264,6 +250,24 @@ class Game:
             dice = 64
 
         return dice
+
+    def distribute_player_dice(self, player, nb_free_dice):
+        free_dice = nb_free_dice
+        areas = []
+        for area in self.current_player.get_areas():
+            areas.append(area)
+
+        affected_areas = []
+        while free_dice and areas:
+            area = random.choice(areas)
+            if not area.add_die():
+                areas.remove(area)
+            else:
+                if area not in affected_areas:
+                    affected_areas.append(area)
+                free_dice -= 1
+
+        return free_dice, affected_areas
 
     def set_first_player(self):
         """Set first player
