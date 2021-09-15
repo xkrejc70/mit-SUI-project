@@ -229,24 +229,24 @@ class Game:
         """
         affected_areas = []
         player = self.current_player
-        dice = player.get_reserve() + player.get_largest_region(self.board)
-        if dice > 64:
-            dice = 64
+        free_dice = player.get_reserve() + player.get_largest_region(self.board)
+        if free_dice > 64:
+            free_dice = 64
 
         areas = []
         for area in self.current_player.get_areas():
             areas.append(area)
 
-        while dice and areas:
+        while free_dice and areas:
             area = random.choice(areas)
             if not area.add_die():
                 areas.remove(area)
             else:
                 if area not in affected_areas:
                     affected_areas.append(area)
-                dice -= 1
+                free_dice -= 1
 
-        player.set_reserve(dice)
+        player.set_reserve(free_dice)
 
         self.set_next_player()
 
