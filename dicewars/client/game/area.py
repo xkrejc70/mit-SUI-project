@@ -50,7 +50,7 @@ class Area:
     def set_dice(self, dice: int) -> None:
         """Set area's dice
         """
-        if dice < 1 or dice > 8:
+        if dice < 1:
             raise ValueError("Attempted to assign {} dice to Area {}".format(dice, self.name))
 
         self.dice = dice

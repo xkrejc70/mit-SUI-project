@@ -104,7 +104,7 @@ class Area:
         dice : int
             Number of dice
         """
-        if dice < 1 or dice > 8:
+        if dice < 1:
             self.logger.warning("Trying to assign {0} dice to area {1}".format(dice, self.name))
         else:
             self.dice = dice

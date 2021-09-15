@@ -16,7 +16,7 @@ MAX_BATTLES_PER_GAME = 10000  # obsevered maximum of 5671 over over 100k games
 class Game:
     """Instance of the game
     """
-    def __init__(self, board, area_ownership, players, addr, port, nicknames_order):
+    def __init__(self, board, area_ownership, players, game_config, addr, port, nicknames_order):
         """Initialize game and connect clients
 
         Parameters
@@ -46,7 +46,7 @@ class Game:
         self.nb_consecutive_end_of_turns = 0
         self.nb_battles = 0
 
-        self.max_dice_per_area = 8
+        self.max_dice_per_area = game_config.getint('MaxDicePerArea')
 
         self.create_socket()
 

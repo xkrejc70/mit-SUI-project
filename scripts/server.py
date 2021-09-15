@@ -147,6 +147,7 @@ def main():
     config = configparser.ConfigParser()
     config.read('dicewars.config')
     board_config = config['BOARD']
+    game_config = config['GAME']
 
     log_level = get_logging_level(args)
 
@@ -164,7 +165,7 @@ def main():
     assign_dice(board_config, board, args.number_of_players, area_ownership)
 
     random.seed(args.fixed)
-    game = Game(board, area_ownership, args.number_of_players, args.address, args.port, args.order)
+    game = Game(board, area_ownership, args.number_of_players, game_config, args.address, args.port, args.order)
     game.run()
 
 
