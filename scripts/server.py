@@ -98,6 +98,11 @@ def assign_dice_random(board, nb_players, ownership):
         players_processed += 1
 
 
+def create_board(board_config):
+    generator = BoardGenerator()
+    return Board(generator.generate_board(board_config.getint('BoardSize')))
+
+
 def produce_area_assignment(board_config, board, nb_players):
     area_assignment_method = board_config.get('AreaAssignment')
     if area_assignment_method == 'orig':
@@ -149,8 +154,7 @@ def main():
     logger.debug("Command line arguments: {0}".format(args))
 
     random.seed(args.board)
-    generator = BoardGenerator()
-    board = Board(generator.generate_board(30))
+    board = create_board(board_config)
 
     random.seed(args.ownership)
     area_ownership = produce_area_assignment(board_config, board, args.number_of_players)
