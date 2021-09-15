@@ -43,21 +43,6 @@ class Area:
         for name in self.adjacent_areas_names:
             self.adjacent_areas.append(board.areas[name])
 
-    def add_die(self):
-        """Add die to area's dice
-
-        Returns
-        -------
-        bool
-            False if area already contains 8 dice, otherwise True
-        """
-        if self.dice >= 8:
-            self.dice = 8
-            return False
-        else:
-            self.dice += 1
-            return True
-
     def get_adjacent_areas(self):
         """Get list of adjacent areas
 

@@ -46,6 +46,8 @@ class Game:
         self.nb_consecutive_end_of_turns = 0
         self.nb_battles = 0
 
+        self.max_dice_per_area = 8
+
         self.create_socket()
 
         self.board = board
@@ -260,11 +262,12 @@ class Game:
         affected_areas = []
         while free_dice and areas:
             area = random.choice(areas)
-            if not area.add_die():
+            if area.get_dice() >= self.max_dice_per_area:
                 areas.remove(area)
             else:
                 if area not in affected_areas:
                     affected_areas.append(area)
+                area.dice += 1
                 free_dice -= 1
 
         return free_dice, affected_areas

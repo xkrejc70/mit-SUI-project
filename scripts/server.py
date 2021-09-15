@@ -73,7 +73,7 @@ def assign_dice_flat(board, nb_players, ownership):
         area.set_dice(3)
 
 
-def assign_dice_random(board, nb_players, ownership):
+def assign_dice_random(board, nb_players, ownership, max_dice_per_area=8):
     dice_total = 3 * board.get_number_of_areas() - random.randint(0, 5)
     players_processed = 0
 
@@ -90,9 +90,10 @@ def assign_dice_random(board, nb_players, ownership):
 
         while player_dice and available_areas:
             area = random.choice(available_areas)
-            if not area.add_die():  # adding a die to area failed means that area is full
+            if area.get_dice() >= max_dice_per_area:
                 available_areas.remove(area)
             else:
+                area.dice += 1
                 player_dice -= 1
 
         players_processed += 1
