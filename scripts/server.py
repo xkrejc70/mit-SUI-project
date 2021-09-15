@@ -51,7 +51,7 @@ def continuous_area_player_mapping(nb_players, board):
         if player_available[player_no]:
             area_no = random.choice(list(player_available[player_no]))
         else:
-            print(f"Having to start a new region for player {player_no}")
+            logging.info(f"Having to start a new region for player {player_no}")
             area_no = random.choice(list(unassigned_areas))
 
         assignment[area_no] = player_no
