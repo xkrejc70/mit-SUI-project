@@ -254,13 +254,21 @@ class Game:
         return dice
 
     def distribute_player_dice(self, player, nb_free_dice):
-        free_dice = nb_free_dice
+        dice_deployed = sum(a.get_dice() for a in player.get_areas())
+        nb_areas = len(player.get_areas())
+        max_deployed = nb_areas * self.max_dice_per_area - 7
+        room_for_deployment = max(max_deployed - dice_deployed, 0)
+        available_for_deployment = min(nb_free_dice, room_for_deployment)
+        free_dice = max(0, nb_free_dice - available_for_deployment)
+
+        print(f'Player {player.get_name()} has got {dice_deployed} / {max_deployed} dice deployed in {nb_areas} areas, {nb_free_dice} ready, {available_for_deployment} available for deployment and {free_dice} left')
+
         areas = []
         for area in self.current_player.get_areas():
             areas.append(area)
 
         affected_areas = []
-        while free_dice and areas:
+        while available_for_deployment and areas:
             area = random.choice(areas)
             if area.get_dice() >= self.max_dice_per_area:
                 areas.remove(area)
@@ -268,7 +276,7 @@ class Game:
                 if area not in affected_areas:
                     affected_areas.append(area)
                 area.dice += 1
-                free_dice -= 1
+                available_for_deployment -= 1
 
         return free_dice, affected_areas
 
