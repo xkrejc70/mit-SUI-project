@@ -230,10 +230,9 @@ class Game:
             Dictionary of affected areas including number of dice in these areas
         """
 
-        free_dice = self.get_player_dice_for_distribution(self.current_player)
-
-        free_dice, affected_areas = self.distribute_player_dice(self.current_player, free_dice)
-        self.current_player.set_reserve(free_dice)
+        deployable_dice, reserve_dice = self.get_player_dice(self.current_player)
+        affected_areas = self.distribute_player_dice(self.current_player, deployable_dice)
+        self.current_player.set_reserve(reserve_dice)
 
         self.set_next_player()
 
@@ -246,23 +245,21 @@ class Game:
 
         return list_of_areas
 
-    def get_player_dice_for_distribution(self, player):
-        dice = player.get_reserve() + player.get_largest_region(self.board)
-        if dice > 64:
-            dice = 64
+    def get_player_dice(self, player):
+        free_dice = player.get_reserve() + player.get_largest_region(self.board)
+        if free_dice > 64:
+            free_dice = 64
 
-        return dice
-
-    def distribute_player_dice(self, player, nb_free_dice):
         dice_deployed = sum(a.get_dice() for a in player.get_areas())
         nb_areas = len(player.get_areas())
         max_deployed = nb_areas * self.max_dice_per_area - 7
         room_for_deployment = max(max_deployed - dice_deployed, 0)
-        available_for_deployment = min(nb_free_dice, room_for_deployment)
-        free_dice = max(0, nb_free_dice - available_for_deployment)
+        available_for_deployment = min(free_dice, room_for_deployment)
+        free_dice = max(0, free_dice - available_for_deployment)
 
-        print(f'Player {player.get_name()} has got {dice_deployed} / {max_deployed} dice deployed in {nb_areas} areas, {nb_free_dice} ready, {available_for_deployment} available for deployment and {free_dice} left')
+        return available_for_deployment, free_dice
 
+    def distribute_player_dice(self, player, available_for_deployment):
         areas = []
         for area in self.current_player.get_areas():
             areas.append(area)
@@ -278,7 +275,7 @@ class Game:
                 area.dice += 1
                 available_for_deployment -= 1
 
-        return free_dice, affected_areas
+        return affected_areas
 
     def set_first_player(self):
         """Set first player
