@@ -252,7 +252,7 @@ class Game:
 
         dice_deployed = sum(a.get_dice() for a in player.get_areas())
         nb_areas = len(player.get_areas())
-        max_deployed = nb_areas * self.max_dice_per_area - 7
+        max_deployed = nb_areas * self.max_dice_per_area
         room_for_deployment = max(max_deployed - dice_deployed, 0)
         available_for_deployment = min(free_dice, room_for_deployment)
         free_dice = max(0, free_dice - available_for_deployment)
