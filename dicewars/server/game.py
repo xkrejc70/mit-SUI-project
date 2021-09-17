@@ -49,7 +49,13 @@ class Game:
 
         self.max_dice_per_area = game_config.getint('MaxDicePerArea')
 
-        self.max_deployed_dice = LimitedDeployment(self.max_dice_per_area)
+        deployment_method = game_config['DeploymentMethod']
+        if deployment_method == 'unlimited':
+            self.max_deployed_dice = UnlimitedDeployment(self.max_dice_per_area)
+        elif deployment_method == 'limited':
+            self.max_deployed_dice = LimitedDeployment(self.max_dice_per_area)
+        else:
+            raise ValueError(f'Unknown deployement method "{deployment_method}"')
 
         self.create_socket()
 
@@ -247,10 +253,6 @@ class Game:
             }
 
         return list_of_areas
-
-    def max_deployed_dice(self, player):
-        nb_areas = len(player.get_areas())
-        return nb_areas * self.max_dice_per_area
 
     def get_player_dice(self, player):
         free_dice = player.get_reserve() + player.get_largest_region(self.board)
@@ -564,6 +566,14 @@ class Game:
 
     def report_player_order(self):
         self.logger.info('Player order: {}'.format([(name, self.players[name].nickname) for name in self.players_order]))
+
+
+class UnlimitedDeployment:
+    def __init__(self, max_val):
+        self.max_dice_per_area = max_val
+
+    def __call__(self, player):
+        return len(player.get_areas()) * self.max_dice_per_area
 
 
 class LimitedDeployment:
