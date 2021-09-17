@@ -2,6 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 import logging
 import random
+import numpy as np
 import socket
 import sys
 
@@ -47,6 +48,8 @@ class Game:
         self.nb_battles = 0
 
         self.max_dice_per_area = game_config.getint('MaxDicePerArea')
+
+        self.max_deployed_dice = LimitedDeployment(self.max_dice_per_area)
 
         self.create_socket()
 
@@ -245,14 +248,17 @@ class Game:
 
         return list_of_areas
 
+    def max_deployed_dice(self, player):
+        nb_areas = len(player.get_areas())
+        return nb_areas * self.max_dice_per_area
+
     def get_player_dice(self, player):
         free_dice = player.get_reserve() + player.get_largest_region(self.board)
         if free_dice > 64:
             free_dice = 64
 
         dice_deployed = sum(a.get_dice() for a in player.get_areas())
-        nb_areas = len(player.get_areas())
-        max_deployed = nb_areas * self.max_dice_per_area
+        max_deployed = self.max_deployed_dice(player)
         room_for_deployment = max(max_deployed - dice_deployed, 0)
         available_for_deployment = min(free_dice, room_for_deployment)
         free_dice = max(0, free_dice - available_for_deployment)
@@ -558,3 +564,18 @@ class Game:
 
     def report_player_order(self):
         self.logger.info('Player order: {}'.format([(name, self.players[name].nickname) for name in self.players_order]))
+
+
+class LimitedDeployment:
+    def __init__(self, max_val):
+        xs = np.arange(1, 41)
+        incs = max_val * np.ones(len(xs), dtype=np.int)
+
+        for i in range(1, 5):
+            incs -= np.heaviside(xs - i*7 - 0.5, 1).astype(np.int)
+
+        self.vals = np.cumsum(incs)
+
+    def __call__(self, player):
+        nb_areas = len(player.get_areas())
+        return int(self.vals[nb_areas-1])
