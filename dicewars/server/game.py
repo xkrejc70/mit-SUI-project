@@ -2,6 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 import logging
 import random
+import numpy as np
 import socket
 import sys
 
@@ -16,7 +17,7 @@ MAX_BATTLES_PER_GAME = 10000  # obsevered maximum of 5671 over over 100k games
 class Game:
     """Instance of the game
     """
-    def __init__(self, board, area_ownership, players, addr, port, nicknames_order):
+    def __init__(self, board, area_ownership, players, game_config, addr, port, nicknames_order):
         """Initialize game and connect clients
 
         Parameters
@@ -45,6 +46,16 @@ class Game:
         self.nb_players_alive = players
         self.nb_consecutive_end_of_turns = 0
         self.nb_battles = 0
+
+        self.max_dice_per_area = game_config.getint('MaxDicePerArea')
+
+        deployment_method = game_config['DeploymentMethod']
+        if deployment_method == 'unlimited':
+            self.max_deployed_dice = UnlimitedDeployment(self.max_dice_per_area)
+        elif deployment_method == 'limited':
+            self.max_deployed_dice = LimitedDeployment(self.max_dice_per_area)
+        else:
+            raise ValueError(f'Unknown deployement method "{deployment_method}"')
 
         self.create_socket()
 
@@ -227,26 +238,10 @@ class Game:
         dict
             Dictionary of affected areas including number of dice in these areas
         """
-        affected_areas = []
-        player = self.current_player
-        dice = player.get_reserve() + player.get_largest_region(self.board)
-        if dice > 64:
-            dice = 64
 
-        areas = []
-        for area in self.current_player.get_areas():
-            areas.append(area)
-
-        while dice and areas:
-            area = random.choice(areas)
-            if not area.add_die():
-                areas.remove(area)
-            else:
-                if area not in affected_areas:
-                    affected_areas.append(area)
-                dice -= 1
-
-        player.set_reserve(dice)
+        deployable_dice, reserve_dice = self.get_player_dice(self.current_player)
+        affected_areas = self.distribute_player_dice(self.current_player, deployable_dice)
+        self.current_player.set_reserve(reserve_dice)
 
         self.set_next_player()
 
@@ -258,6 +253,37 @@ class Game:
             }
 
         return list_of_areas
+
+    def get_player_dice(self, player):
+        free_dice = player.get_reserve() + player.get_largest_region(self.board)
+        if free_dice > 64:
+            free_dice = 64
+
+        dice_deployed = sum(a.get_dice() for a in player.get_areas())
+        max_deployed = self.max_deployed_dice(player)
+        room_for_deployment = max(max_deployed - dice_deployed, 0)
+        available_for_deployment = min(free_dice, room_for_deployment)
+        free_dice = max(0, free_dice - available_for_deployment)
+
+        return available_for_deployment, free_dice
+
+    def distribute_player_dice(self, player, available_for_deployment):
+        areas = []
+        for area in self.current_player.get_areas():
+            areas.append(area)
+
+        affected_areas = []
+        while available_for_deployment and areas:
+            area = random.choice(areas)
+            if area.get_dice() >= self.max_dice_per_area:
+                areas.remove(area)
+            else:
+                if area not in affected_areas:
+                    affected_areas.append(area)
+                area.dice += 1
+                available_for_deployment -= 1
+
+        return affected_areas
 
     def set_first_player(self):
         """Set first player
@@ -540,3 +566,26 @@ class Game:
 
     def report_player_order(self):
         self.logger.info('Player order: {}'.format([(name, self.players[name].nickname) for name in self.players_order]))
+
+
+class UnlimitedDeployment:
+    def __init__(self, max_val):
+        self.max_dice_per_area = max_val
+
+    def __call__(self, player):
+        return len(player.get_areas()) * self.max_dice_per_area
+
+
+class LimitedDeployment:
+    def __init__(self, max_val):
+        xs = np.arange(1, 41)
+        incs = max_val * np.ones(len(xs), dtype=np.int)
+
+        for i in range(1, 5):
+            incs -= np.heaviside(xs - i*7 - 0.5, 1).astype(np.int)
+
+        self.vals = np.cumsum(incs)
+
+    def __call__(self, player):
+        nb_areas = len(player.get_areas())
+        return int(self.vals[nb_areas-1])

@@ -73,7 +73,7 @@ def assign_dice_flat(board, nb_players, ownership):
         area.set_dice(3)
 
 
-def assign_dice_random(board, nb_players, ownership):
+def assign_dice_random(board, nb_players, ownership, max_dice_per_area=8):
     dice_total = 3 * board.get_number_of_areas() - random.randint(0, 5)
     players_processed = 0
 
@@ -90,9 +90,10 @@ def assign_dice_random(board, nb_players, ownership):
 
         while player_dice and available_areas:
             area = random.choice(available_areas)
-            if not area.add_die():  # adding a die to area failed means that area is full
+            if area.get_dice() >= max_dice_per_area:
                 available_areas.remove(area)
             else:
+                area.dice += 1
                 player_dice -= 1
 
         players_processed += 1
@@ -146,6 +147,7 @@ def main():
     config = configparser.ConfigParser()
     config.read('dicewars.config')
     board_config = config['BOARD']
+    game_config = config['GAME']
 
     log_level = get_logging_level(args)
 
@@ -163,7 +165,7 @@ def main():
     assign_dice(board_config, board, args.number_of_players, area_ownership)
 
     random.seed(args.fixed)
-    game = Game(board, area_ownership, args.number_of_players, args.address, args.port, args.order)
+    game = Game(board, area_ownership, args.number_of_players, game_config, args.address, args.port, args.order)
     game.run()
 
 
