@@ -141,6 +141,15 @@ class AIDriver:
 
             self.waitingForResponse = False
 
+        if msg['type'] == 'transfer':
+            src_data = msg['result']['src']
+            source = self.game.board.get_area(str(src_data['name']))
+            source.set_dice(src_data['dice'])
+
+            dst_data = msg['result']['dst']
+            destination = self.game.board.get_area(str(dst_data['name']))
+            destination.set_dice(dst_data['dice'])
+
         elif msg['type'] == 'end_turn':
             current_player = self.game.players[self.game.current_player_name]
 

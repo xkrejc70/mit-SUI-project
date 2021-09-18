@@ -141,6 +141,15 @@ class Game:
             for p in self.players:
                 self.send_message(self.players[p], 'end_turn', areas=affected_areas)
 
+        elif msg['type'] == 'transfer':
+            self.nb_consecutive_end_of_turns = 0
+            transfer = self.transfer(self.board.get_area_by_name(msg['src']), self.board.get_area_by_name(msg['dst']))
+            for p in self.players:
+                self.send_message(self.players[p], 'transfer', transfer=transfer)
+
+        else:
+            self.logger.warning(f'Unexpected message type: {msg["type"]}')
+
     def get_state(self):
         """Get game state
 
@@ -229,6 +238,38 @@ class Game:
             }
 
         return battle
+
+    def transfer(self, source, destination):
+        """Carry out a transfer
+
+        Returns
+        -------
+        dict
+            Dictionary with the result of the transfer
+        """
+        src_dice = source.get_dice()
+        dst_dice = destination.get_dice()
+
+        src_name = source.get_owner_name()
+        dst_name = destination.get_owner_name()
+
+        dice_moved = min(self.max_dice_per_area - dst_dice, src_dice - 1)
+
+        source.set_dice(src_dice - dice_moved)
+        destination.set_dice(dst_dice + dice_moved)
+
+        transfer = {
+            'src': {
+                'name': source.get_name(),
+                'dice': source.get_dice(),
+            },
+            'dst': {
+                'name': destination.get_name(),
+                'dice': destination.get_dice(),
+            }
+        }
+
+        return transfer
 
     def end_turn(self):
         """Handles end turn command
@@ -379,7 +420,7 @@ class Game:
         self.logger.debug("Got message from client {}; type: {}".format(player, msg['type']))
         return msg
 
-    def send_message(self, client, type, battle=None, winner=None, areas=None):
+    def send_message(self, client, type, battle=None, winner=None, areas=None, transfer=None):
         """Send message to a client
 
         Parameters
@@ -416,6 +457,11 @@ class Game:
             msg = self.get_state()
             msg['type'] = 'battle'
             msg['result'] = battle
+
+        elif type == 'transfer':
+            msg = self.get_state()
+            msg['type'] = 'transfer'
+            msg['result'] = transfer
 
         elif type == 'end_turn':
             msg = self.get_state()

@@ -64,7 +64,6 @@ class MainWindow(QWidget):
         """Draw areas in the game board
         """
         if self.game.draw_battle:
-            self.activated_area_name = None
             self.game.draw_battle = False
         size = self.size()
         x = size.width()
@@ -119,19 +118,25 @@ class MainWindow(QWidget):
                 self.qp.drawLine(line[0][0], line[0][1], line[1][0], line[1][1])
             self.qp.restore()
 
+    def deactivate_area(self):
+        self.activated_area_name = None
+
     def mousePressEvent(self, event):
         hexagon = self.get_hex(event.pos())
+
         try:
             area = self.board.get_area(self.areas_mapping[hexagon])
 
             if self.activated_area_name:
                 if area.get_name() == self.activated_area_name:
-                    self.activated_area_name = None
+                    self.deactivate_area()
                     self.update()
-                elif (area.get_name() in self.activated_area.get_adjacent_areas()
-                     and area.get_owner_name() != self.game.current_player.get_name()):
-                    # attack
-                    self.game.send_message('battle', self.activated_area_name, area.get_name())
+                elif area.get_name() in self.activated_area.get_adjacent_areas():
+                    if area.get_owner_name() != self.game.current_player.get_name():
+                        self.game.send_message('battle', self.activated_area_name, area.get_name())
+                    else:
+                        self.game.send_message('transfer', self.activated_area_name, area.get_name())
+                    self.deactivate_area()
             elif (area.get_owner_name() == self.game.player_name and
                   self.game.player_name == self.game.current_player.get_name()
                   and area.can_attack()):
@@ -382,6 +387,15 @@ class ClientUI(QWidget):
                 'atk_dice' : atk_data['pwr'],
                 'def_dice' : def_data['pwr']
             }
+
+        if msg['type'] == 'transfer':
+            src_data = msg['result']['src']
+            source = self.game.board.get_area(str(src_data['name']))
+            source.set_dice(src_data['dice'])
+
+            dst_data = msg['result']['dst']
+            destination = self.game.board.get_area(str(dst_data['name']))
+            destination.set_dice(dst_data['dice'])
 
         elif msg['type'] == 'end_turn':
             self.logger.debug(msg)

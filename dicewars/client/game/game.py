@@ -107,6 +107,12 @@ class Game:
                 'atk': attacker,
                 'def': defender
             }
+        elif type == 'transfer':
+            msg = {
+                'type': 'transfer',
+                'src': attacker,
+                'dst': defender
+            }
         elif type == 'end_turn':
             msg = {'type': 'end_turn'}
             self.logger.debug("Sending end_turn message.")
