@@ -184,3 +184,6 @@ class Game:
         self.current_player_name = msg['current_player']
         self.current_player = self.players[msg['current_player']]
         self.players[self.current_player_name].activate()
+
+        for i, player in self.players.items():
+            player.set_reserve(msg['reserves'][str(i)])
