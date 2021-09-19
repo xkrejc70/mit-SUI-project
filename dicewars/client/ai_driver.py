@@ -156,7 +156,10 @@ class AIDriver:
             else:
                 self.send_message('end_turn')
         elif isinstance(command, TransferCommand):
-            self.send_message('transfer', command.source_name, command.target_name)
+            if self.transfer_is_valid(command):
+                self.send_message('transfer', command.source_name, command.target_name)
+            else:
+                self.send_message('end_turn')
         elif isinstance(command, EndTurnCommand):
             self.send_message('end_turn')
         else:
@@ -232,6 +235,51 @@ class AIDriver:
         if battle.target_name not in source_area.get_adjacent_areas():
             self.logger.error('Attempted to attack from area {} area {} which is not adjacent.'.format(
                 battle.source_name, battle.target_name
+            ))
+            self.ai_disabled = True
+            return False
+
+        return True
+
+    def transfer_is_valid(self, transfer):
+        try:
+            source_area = self.board.get_area(transfer.source_name)
+        except KeyError:
+            self.logger.error('Player {} specified area {} -- which is not even a valid area name!'.format(
+                self.player_name, transfer.source_name
+            ))
+            self.ai_disabled = True
+            return False
+
+        try:
+            target_area = self.board.get_area(transfer.target_name)
+        except KeyError:
+            self.logger.error('Player {} specified area {} -- which is not even a valid area name!'.format(
+                self.player_name, transfer.target_name
+            ))
+            self.ai_disabled = True
+            return False
+
+        source_owner = source_area.get_owner_name()
+        target_owner = target_area.get_owner_name()
+
+        if source_owner != self.player_name:
+            self.logger.error('Player {} attempted to transfer from area {} owned by {}.'.format(
+                self.player_name, transfer.source_name, source_owner
+            ))
+            self.ai_disabled = True
+            return False
+
+        if target_owner != self.player_name:
+            self.logger.error('Player {} attempted to transfer to area {} owned by {}.'.format(
+                self.player_name, transfer.target_name, target_owner
+            ))
+            self.ai_disabled = True
+            return False
+
+        if transfer.target_name not in source_area.get_adjacent_areas():
+            self.logger.error('Attempted to transfer from area {} to area {} which is not adjacent.'.format(
+                transfer.source_name, transfer.target_name
             ))
             self.ai_disabled = True
             return False
