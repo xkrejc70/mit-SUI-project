@@ -123,48 +123,17 @@ class AIDriver:
             Message from the server
         """
         self.logger.debug("Received message type {0}.".format(msg["type"]))
+
         if msg['type'] == 'battle':
-            atk_data = msg['result']['atk']
-            def_data = msg['result']['def']
-            attacker = self.game.board.get_area(str(atk_data['name']))
-            attacker.set_dice(atk_data['dice'])
-            atk_name = attacker.get_owner_name()
-
-            defender = self.game.board.get_area(def_data['name'])
-            defender.set_dice(def_data['dice'])
-            def_name = defender.get_owner_name()
-
-            if def_data['owner'] == atk_data['owner']:
-                defender.set_owner(atk_data['owner'])
-                self.game.players[atk_name].set_score(msg['score'][str(atk_name)])
-                self.game.players[def_name].set_score(msg['score'][str(def_name)])
-
+            self.game.process_battle_msg(msg)
             self.waitingForResponse = False
 
-        if msg['type'] == 'transfer':
-            src_data = msg['result']['src']
-            source = self.game.board.get_area(str(src_data['name']))
-            source.set_dice(src_data['dice'])
-
-            dst_data = msg['result']['dst']
-            destination = self.game.board.get_area(str(dst_data['name']))
-            destination.set_dice(dst_data['dice'])
+        elif msg['type'] == 'transfer':
+            self.game.process_transfer_msg(msg)
+            self.waitingForResponse = False
 
         elif msg['type'] == 'end_turn':
-            current_player = self.game.players[self.game.current_player_name]
-
-            for area in msg['areas']:
-                owner_name = msg['areas'][area]['owner']
-
-                area_object = self.game.board.get_area(int(area))
-
-                area_object.set_owner(owner_name)
-                area_object.set_dice(msg['areas'][area]['dice'])
-
-            current_player.deactivate()
-            self.game.current_player_name = msg['current_player']
-            self.game.current_player = self.game.players[msg['current_player']]
-            self.game.players[self.game.current_player_name].activate()
+            self.game.process_end_turn_msg(msg)
             self.waitingForResponse = False
 
         elif msg['type'] == 'game_end':
