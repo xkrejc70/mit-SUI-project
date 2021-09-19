@@ -22,7 +22,7 @@ class AI:
         """
         self.player_name = player_name
         self.logger = logging.getLogger('AI')
-        print('DEBUG')
+        self.stage = 'attack'
 
     def ai_turn(self, board, nb_moves_this_turn, nb_turns_this_game, time_left):
         """AI agent's turn
@@ -33,31 +33,33 @@ class AI:
         SD is lower than zero - in this case, the agent ends its turn.
         """
 
-        print('DEBUG -- my turn')
+        if self.stage == 'attack':
+            attacks = []
+            for source, target in possible_attacks(board, self.player_name):
+                area_dice = source.get_dice()
+                strength_difference = area_dice - target.get_dice()
+                attack = [source.get_name(), target.get_name(), strength_difference]
+                attacks.append(attack)
 
-        attacks = []
-        for source, target in possible_attacks(board, self.player_name):
-            area_dice = source.get_dice()
-            strength_difference = area_dice - target.get_dice()
-            attack = [source.get_name(), target.get_name(), strength_difference]
-            attacks.append(attack)
+            attacks = sorted(attacks, key=lambda attack: attack[2], reverse=True)
 
-        attacks = sorted(attacks, key=lambda attack: attack[2], reverse=True)
+            if attacks and attacks[0][2] >= 0:
+                return BattleCommand(attacks[0][0], attacks[0][1])
+            else:
+                self.stage = 'transfer'
 
-        if attacks and attacks[0][2] >= 0:
-            return BattleCommand(attacks[0][0], attacks[0][1])
+        if self.stage == 'transfer':
+            border_names = [a.name for a in board.get_player_border(self.player_name)]
+            all_areas = board.get_player_areas(self.player_name)
+            inner = [a for a in all_areas if a.name not in border_names]
 
-        border_names = [a.name for a in board.get_player_border(self.player_name)]
-        all_areas = board.get_player_areas(self.player_name)
-        inner = [a for a in all_areas if a.name not in border_names]
+            for area in inner:
+                if area.get_dice() < 2:
+                    continue
 
-        for area in inner:
-            if area.get_dice() < 2:
-                continue
+                for neigh in area.get_adjacent_areas():
+                    if neigh in border_names and board.get_area(neigh).get_dice() < 8:
+                        return TransferCommand(area.get_name(), neigh)
 
-            for neigh in area.get_adjacent_areas():
-                if neigh in border_names:
-                    print(f'DEBUG -- transferring {area.get_name()} -> {neigh}')
-                    return TransferCommand(area.get_name(), neigh)
-
+        self.stage = 'attack'
         return EndTurnCommand()
