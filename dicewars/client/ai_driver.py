@@ -26,6 +26,12 @@ class BattleCommand:
         self.target_name = target_name
 
 
+class TransferCommand:
+    def __init__(self, source_name, target_name):
+        self.source_name = source_name
+        self.target_name = target_name
+
+
 class EndTurnCommand:
     pass
 
@@ -149,6 +155,8 @@ class AIDriver:
                 self.send_message('battle', command.source_name, command.target_name)
             else:
                 self.send_message('end_turn')
+        elif isinstance(command, TransferCommand):
+            self.send_message('transfer', command.source_name, command.target_name)
         elif isinstance(command, EndTurnCommand):
             self.send_message('end_turn')
         else:
@@ -170,6 +178,14 @@ class AIDriver:
                 'def': defender
             }
             self.logger.debug("Sending battle message {}->{}".format(attacker, defender))
+            self.moves_this_turn += 1
+        elif type == 'transfer':
+            msg = {
+                'type': 'transfer',
+                'src': attacker,
+                'dst': defender
+            }
+            self.logger.debug("Sending transfer message {}->{}".format(attacker, defender))
             self.moves_this_turn += 1
         elif type == 'end_turn':
             msg = {'type': 'end_turn'}
