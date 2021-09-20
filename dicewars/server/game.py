@@ -98,7 +98,7 @@ class Game:
         except BrokenPipeError as e:
             self.logger.error("Connection to client failed: {0}".format(e), exc_info=True)
         except JSONDecodeError as e:
-            self.logger.error("Failed to parse the client message: {0}\nMessage: {1}".format(e, msg), exc_info=True)
+            self.logger.error("Failed to parse the client message: {0}".format(e), exc_info=True)
         except ConnectionResetError:
             self.logger.error("ConnectionResetError", exc_info=True)
 
