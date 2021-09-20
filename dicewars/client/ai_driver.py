@@ -18,6 +18,7 @@ def TimeoutHandler(signum, handler):
 TIME_LIMIT_CONSTRUCTOR = 10.0  # in seconds, for AI constructor
 FISCHER_INIT = 10.0  # seconds
 FISCHER_INCREMENT = 0.25  # seconds
+MAX_TRANSFERS_PER_TURN = 3
 
 
 class BattleCommand:
@@ -73,6 +74,7 @@ class AIDriver:
 
         self.waitingForResponse = False
         self.moves_this_turn = 0
+        self.transfers_this_turn = 0
         self.turns_finished = 0
 
         self.timer = FischerTimer(FISCHER_INIT, FISCHER_INCREMENT)
@@ -156,6 +158,12 @@ class AIDriver:
             else:
                 self.send_message('end_turn')
         elif isinstance(command, TransferCommand):
+            print(f'Processing {self.transfers_this_turn}/{MAX_TRANSFERS_PER_TURN} th transfer')
+            if self.transfers_this_turn >= MAX_TRANSFERS_PER_TURN:
+                self.logger.warning('AI attempting to send more transfers than allowed')
+                print('AI attempting to send more transfers than allowed')
+                self.send_message('end_turn')
+                
             if self.transfer_is_valid(command):
                 self.send_message('transfer', command.source_name, command.target_name)
             else:
@@ -189,11 +197,12 @@ class AIDriver:
                 'dst': defender
             }
             self.logger.debug("Sending transfer message {}->{}".format(attacker, defender))
-            self.moves_this_turn += 1
+            self.transfers_this_turn += 1
         elif type == 'end_turn':
             msg = {'type': 'end_turn'}
             self.logger.debug("Sending end_turn message.")
             self.moves_this_turn = 0
+            self.transfers_this_turn = 0
             self.turns_finished += 1
         else:
             raise RuntimeError("Attempt to send unexpected message type {}".format(type))
