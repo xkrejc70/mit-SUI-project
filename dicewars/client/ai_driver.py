@@ -51,7 +51,7 @@ class AIDriver:
         waitingForResponse : bool
            Indicates whether agent is waiting for a response from the server
         """
-        self.logger = logging.getLogger('AI')
+        self.logger = logging.getLogger('AIDriver')
         self.game = game
         self.board = game.board
         self.player_name = game.player_name
@@ -65,7 +65,12 @@ class AIDriver:
             board_copy = copy.deepcopy(self.board)
             players_order_copy = copy.deepcopy(self.game.players_order)
             with FixedTimer(TIME_LIMIT_CONSTRUCTOR):
-                self.ai = ai_constructor(self.player_name, board_copy, players_order_copy)
+                self.ai = ai_constructor(
+                    self.player_name,
+                    board_copy,
+                    players_order_copy,
+                    max_transfers=self.max_transfers_per_turn,
+                )
         except TimeoutError:
             self.logger.error("The AI failed to construct itself in {}s. Disabling it.".format(TIME_LIMIT_CONSTRUCTOR))
             self.ai_disabled = True
@@ -93,7 +98,9 @@ class AIDriver:
             except JSONDecodeError:
                 self.logger.error("Invalid message from server.")
                 exit(1)
+
             self.current_player_name = game.current_player.get_name()
+
             if self.current_player_name == self.player_name and not self.waitingForResponse:
                 if self.ai_disabled:
                     self.logger.warning("The AI has already misbehaved, just end-turning.")
@@ -106,6 +113,7 @@ class AIDriver:
                         command = self.ai.ai_turn(
                             board_copy,
                             self.moves_this_turn,
+                            self.transfers_this_turn,
                             self.turns_finished,
                             time_left
                         )
