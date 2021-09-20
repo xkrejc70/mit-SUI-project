@@ -94,10 +94,12 @@ class Game:
             for i in range(1, self.number_of_players + 1):
                 player = self.players[i]
                 self.send_message(player, 'close_socket')
-        except (BrokenPipeError, JSONDecodeError) as e:
-            self.logger.error("Connection to client failed: {0}".format(e))
+        except BrokenPipeError as e:
+            self.logger.error("Connection to client failed: {0}".format(e), exc_info=True)
+        except JSONDecodeError as e:
+            self.logger.error("Failed to parse the client message: {0}\nMessage: {1}".format(e, msg), exc_info=True)
         except ConnectionResetError:
-            self.logger.error("ConnectionResetError")
+            self.logger.error("ConnectionResetError", exc_info=True)
 
         try:
             self.close_connections()
@@ -417,7 +419,7 @@ class Game:
         """
         raw_message = self.client_sockets[player].recv(self.buffer)
         msg = json.loads(raw_message.decode())
-        self.logger.debug("Got message from client {}; type: {}".format(player, msg['type']))
+        self.logger.debug("Got message from client {}: {}".format(player, msg))
         return msg
 
     def send_message(self, client, type, battle=None, winner=None, areas=None, transfer=None):
