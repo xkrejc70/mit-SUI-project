@@ -159,16 +159,15 @@ class AIDriver:
             else:
                 self.send_message('end_turn')
         elif isinstance(command, TransferCommand):
-            print(f'Processing {self.transfers_this_turn}/{self.max_transfers_per_turn} th transfer')
             if self.transfers_this_turn >= self.max_transfers_per_turn:
                 self.logger.warning('AI attempting to send more transfers than allowed')
-                print('AI attempting to send more transfers than allowed')
                 self.send_message('end_turn')
-                
-            if self.transfer_is_valid(command):
-                self.send_message('transfer', command.source_name, command.target_name)
             else:
-                self.send_message('end_turn')
+                if self.transfer_is_valid(command):
+                    self.send_message('transfer', command.source_name, command.target_name)
+                else:
+                    self.send_message('end_turn')
+
         elif isinstance(command, EndTurnCommand):
             self.send_message('end_turn')
         else:
