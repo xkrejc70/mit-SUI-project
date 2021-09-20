@@ -48,6 +48,7 @@ class Game:
         self.nb_battles = 0
 
         self.max_dice_per_area = game_config.getint('MaxDicePerArea')
+        self.battle_wear_min = game_config.getint('BattleWearMinimum')
 
         deployment_method = game_config['DeploymentMethod']
         if deployment_method == 'unlimited':
@@ -232,9 +233,11 @@ class Game:
             }
 
         else:
+            battle_wear = atk_dice // self.battle_wear_min
+            def_dice_left = max(1, def_dice - battle_wear)
             battle['def'] = {
                 'name': defender.get_name(),
-                'dice': def_dice,
+                'dice': def_dice_left,
                 'owner': def_name,
                 'pwr': def_pwr
             }
