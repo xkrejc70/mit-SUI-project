@@ -18,7 +18,6 @@ def TimeoutHandler(signum, handler):
 TIME_LIMIT_CONSTRUCTOR = 10.0  # in seconds, for AI constructor
 FISCHER_INIT = 10.0  # seconds
 FISCHER_INCREMENT = 0.25  # seconds
-MAX_TRANSFERS_PER_TURN = 3
 
 
 class BattleCommand:
@@ -40,7 +39,7 @@ class EndTurnCommand:
 class AIDriver:
     """Basic AI agent implementation
     """
-    def __init__(self, game, ai_constructor):
+    def __init__(self, game, ai_constructor, config):
         """
         Parameters
         ----------
@@ -58,6 +57,8 @@ class AIDriver:
         self.player_name = game.player_name
 
         signal.signal(signal.SIGALRM, TimeoutHandler)
+
+        self.max_transfers_per_turn = (config.getint('MaxTransfersPerTurn'))
 
         self.ai_disabled = False
         try:
@@ -158,8 +159,8 @@ class AIDriver:
             else:
                 self.send_message('end_turn')
         elif isinstance(command, TransferCommand):
-            print(f'Processing {self.transfers_this_turn}/{MAX_TRANSFERS_PER_TURN} th transfer')
-            if self.transfers_this_turn >= MAX_TRANSFERS_PER_TURN:
+            print(f'Processing {self.transfers_this_turn}/{self.max_transfers_per_turn} th transfer')
+            if self.transfers_this_turn >= self.max_transfers_per_turn:
                 self.logger.warning('AI attempting to send more transfers than allowed')
                 print('AI attempting to send more transfers than allowed')
                 self.send_message('end_turn')
