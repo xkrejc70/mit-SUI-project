@@ -41,7 +41,6 @@ def main():
     log_level = get_logging_level(args)
 
     logging.basicConfig(level=log_level)
-    logger = logging.getLogger('CLIENT')
 
     hello_msg = {
         'type': 'client_desc',
