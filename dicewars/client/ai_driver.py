@@ -15,7 +15,6 @@ def TimeoutHandler(signum, handler):
     raise TimeoutError('')
 
 
-TIME_LIMIT_CONSTRUCTOR = 10.0  # in seconds, for AI constructor
 FISCHER_INIT = 10.0  # seconds
 FISCHER_INCREMENT = 0.25  # seconds
 
@@ -58,13 +57,14 @@ class AIDriver:
 
         signal.signal(signal.SIGALRM, TimeoutHandler)
 
-        self.max_transfers_per_turn = (config.getint('MaxTransfersPerTurn'))
+        self.max_transfers_per_turn = config.getint('MaxTransfersPerTurn')
+        time_limit_constructor = config.getfloat('TimeLimitConstructor')
 
         self.ai_disabled = False
         try:
             board_copy = copy.deepcopy(self.board)
             players_order_copy = copy.deepcopy(self.game.players_order)
-            with FixedTimer(TIME_LIMIT_CONSTRUCTOR):
+            with FixedTimer(time_limit_constructor):
                 self.ai = ai_constructor(
                     self.player_name,
                     board_copy,
@@ -72,7 +72,7 @@ class AIDriver:
                     max_transfers=self.max_transfers_per_turn,
                 )
         except TimeoutError:
-            self.logger.error("The AI failed to construct itself in {}s. Disabling it.".format(TIME_LIMIT_CONSTRUCTOR))
+            self.logger.error("The AI failed to construct itself in {}s. Disabling it.".format(time_limit_constructor))
             self.ai_disabled = True
         except Exception:
             self.logger.error("The AI crashed during construction:\n", exc_info=True)
