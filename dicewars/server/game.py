@@ -235,6 +235,7 @@ class Game:
         else:
             battle_wear = atk_dice // self.battle_wear_min
             def_dice_left = max(1, def_dice - battle_wear)
+            defender.set_dice(def_dice_left)
             battle['def'] = {
                 'name': defender.get_name(),
                 'dice': def_dice_left,
