@@ -15,10 +15,6 @@ def TimeoutHandler(signum, handler):
     raise TimeoutError('')
 
 
-FISCHER_INIT = 10.0  # seconds
-FISCHER_INCREMENT = 0.25  # seconds
-
-
 class BattleCommand:
     def __init__(self, source_name, target_name):
         self.source_name = source_name
@@ -59,6 +55,8 @@ class AIDriver:
 
         self.max_transfers_per_turn = config.getint('MaxTransfersPerTurn')
         time_limit_constructor = config.getfloat('TimeLimitConstructor')
+        fischer_init = config.getfloat('FischerInit')
+        fischer_increment = config.getfloat('FischerIncrement')
 
         self.ai_disabled = False
         try:
@@ -83,7 +81,7 @@ class AIDriver:
         self.transfers_this_turn = 0
         self.turns_finished = 0
 
-        self.timer = FischerTimer(FISCHER_INIT, FISCHER_INCREMENT)
+        self.timer = FischerTimer(fischer_init, fischer_increment)
 
     def run(self):
         """Main AI agent loop
