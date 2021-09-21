@@ -256,9 +256,6 @@ class Game:
         src_dice = source.get_dice()
         dst_dice = destination.get_dice()
 
-        src_name = source.get_owner_name()
-        dst_name = destination.get_owner_name()
-
         dice_moved = min(self.max_dice_per_area - dst_dice, src_dice - 1)
 
         source.set_dice(src_dice - dice_moved)
