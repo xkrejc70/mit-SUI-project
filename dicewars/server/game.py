@@ -48,6 +48,7 @@ class Game:
         self.nb_battles = 0
 
         self.max_dice_per_area = game_config.getint('MaxDicePerArea')
+        self.battle_wear_min = game_config.getint('BattleWearMinimum')
 
         deployment_method = game_config['DeploymentMethod']
         if deployment_method == 'unlimited':
@@ -97,7 +98,7 @@ class Game:
         except BrokenPipeError as e:
             self.logger.error("Connection to client failed: {0}".format(e), exc_info=True)
         except JSONDecodeError as e:
-            self.logger.error("Failed to parse the client message: {0}\nMessage: {1}".format(e, msg), exc_info=True)
+            self.logger.error("Failed to parse the client message: {0}".format(e), exc_info=True)
         except ConnectionResetError:
             self.logger.error("ConnectionResetError", exc_info=True)
 
@@ -232,9 +233,12 @@ class Game:
             }
 
         else:
+            battle_wear = atk_dice // self.battle_wear_min
+            def_dice_left = max(1, def_dice - battle_wear)
+            defender.set_dice(def_dice_left)
             battle['def'] = {
                 'name': defender.get_name(),
-                'dice': def_dice,
+                'dice': def_dice_left,
                 'owner': def_name,
                 'pwr': def_pwr
             }
@@ -251,9 +255,6 @@ class Game:
         """
         src_dice = source.get_dice()
         dst_dice = destination.get_dice()
-
-        src_name = source.get_owner_name()
-        dst_name = destination.get_owner_name()
 
         dice_moved = min(self.max_dice_per_area - dst_dice, src_dice - 1)
 
