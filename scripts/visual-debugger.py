@@ -7,7 +7,7 @@ from dicewars.client.game.debugger_game import StaticGame
 from dicewars.client import debugger_ui
 
 
-from dicewars.ai.xlogin42.utils import attacker_advantage
+from dicewars.ai.kb.xlogin42.utils import attacker_advantage
 
 
 class DetailedAreaReporter:
