@@ -45,6 +45,7 @@ class Game:
         self.nb_battles = 0
 
         self.reserve_production_cap = game_config.getint('ReserveProductionCap')
+        self.reserve_cap = game_config.getint('ReserveSizeCap')
         self.max_dice_per_area = game_config.getint('MaxDicePerArea')
         self.max_pass_rounds = game_config.getint('MaximumNoBattleRounds')
         self.max_battles_per_game = game_config.getint('MaximumBattlesPerGame')
@@ -285,6 +286,9 @@ class Game:
 
         deployable_dice, reserve_dice = self.get_player_dice(self.current_player)
         affected_areas = self.distribute_player_dice(self.current_player, deployable_dice)
+
+        if reserve_dice > self.reserve_cap:
+            reserve_dice = self.reserve_cap
         self.current_player.set_reserve(reserve_dice)
 
         self.set_next_player()
