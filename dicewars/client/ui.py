@@ -136,15 +136,15 @@ class MainWindow(QWidget):
                 elif area.get_name() in self.activated_area.get_adjacent_areas():
                     if area.get_owner_name() != self.game.current_player.get_name():
                         self.game.send_message('battle', self.activated_area_name, area.get_name())
-                        self.deactivate_area()
                     else:
                         global nb_transfers_this_turn  # dirty hack, see the top of this module
                         if nb_transfers_this_turn < MAX_TRANSFERS_PER_TURN:
                             nb_transfers_this_turn += 1
                             self.game.send_message('transfer', self.activated_area_name, area.get_name())
-                            self.deactivate_area()
                         else:
                             print(f'Already did {nb_transfers_this_turn}/{MAX_TRANSFERS_PER_TURN} tranfers allowed per turn')
+
+                    self.deactivate_area()
             elif (area.get_owner_name() == self.game.player_name and
                   self.game.player_name == self.game.current_player.get_name() and
                   area.can_attack()):
