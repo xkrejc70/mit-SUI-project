@@ -54,11 +54,11 @@ Starts a human-controlled client along those driven by AIs.
 There can be between 1 and 7 AIs.
 For an easy game (beware, defeat is still a real possibility), try:
 
-    python3 ./scripts/dicewars-human.py --ai dt.sdc dt.rand xlogin00 xlogin42
+    python3 ./scripts/dicewars-human.py --ai dt.sdc dt.rand kb.xlogin00 kb.xlogin42
 
 For a really challenging setup, try:
 
-    python3 ./scripts/dicewars-human.py --ai dt.sdc dt.ste dt.stei dt.wpm_c
+    python3 ./scripts/dicewars-human.py --ai kb.sdc_at dt.ste dt.stei dt.wpm_c
 
 ### Playing with fixed AI order
 Starts a set of games between AIs in given order.
@@ -71,7 +71,7 @@ Additionally exposes these options:
 
 An example:
 
-    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 -l ../logs --ai dt.stei xlogin42
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 -l ../logs --ai dt.stei kb.xlogin42
 
 ### Running a tournament
 Keeps picking a subset of AIs of specified size and has them play together.
