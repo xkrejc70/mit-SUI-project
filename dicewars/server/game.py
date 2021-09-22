@@ -45,6 +45,7 @@ class Game:
         self.nb_battles = 0
 
         self.reserve_production_cap = game_config.getint('ReserveProductionCap')
+        self.reserve_type = game_config.get('ReserveType')
         self.reserve_cap = game_config.getint('ReserveSizeCap')
         self.max_dice_per_area = game_config.getint('MaxDicePerArea')
         self.max_pass_rounds = game_config.getint('MaximumNoBattleRounds')
@@ -287,8 +288,19 @@ class Game:
         deployable_dice, reserve_dice = self.get_player_dice(self.current_player)
         affected_areas = self.distribute_player_dice(self.current_player, deployable_dice)
 
-        if reserve_dice > self.reserve_cap:
-            reserve_dice = self.reserve_cap
+        if self.reserve_type == 'constant':
+            if reserve_dice > self.reserve_cap:
+                reserve_dice = self.reserve_cap
+        elif self.reserve_type == 'complement':
+            reserve_cap = self.reserve_cap - len(self.current_player.get_areas())
+            if reserve_dice > reserve_cap:
+                reserve_dice = reserve_cap
+        else:
+            raise ValueError(f'Unsupported reserve type: {self.reserve_type}')
+
+        if reserve_dice < 0:
+            reserve_dice = 0
+
         self.current_player.set_reserve(reserve_dice)
 
         self.set_next_player()
