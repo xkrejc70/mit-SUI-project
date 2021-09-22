@@ -32,7 +32,7 @@ As an easy way of setting up the environment, do the following:
     # setup
     . path.sh
     # try a game
-    python3 ./scripts/dicewars-human.py --ai dt.sdc dt.rand xlogin00 xlogin42
+    python3 ./scripts/dicewars-human.py --ai dt.sdc dt.rand kb.xlogin00 kb.xlogin42
 
 
 ## Running the game
