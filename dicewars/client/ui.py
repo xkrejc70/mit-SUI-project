@@ -6,6 +6,13 @@ from PyQt5.QtGui import QPainter, QColor, QPolygon, QPen, QFont
 from PyQt5.QtCore import QPoint, Qt, QRectF, QTimer
 
 
+# dirty hack to limit the number of transfers per turn even for humans
+# The limit needs to be set by user of the module (client script)
+MAX_TRANSFERS_PER_TURN = None
+# The running counter is handled by MainWindow.mousePressEvent (increments) and ClientUI.handle_end_turn_button (clearing)
+nb_transfers_this_turn = 0
+
+
 def player_color(player_name):
     """Return color of a player given his name
     """
@@ -129,9 +136,15 @@ class MainWindow(QWidget):
                 elif area.get_name() in self.activated_area.get_adjacent_areas():
                     if area.get_owner_name() != self.game.current_player.get_name():
                         self.game.send_message('battle', self.activated_area_name, area.get_name())
+                        self.deactivate_area()
                     else:
-                        self.game.send_message('transfer', self.activated_area_name, area.get_name())
-                    self.deactivate_area()
+                        global nb_transfers_this_turn  # dirty hack, see the top of this module
+                        if nb_transfers_this_turn < MAX_TRANSFERS_PER_TURN:
+                            nb_transfers_this_turn += 1
+                            self.game.send_message('transfer', self.activated_area_name, area.get_name())
+                            self.deactivate_area()
+                        else:
+                            print(f'Already did {nb_transfers_this_turn}/{MAX_TRANSFERS_PER_TURN} tranfers allowed per turn')
             elif (area.get_owner_name() == self.game.player_name and
                   self.game.player_name == self.game.current_player.get_name() and
                   area.can_attack()):
@@ -336,6 +349,8 @@ class ClientUI(QWidget):
         self.setLayout(grid)
 
     def handle_end_turn_button(self):
+        global nb_transfers_this_turn  # dirty hack, see the top section of the module
+        nb_transfers_this_turn = 0
         self.game.send_message('end_turn')
 
     def check_socket(self):
