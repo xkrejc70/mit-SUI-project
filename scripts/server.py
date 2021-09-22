@@ -42,26 +42,25 @@ def continuous_area_player_mapping(nb_players, board):
         assignment[area_no] = player_no
         unassigned_areas.remove(area_no)
 
-    player_available = dict()
+    available_to_player = dict()
     for player_no in range(1, nb_players+1):
         area_no = random.choice(list(unassigned_areas))
         assign_area(area_no, player_no)
-        player_available[player_no] = unassigned_neighbours(area_no)
+        available_to_player[player_no] = unassigned_neighbours(area_no)
 
     while unassigned_areas:
         player_no = next(player_cycle)
-        player_available[player_no] &= unassigned_areas
-        if player_available[player_no]:
-            area_no = random.choice(list(player_available[player_no]))
-        else:
-            logging.info(f"Having to start a new region for player {player_no}")
-            area_no = random.choice(list(unassigned_areas))
+        available_to_player[player_no] &= unassigned_areas
 
+        if not available_to_player[player_no]:
+            logging.info(f"Player {player_no} has no options more")
+            continue
+
+        area_no = random.choice(list(available_to_player[player_no]))
         assign_area(area_no, player_no)
-        if player_available[player_no]:
-            player_available[player_no].remove(area_no)
+        available_to_player[player_no].remove(area_no)
 
-        player_available[player_no] |= unassigned_neighbours(area_no)
+        available_to_player[player_no] |= unassigned_neighbours(area_no)
 
     return assignment
 
