@@ -133,7 +133,7 @@ class MainWindow(QWidget):
                 if area.get_name() == self.activated_area_name:
                     self.deactivate_area()
                     self.update()
-                elif area.get_name() in self.activated_area.get_adjacent_areas():
+                elif area.get_name() in self.activated_area.get_adjacent_areas_names():
                     if area.get_owner_name() != self.game.current_player.get_name():
                         self.game.send_message('battle', self.activated_area_name, area.get_name())
                     else:
