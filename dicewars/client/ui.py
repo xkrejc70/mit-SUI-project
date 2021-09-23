@@ -145,6 +145,7 @@ class MainWindow(QWidget):
                             print(f'Already did {nb_transfers_this_turn}/{MAX_TRANSFERS_PER_TURN} tranfers allowed per turn')
 
                     self.deactivate_area()
+                    self.update()
             elif (area.get_owner_name() == self.game.player_name and
                   self.game.player_name == self.game.current_player.get_name() and
                   area.can_attack()):
