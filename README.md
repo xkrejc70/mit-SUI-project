@@ -138,7 +138,7 @@ Multi-module implementation is possible, see ``xlogin42`` for an example.
 
 ## Learning about the world
 Board's ``get_player_areas()``, ``get_player_border()``, and ``get_players_regions()`` can be used to discover areas belonging to any player in the game.
-Instances of ``Area`` then allow further inquiry through ``get_adjacent_areas()``, ``get_owner_name()`` and ``get_dice()``.
+Instances of ``Area`` then allow further inquiry through ``get_adjacent_areas_names()``, ``get_owner_name()`` and ``get_dice()``.
 
 It may also be practical to acquire all possible moves from ``dicewars.ai.utils.possible_attacks()``.
 This module also provides formulas for probability of conquering and holding an Area.
