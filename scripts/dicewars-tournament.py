@@ -42,12 +42,13 @@ def signal_handler(signum, frame):
 PLAYING_AIs = [
     'dt.rand',
     'dt.sdc',
-    'dt.ste',
+    # 'dt.ste',
     # 'dt.stei',
     # 'dt.wpm_d',
     # 'dt.wpm_s',
-    'dt.wpm_c',
+    # 'dt.wpm_c',
     'kb.sdc_at',
+    'kb.sdc_pre_at',
     # 'kb.xlogin42',
     'kb.xlogin00',
 ]
