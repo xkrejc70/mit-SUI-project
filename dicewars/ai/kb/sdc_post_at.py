@@ -24,6 +24,8 @@ class AI:
         self.logger = logging.getLogger('AI')
         self.max_transfers = max_transfers
 
+        self.stage = 'attack'
+
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
         """AI agent's turn
 
@@ -33,19 +35,20 @@ class AI:
         SD is lower than zero - in this case, the agent ends its turn.
         """
 
-        while nb_transfers_this_turn < self.max_transfers:
-            transfer = get_transfer_to_border(board, self.player_name)
-            if transfer:
-                return TransferCommand(transfer[0], transfer[1])
+        if self.stage == 'attack':
+            attack = get_sdc_attack(board, self.player_name)
+            if attack:
+                return BattleCommand(attack[0], attack[1])
             else:
-                break
-        else:
-            self.logger.debug(f'Already did {nb_transfers_this_turn}/{self.max_transfers} transfers, skipping further')
+                self.stage = 'transfer'
 
-        attack = get_sdc_attack(board, self.player_name)
-        if attack:
-            return BattleCommand(attack[0], attack[1])
-        else:
-            self.stage = 'transfer'
+        if self.stage == 'transfer':
+            if nb_transfers_this_turn < self.max_transfers:
+                transfer = get_transfer_to_border(board, self.player_name)
+                if transfer:
+                    TransferCommand(transfer[0], transfer[1])
+            else:
+                self.logger.debug(f'Already did {nb_transfers_this_turn}/{self.max_transfers} transfers, skipping further')
 
+        self.stage = 'attack'
         return EndTurnCommand()
