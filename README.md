@@ -124,13 +124,15 @@ The constructor is expected to take following parameters:
     player_name     the name of the player this AI will control
     board           an instance of dicewars.client.game.Board
     players_order   in what order do players take turns
+    max_transfers   number of transfers allowed in a single turn
 
 The turn making method is expected to take following parameters:
 
-    board               an instance of dicewars.client.game.Board   
-    nb_moves_this_turn  number of attacks made in this turn
-    nb_turns_this_game  number of turns ended so far
-    previous_time_left  time (in seconds) left after last decision making
+    board                   an instance of dicewars.client.game.Board   
+    nb_moves_this_turn      number of attacks made in this turn
+    nb_transfers_this_turn  number of transfers made in this turn
+    nb_turns_this_game      number of turns ended so far
+    previous_time_left      time (in seconds) left after last decision making
 
 The ``AI.ai_turn()`` is required to return an instance of ``BattleCommand`` or ``EndTurnCommand``.
 
