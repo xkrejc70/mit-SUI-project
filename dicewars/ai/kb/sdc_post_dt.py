@@ -46,7 +46,7 @@ class AI:
             if nb_transfers_this_turn < self.max_transfers:
                 transfer = get_transfer_from_endangered(board, self.player_name)
                 if transfer:
-                    TransferCommand(transfer[0], transfer[1])
+                    return TransferCommand(transfer[0], transfer[1])
             else:
                 self.logger.debug(f'Already did {nb_transfers_this_turn}/{self.max_transfers} transfers, skipping further')
 
