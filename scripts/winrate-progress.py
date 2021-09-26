@@ -36,6 +36,7 @@ class PlayerRecord:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--xmin', type=int, default=0, help='how many game shall be skipped in the graph')
+    parser.add_argument('--noplot', action='store_true', help='do not plot, only report winrates')
     parser.add_argument('games', help='where the games are stored')
     args = parser.parse_args()
 
@@ -58,20 +59,24 @@ def main():
 
     plt.figure()
     for name, record in sorted(players.items(), key=lambda n_r: n_r[1].final_winrate, reverse=True):
+        label = '{} ({:.1f} % [{}/{}])'.format(name, record.final_winrate, record.nb_wins, record.nb_games)
         mask = np.asarray(record.game_stamps) > args.xmin
         plt.plot(
             np.asarray(record.game_stamps)[mask],
             np.asarray(record.winrates)[mask],
-            label='{} ({:.1f} %)'.format(name, record.final_winrate),
+            label=label,
             drawstyle='steps-pre'
         )
+        print(label)
 
     plt.ylim(bottom=0)
     plt.xlim(left=args.xmin)
 
     plt.legend()
     plt.grid(axis='y', linestyle='--')
-    plt.show()
+
+    if not args.noplot:
+        plt.show()
 
 
 if __name__ == '__main__':
