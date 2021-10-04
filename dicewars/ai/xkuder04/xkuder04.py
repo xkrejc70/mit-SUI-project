@@ -14,14 +14,8 @@ class AI:
         self.logger = logging.getLogger('AI')
 
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
-            return EndTurnCommand()
-
-    def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
-        """AI agent's turn
-
-        Get a random area. If it has a possible move, the agent will do it.
-        If there are no more moves, the agent ends its turn.
-        """
+        print(nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game)
+        
         if nb_turns_this_game < 3:
             self.logger.debug("Doing a random move")
             attack_filter = lambda x: x
