@@ -64,7 +64,7 @@ class AI:
     def evaluation_func(self, board):
         print(f"Total players: {len(self.players_order)}, Players alive: {board.nb_players_alive()}")
         players = [Mplayer(board, player_name) for player_name in self.players_order]
-        print(f"pocet hracu: {len(players)}")
+        print(f"#################################")
         score = 42
         return score
 
@@ -72,16 +72,20 @@ class Mplayer:
     def __init__(self, board, player_name : int):
         self.player_name = player_name
         self.n_dice = board.get_player_dice(self.player_name)
-        self.areas = board.get_player_areas(self.player_name)
-        self.n_areas = len(self.areas)
-        self.is_alive = bool(self.n_areas)
+        self.all_areas = board.get_player_areas(self.player_name)
+        self.border_areas = board.get_player_border(self.player_name)
+        self.n_all_areas = len(self.all_areas)
+        self.n_border_areas = len(self.border_areas)
+        self.is_alive = bool(self.n_all_areas)
         self.print_F()
 
     def print_F(self):
         print(f"player_name : {self.player_name}")
         print(f"n_dice : {self.n_dice}")
-        print(f"areas : {self.areas}")
-        print(f"n_areas : {self.n_areas}")
+        print(f"all_areas : {[(a.get_name(), a.get_dice()) for a in self.all_areas]}")
+        print(f"border_areas : {[(a.get_name(), a.get_dice()) for a in self.border_areas]}")
+        print(f"n_all_areas : {self.n_all_areas}")
+        print(f"n_border_areas : {self.n_border_areas}")
         print(f"is_alive : {self.is_alive}")
         print()
         
