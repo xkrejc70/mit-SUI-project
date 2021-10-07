@@ -13,6 +13,7 @@ class AI:
         self.players_order = players_order
         self.players_ordered = sorted(players_order)
         self.logger = logging.getLogger('AI')
+        
 
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
         if nb_moves_this_turn == 0:
