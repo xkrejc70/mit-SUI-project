@@ -14,7 +14,8 @@ class AI:
         self.logger = logging.getLogger('AI')
 
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
-        self.evaluation_func(board)
+        if nb_moves_this_turn == 0:
+            self.evaluation_func(board)
 
         if nb_turns_this_game < 3:
             self.logger.debug("Doing a random move")
@@ -62,11 +63,17 @@ class AI:
         return [attack for attack in attacks if attack[0].get_name() in the_largest_region]
 
     def evaluation_func(self, board):
-        print(f"Total players: {len(self.players_order)}, Players alive: {board.nb_players_alive()}")
+        #print(f"Total players: {len(self.players_order)}, Players alive: {board.nb_players_alive()}")
         players = [Mplayer(board, player_name) for player_name in self.players_order]
+        total_areas = sum(player.n_all_areas for player in players)
+        total_dices = sum(player.n_dice for player in players)
+        for player in players:
+            up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size
+            down = total_areas + total_dices + player.n_border_areas
+            score = player.is_alive*(up/down)
+            score = round(score*1000)
+            print(f"Player_name: {player.player_name}; score: {score}")
         print(f"#################################")
-        score = 42
-        return score
 
 class Mplayer:
     def __init__(self, board, player_name : int):
@@ -74,10 +81,12 @@ class Mplayer:
         self.n_dice = board.get_player_dice(self.player_name)
         self.all_areas = board.get_player_areas(self.player_name)
         self.border_areas = board.get_player_border(self.player_name)
+        self.n_biggest_region_size = max(len(region) for region in board.get_players_regions(self.player_name))
         self.n_all_areas = len(self.all_areas)
         self.n_border_areas = len(self.border_areas)
+        self.n_border_dice = sum(a.get_dice() for a in self.border_areas)
         self.is_alive = bool(self.n_all_areas)
-        self.print_F()
+        #self.print_F()
 
     def print_F(self):
         print(f"player_name : {self.player_name}")
