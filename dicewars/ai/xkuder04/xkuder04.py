@@ -9,6 +9,7 @@ from dicewars.client.ai_driver import BattleCommand, EndTurnCommand
 
 class AI:
     def __init__(self, player_name, board, players_order, max_transfers):
+        #ukazka HONZA
         self.player_name = player_name
         self.players_order = players_order
         self.players_ordered = sorted(players_order)
