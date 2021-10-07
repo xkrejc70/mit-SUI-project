@@ -63,15 +63,16 @@ class AI:
         return [attack for attack in attacks if attack[0].get_name() in the_largest_region]
 
     def evaluation_func(self, board):
+        max_score = 1000
         #print(f"Total players: {len(self.players_order)}, Players alive: {board.nb_players_alive()}")
         players = [Mplayer(board, player_name) for player_name in self.players_order]
         total_areas = sum(player.n_all_areas for player in players)
         total_dices = sum(player.n_dice for player in players)
         for player in players:
-            up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size
-            down = total_areas + total_dices + player.n_border_areas
-            score = player.is_alive*(up/down)
-            score = round(score*1000)
+            up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size   #primo umerne
+            down = total_areas + total_dices + player.n_border_areas    #neprimo umerne
+            score = player.is_alive*(up/down)   #if dead tak *0 -> score == 0, jinak je to *1 -> score == 1*score
+            score = int(round(score*max_score))
             print(f"Player_name: {player.player_name}; score: {score}")
         print(f"#################################")
 
