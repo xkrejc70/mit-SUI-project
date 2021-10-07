@@ -11,6 +11,7 @@ class AI:
     def __init__(self, player_name, board, players_order, max_transfers):
         self.player_name = player_name
         self.players_order = players_order
+        self.players_ordered = sorted(players_order)
         self.logger = logging.getLogger('AI')
 
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
@@ -65,7 +66,8 @@ class AI:
     def evaluation_func(self, board):
         max_score = 1000
         #print(f"Total players: {len(self.players_order)}, Players alive: {board.nb_players_alive()}")
-        players = [Mplayer(board, player_name) for player_name in self.players_order]
+        print(f"AI PLayer_name: {self.player_name}")
+        players = [Mplayer(board, player_name) for player_name in self.players_ordered]
         total_areas = sum(player.n_all_areas for player in players)
         total_dices = sum(player.n_dice for player in players)
         for player in players:
