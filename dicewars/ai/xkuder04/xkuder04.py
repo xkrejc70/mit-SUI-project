@@ -71,7 +71,7 @@ class AI:
         for player in players:
             up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size   #primo umerne
             down = total_areas + total_dices + player.n_border_areas    #neprimo umerne
-            score = player.is_alive*(up/down)   #if dead tak *0 -> score == 0, jinak je to *1 -> score == 1*score
+            score = player.is_alive*(up/down)   #if dead tak *0 -> score == 0, jinak je to *1 -> score == 1*score #zatim je to useless radek
             score = int(round(score*max_score))
             print(f"Player_name: {player.player_name}; score: {score}")
         print(f"#################################")
