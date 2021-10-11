@@ -2,7 +2,6 @@ import logging
 import random
 import copy
 import numpy as np
-from typing import Type
 
 from numpy import inf
 from dicewars.client.game import player
