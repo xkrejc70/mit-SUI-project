@@ -1,6 +1,7 @@
 import logging
 import random
 import copy
+import numpy as np  
 
 from numpy import inf
 from dicewars.client.game import player
@@ -31,10 +32,10 @@ class AI:
         if nb_moves_this_turn == 0:
             self.evaluation_func(board)
             
-        max_transfers = self.max_transfers  #6
+        max_transfers = self.max_transfers
 
         if nb_transfers_this_turn < max_transfers:
-            transfer = self.get_transfer_to_borders(board)
+            transfer = self.get_transfer_to_borders(board, 1)
             if transfer:
                     return TransferCommand(transfer[0], transfer[1])
             else:
@@ -220,21 +221,47 @@ class AI:
 
         return edited_board
     
-    def get_transfer_to_borders(self, board):
-        # transfer dice from inner_area to border_area (do 1st possible transfer)
+    # Get areas to transfer dice from inner_area to border_area
+    # TODO generate states, find best based on the number of transfers
+    # TODO presouvat na zaklade moznych utokz na borders (n_dice, dulezitost udrzeni hranice), presun kostek mezi borders
+    def get_transfer_to_borders(self, board, n_transfers : int):
         player = Mplayer(board, self.player_name)
-        print(f"[{len(player.all_areas)}] all_areas: {[(a.get_name(), a.get_dice()) for a in player.all_areas]}")
-        print(f"[{len(player.border_areas)}] border_areas: {[(a.get_name(), a.get_dice()) for a in player.border_areas]}")
-        print(f"[{len(player.inner_areas)}] inner_areas: {[(a.get_name(), a.get_dice()) for a in player.inner_areas]}")
-        border_areas_names = [a.name for a in player.border_areas]
+        #print(f"[{len(player.all_areas)}] all_areas: {[(a.get_name(), a.get_dice()) for a in player.all_areas]}")
+        #print(f"[{len(player.border_areas)}] border_areas: {[(a.get_name(), a.get_dice()) for a in player.border_areas]}")
+        #print(f"[{len(player.inner_areas)}] inner_areas: {[(a.get_name(), a.get_dice()) for a in player.inner_areas]}")
+        inner_areas_names = [a.name for a in player.inner_areas]
 
-        for area in player.inner_areas:
-            if area.get_dice() < 2:
-                continue
-            for neigh in area.get_adjacent_areas_names():
-                if neigh in border_areas_names and board.get_area(neigh).get_dice() < 8:
-                    print(f"=> Transfer: {area.get_name(), area.get_dice()} => {neigh, board.get_area(neigh).get_dice()}")
-                    return area.get_name(), neigh
+        if n_transfers == 1:
+            # 1 transfer: move from the area with the most dice
+            best_transfers = []
+
+            for border in player.border_areas:
+                best_transfer = []
+                max_dice = 1
+                if border.get_dice() == 8:
+                    continue
+                #print(f"*border: {border.get_name()}")
+                
+                for neigh in border.get_adjacent_areas_names():
+                    if neigh in inner_areas_names:
+                        #print(f"neigh: {neigh}")
+                        n_neigh_dice = board.get_area(neigh).get_dice()
+                        if n_neigh_dice > max_dice:
+                            max_dice = n_neigh_dice
+                            best_transfer = [n_neigh_dice, neigh, border.get_name()] # [n_dice, src_area, dst_area]
+                            #print(f"New best transfer: {neigh, n_neigh_dice} => {border.get_name(), border.get_dice()}")
+                if best_transfer: best_transfers.append(best_transfer)
+
+            #print(f"best transfers: {best_transfers}")
+            if best_transfers:
+                max_index = np.array(best_transfers).argmax(axis=0)[0]
+                print(f"=> Transfer: {best_transfers[max_index][1], best_transfers[max_index][2]}")
+                return best_transfers[max_index][1], best_transfers[max_index][2]
+            else:
+                return None
+
+        elif n_transfers == 2:
+            pass
         return None
     
     def from_largest_region(self, board, attacks):
