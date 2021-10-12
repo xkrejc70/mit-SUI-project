@@ -4,11 +4,12 @@ import copy
 import numpy as np
 
 from numpy import inf
+from numpy.lib.function_base import append
 from dicewars.client.game import player
 
 from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
-from typing import Iterator, Tuple
+from typing import Iterator, List, Tuple
 
 from dicewars.ai.utils import possible_attacks, save_state, probability_of_successful_attack, attack_succcess_probability
 from dicewars.ai.kb.xlogin42.utils import best_sdc_attack, is_acceptable_sdc_attack
@@ -52,70 +53,77 @@ class AI:
 
         # For testing purpuses can be switched between testing AI and AI in construction
         # Testing of Expectiminimax
-        """
-        print(f"Evaluate board: {self.evaluate_board(board, self.player_name)}")
+       
+        print(f"Evaluate board: {evaluate_board(board, self.player_name, self.players_ordered)}")
 
-        # Try posible atack and evaluate score
-        for atk in list(self.resonable_attacks(board)):
-            print(f"Atack {atk[0].get_name()}->{atk[1].get_name()}, chance {probability_of_successful_attack(board, atk[0].get_name(), atk[1].get_name())}")
-            new_board = self.simulate_move(self.player_name, board, atk[0], atk[1])
-            print(f"New board: {self.evaluate_board(new_board, self.player_name)}")
         """
+        # Try posible atack and evaluate score
+        for atk in list(resonable_attacks_for_player(self.player_name, board)):
+            print(f"Atack {atk[0].get_name()}->{atk[1].get_name()}, chance {probability_of_successful_attack(board, atk[0].get_name(), atk[1].get_name())}")
+            new_board = simulate_succesfull_move(self.player_name, board, atk[0], atk[1])
+            print(f"New board: {evaluate_board(new_board, self.player_name, self.players_ordered)}")
+        """
+
 
         print(f"Player name = {self.player_name}")
         print(f"Player order = {self.players_order}")
 
-        # Value of board for the best move
-        best_move_value, best_atack = self.best_result_for_given_depth(board, 3, True)
-        print(f"Best move: {best_move_value}, Best attack: {best_atack[0].get_name()}->{best_atack[1].get_name()}")
-        print("")
+       
+        production_strategy = True
+        if production_strategy:
+            # TODO IF evaluation infinite then do do move
+            # TODO for board with many possibilities is calc time bigger then 10s
+            move, evaluation = self.best_result_for_given_depth(board, self.players_order.index(self.player_name), 4)
 
-        # Print best move
-        for atk in list(self.resonable_attacks(board)):
-            print(f"Atack {atk[0].get_name()}->{atk[1].get_name()}, chance {probability_of_successful_attack(board, atk[0].get_name(), atk[1].get_name())}")
-            print(f"Best value: {self.evaluate_board(self.simulate_move(self.player_name, board, atk[0], atk[1]), self.player_name)}")
+            print(f"Best evaluation {evaluation}")
+            if move:
+                print(f"Move {move[0].get_name()}->{move[1].get_name()}")
 
-
-        if nb_turns_this_game < 3:
-            self.logger.debug("Doing a random move")
-            attack_filter = lambda x: x
-            attack_selector = random.choice
-            attack_acceptor = lambda x: True
-
-            with open('debug.save', 'wb') as f:
-                save_state(f, board, self.player_name, self.players_order)
+            return EndTurnCommand()
 
         else:
-            self.logger.debug("Doing a serious move")
-            attack_filter = lambda x: self.from_largest_region(board, x)
-            attack_selector = best_sdc_attack
-            attack_acceptor = lambda x: is_acceptable_sdc_attack(x)
+            # AI for testing 
+            if nb_turns_this_game < 3:
+                self.logger.debug("Doing a random move")
+                attack_filter = lambda x: x
+                attack_selector = random.choice
+                attack_acceptor = lambda x: True
 
-            with open('debug.save', 'wb') as f:
-                save_state(f, board, self.player_name, self.players_order)
+                with open('debug.save', 'wb') as f:
+                    save_state(f, board, self.player_name, self.players_order)
 
-        all_moves = list(possible_attacks(board, self.player_name))
-        if not all_moves:
-            self.logger.debug("There are no moves possible at all")
-            return EndTurnCommand()
+            else:
+                self.logger.debug("Doing a serious move")
+                attack_filter = lambda x: self.from_largest_region(board, x)
+                attack_selector = best_sdc_attack
+                attack_acceptor = lambda x: is_acceptable_sdc_attack(x)
 
-        moves_of_interest = attack_filter(all_moves)
-        if not moves_of_interest:
-            self.logger.debug("There are no moves of interest")
-            return EndTurnCommand()
+                with open('debug.save', 'wb') as f:
+                    save_state(f, board, self.player_name, self.players_order)
 
-        the_move = attack_selector(moves_of_interest)
+            all_moves = list(possible_attacks(board, self.player_name))
+            if not all_moves:
+                self.logger.debug("There are no moves possible at all")
+                return EndTurnCommand()
 
-        if attack_acceptor(the_move):
-            return EndTurnCommand()
-            #return BattleCommand(the_move[0].get_name(), the_move[1].get_name())
-        else:
-            self.logger.debug("The move {} is not acceptable, ending turn".format(the_move))
-            return EndTurnCommand()
+            moves_of_interest = attack_filter(all_moves)
+            if not moves_of_interest:
+                self.logger.debug("There are no moves of interest")
+                return EndTurnCommand()
+
+            the_move = attack_selector(moves_of_interest)
+
+            if attack_acceptor(the_move):
+                return EndTurnCommand()
+                #return BattleCommand(the_move[0].get_name(), the_move[1].get_name())
+            else:
+                self.logger.debug("The move {} is not acceptable, ending turn".format(the_move))
+                return EndTurnCommand()
 
     # Generation of given depth of state space
-    # TODO min/max for the start, try alfa/beta
-    def best_result_for_given_depth(self, board, depth, max_player):
+    # Uses Expectimax-n
+    # TODO try alfa/beta
+    def best_result_for_given_depth(self, board, player_index ,depth):
         """
         function alphabeta(node, depth, α, β, maximizingPlayer) is
             if depth = 0 or node is a terminal node then
@@ -136,98 +144,68 @@ class AI:
                     if value ≤ α then
                         break (* α cutoff *)
                 return value
+
+        function expectiminimax(node, depth)
+            if node is a terminal node or depth = 0
+                return the heuristic value of node
+            if the adversary is to play at node
+                // Return value of minimum-valued child node
+                let α := +∞
+                foreach child of node
+                    α := min(α, expectiminimax(child, depth-1))
+            else if we are to play at node
+                // Return value of maximum-valued child node
+                let α := -∞
+                foreach child of node
+                    α := max(α, expectiminimax(child, depth-1))
+            else if random event at node
+                // Return weighted average of all child nodes' values
+                let α := 0
+                foreach child of node
+                    α := α + (Probability[child] × expectiminimax(child, depth-1))
+            return α
         """
-        if (not(list(possible_attacks(board, self.player_name))) or (depth == 0)):
-            # No possible turns or end depth
-            return (self.evaluate_board(board, self.player_name), None)
-        if (max_player):
-            # Max player move
-            value = -inf
-            atack = None
-            for atk in list(self.resonable_attacks(board)):
-                new_value,_ = self.best_result_for_given_depth(self.simulate_move(self.player_name, board, atk[0], atk[1]), depth-1, False)
-                new_atack = atk
-                if new_value > value:
-                    value = new_value
-                    atack = new_atack
+        # Next player is calculated from equatin: (player_order + 1) mod len(self.player_prder())
 
-            return (value, atack)
-        else:
-            # Minimizing player move
-            value = +inf
-            atack = None
-            # Calculate moves for all enemies, and return the worst for us
-            for player in self.players_order:
-                if player != self.player_name:
-                    for atk in list(self.resonable_attacks_for_player(player, board)):
-                        new_value,_ = self.best_result_for_given_depth(self.simulate_move(player, board, atk[0], atk[1]), depth-1, True)
-                        new_atack = atk
-                        if new_value < value:
-                            value = new_value
-                            atack = new_atack
+        # Maximal depth of searching
+        if ((not list(possible_attacks(board, self.players_order[player_index]))) or (depth == 0)):
+            # Evaluation for each player
+            evaluation_list = []
+            for i in range(len(self.players_order)):
+                evaluation_list.append(evaluate_board(board, self.players_order[i], self.players_ordered))
 
-            return (value, atack)
+            return None, evaluation_list
 
+        # Get best move from all moves of player i 
+        # Each move consist of success and loss with respective probabilities
+        max_evaluation = [-inf for i in range(len(self.players_order))]
+        move = None
+        for atack in resonable_attacks_for_player(self.players_order[player_index], board):
+            # Get porobabilities
+            probability_of_win= probability_of_successful_attack(board, atack[0].get_name(), atack[1].get_name())
+            probability_of_loss = 1 - probability_of_win
 
-    # List of attacks that have resonable success rate
-    # TODO Chose optimal value
-    def resonable_attacks(self, board: Board) -> Iterator[Tuple[Area, Area]]:
-        for area in board.get_player_border(self.player_name):
-            if not area.can_attack():
-                continue
+            # Generate board for each scenario
+            board_win = simulate_succesfull_move(self.players_order[player_index], board, atack[0].get_name(), atack[1].get_name())
+            board_loss = simulate_lossing_move(board, atack[0].get_name(), atack[1].get_name())
 
-            neighbours = area.get_adjacent_areas_names()
+            # Calculate joined evaluation
+            alfa = [0 for i in range(len(self.players_order))]
+            _, result_win = self.best_result_for_given_depth(board_win, (player_index + 1) % len(self.players_order), depth - 1)
+            for i in range(len(alfa)):
+                alfa[i] = alfa[i] + (result_win[i] * probability_of_win)
 
-            for adj in neighbours:
-                adjacent_area = board.get_area(adj)
-                if adjacent_area.get_owner_name() != self.player_name:
-                    if probability_of_successful_attack(board, area.get_name(), adjacent_area.get_name()) >= 0.7:
-                        yield (area, adjacent_area)
+            _, result_loss = self.best_result_for_given_depth(board_loss, (player_index + 1) % len(self.players_order), depth - 1)
+            for i in range(len(alfa)):
+                alfa[i] = alfa[i] + (result_loss[i] * probability_of_loss)
 
-    # List of resonable attacks for specified player
-    # TODO Use player specific moves or this AIs moves?
-    def resonable_attacks_for_player(self, player, board: Board) -> Iterator[Tuple[Area, Area]]:
-        for area in board.get_player_border(player):
-            if not area.can_attack():
-                continue
+            # Store better value for current maximazer 
+            if alfa[player_index] > max_evaluation[player_index]:
+                max_evaluation = alfa
+                move = atack
 
-            neighbours = area.get_adjacent_areas_names()
+        return move, max_evaluation
 
-            for adj in neighbours:
-                adjacent_area = board.get_area(adj)
-                if adjacent_area.get_owner_name() != player:
-                    if probability_of_successful_attack(board, area.get_name(), adjacent_area.get_name()) >= 0.7:
-                        yield (area, adjacent_area)
-
-    # Evaluate board score for player
-    # TODO make complexer evaluation
-    def evaluate_board(self, board, player_name):
-        max_score = 1000
-
-        players = [Mplayer(board, player_name) for player_name in self.players_ordered]
-        total_areas = sum(player.n_all_areas for player in players)
-        total_dices = sum(player.n_dice for player in players)
-
-        player = Mplayer(board, player_name)
-
-        up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size
-        down = total_areas + total_dices + player.n_border_areas
-        score = player.is_alive*(up/down)
-        return int(round(score*max_score))
-
-    # Simulate move on board, for expectiminimax algoritm
-    def simulate_move(self, player_name, board, atk_from, atk_to):
-        edited_board = copy.deepcopy(board)
-
-        area_from = edited_board.get_area(atk_from.get_name())
-        area_to = edited_board.get_area(atk_to.get_name())
-
-        area_from.set_dice(1)
-        area_to.set_dice(atk_from.get_dice()-1)
-        area_to.set_owner(player_name)
-
-        return edited_board
-    
     # Get transfer from inner_area to border_area
     # TODO generate states, find best based on the number of transfers
     # TODO presouvat na zaklade moznych utokz na borders (n_dice, dulezitost udrzeni hranice), presun kostek mezi borders
@@ -241,7 +219,7 @@ class AI:
                     continue
                 #print(f"*border: {border.get_name()}")
                 
-                best_transfer = AI.get_best_transfer(player, board, border) #self.foo()?
+                best_transfer = self.get_best_transfer(player, board, border) #self.foo()? funguje ¯\_(ツ)_/¯
                 if best_transfer: best_transfers.append(best_transfer)
 
             #print(f"best transfers: {best_transfers}")
@@ -341,8 +319,70 @@ class Mplayer:
         print(f"is_alive : {self.is_alive}")
         print()
         
-class GenerationState:
-    def __init__(self, board, player_name, posibility):
-        self.player_name = player_name
-        self.board = board
-        self.posibility = posibility
+# TODO put to new file
+# List of resonable attacks for specified player
+def resonable_attacks_for_player(player: int, board: Board) -> Iterator[Tuple[Area, Area]]:
+    for area in board.get_player_border(player):
+        if not area.can_attack():
+            continue
+
+        neighbours = area.get_adjacent_areas_names()
+
+        for adj in neighbours:
+            adjacent_area = board.get_area(adj)
+            if adjacent_area.get_owner_name() != player:
+                if probability_of_successful_attack(board, area.get_name(), adjacent_area.get_name()) >= 0.7:
+                    yield (area, adjacent_area)
+
+# Evaluate board score for player
+# TODO make complexer evaluation
+def evaluate_board(board: Board, player_name: int, players_ordered: List[int]) -> float:
+    players = [Mplayer(board, player_name) for player_name in players_ordered]
+    total_areas = sum(player.n_all_areas for player in players)
+    total_dices = sum(player.n_dice for player in players)
+
+    player = players[player_name - 1]
+
+    up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size
+    down = total_areas + total_dices + player.n_border_areas
+    score = player.is_alive*(up/down)
+    return score
+
+# Simulate winning move on board
+def simulate_succesfull_move(player_name: int, board: Board, atk_from: int, atk_to: int) -> Board:
+    edited_board = copy.deepcopy(board)
+
+    area_from = edited_board.get_area(atk_from)
+    area_to = edited_board.get_area(atk_to)
+
+    area_to.set_dice(area_from.get_dice() - 1)
+    area_to.set_owner(player_name)
+    area_from.set_dice(1)
+
+    return edited_board
+
+# Simulate lossing move on board
+def simulate_lossing_move(board: Board, atk_from: int, atk_to:int) -> Board:
+    edited_board = copy.deepcopy(board)
+
+    area_from = edited_board.get_area(atk_from)
+    area_to = edited_board.get_area(atk_to)
+
+
+    if area_from.get_dice() == 8:
+        new_dice_count = area_to.get_dice() - 2
+        if new_dice_count < 1:
+            area_to.set_dice(1)
+        else:
+            area_to.set_dice(new_dice_count)
+
+    elif area_from.get_dice() >= 4:
+        new_dice_count = area_to.get_dice() - 1
+        if new_dice_count < 1:
+            area_to.set_dice(1)
+        else:
+            area_to.set_dice(new_dice_count)
+
+    area_from.set_dice(1)
+
+    return edited_board
