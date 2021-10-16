@@ -3,10 +3,13 @@ from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
 from typing import Iterator, List, Tuple
 from ..Mplayer import Mplayer
-from dicewars.ai.utils import probability_of_successful_attack
+from dicewars.ai.utils import attack_succcess_probability, probability_of_successful_attack, probability_of_holding_area
 
 # List of resonable attacks for specified player
-def resonable_attacks_for_player(player: int, board: Board) -> Iterator[Tuple[Area, Area]]:
+# Returns moves that have good probability of success and have good chance to sorvive other AIs moves
+# TODO make complexer moves selector
+def resonable_attacks_for_player(player: int, board: Board):
+    list_of_attacks = []
     for area in board.get_player_border(player):
         if not area.can_attack():
             continue
@@ -16,8 +19,25 @@ def resonable_attacks_for_player(player: int, board: Board) -> Iterator[Tuple[Ar
         for adj in neighbours:
             adjacent_area = board.get_area(adj)
             if adjacent_area.get_owner_name() != player:
-                if probability_of_successful_attack(board, area.get_name(), adjacent_area.get_name()) >= 0.7:
-                    yield (area, adjacent_area)
+                joined_probability = probability_of_successful_attack_and_one_turn_hold(player, board, area, adjacent_area)
+                if joined_probability >= 0.4:
+                    list_of_attacks.append((area, adjacent_area))
+                    
+
+    return list_of_attacks
+
+# Calculates joined probability of succesfull atack and holding conquered area for another turn
+def probability_of_successful_attack_and_one_turn_hold(player, board, area, adjacent_area):
+     # Probability of successfull conguering
+    attack_probability = probability_of_successful_attack(board, area.get_name(), adjacent_area.get_name())
+
+    # Probability of holding that area to another turn
+    move_board = simulate_succesfull_move(player, board, area.get_name(), adjacent_area.get_name())
+    move_arrea = move_board.get_area(adjacent_area.get_name())
+    hold_probability = probability_of_holding_area(move_board, move_arrea.get_name(), move_arrea.get_dice(), player)
+
+    return attack_probability * hold_probability
+
 
 # Evaluate board score for player
 # TODO make complexer evaluation

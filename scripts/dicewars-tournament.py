@@ -43,16 +43,17 @@ PLAYING_AIs = [
     # 'dt.rand',
     # 'dt.sdc',
     # 'dt.ste',
-    'dt.stei',
+    'dt.stei', # X
     # 'dt.wpm_d',
     # 'dt.wpm_s',
-    'dt.wpm_c',
-    'kb.sdc_post_at',
-    'kb.sdc_post_dt',
-    'kb.sdc_pre_at',
-    'kb.stei_adt',
-    'kb.stei_at',
-    'kb.stei_dt',
+    #'dt.wpm_c',
+    #'kb.sdc_post_at',
+    #'kb.sdc_post_dt',
+    #'kb.sdc_pre_at', # X
+    #'kb.stei_adt', # X
+    'kb.stei_at', # X
+    #'kb.stei_dt', # X
+    'xkuder04.xkuder04' # X
     # 'kb.xlogin42',
     # 'kb.xlogin00',
 ]
