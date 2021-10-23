@@ -14,7 +14,7 @@ from dicewars.client.game import player
 
 from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
-from typing import Iterator, List, Tuple
+from typing import Iterator, List, Text, Tuple
 
 from dicewars.ai.utils import possible_attacks, save_state, probability_of_successful_attack, attack_succcess_probability
 from dicewars.ai.kb.xlogin42.utils import best_sdc_attack, is_acceptable_sdc_attack
@@ -30,8 +30,12 @@ class AI:
         self.players_ordered = sorted(players_order)
         self.logger = logging.getLogger('AI')
         self.allow_logs = False
+        self.min_time_left = 5
+        self.max_attacks_per_round = 4
+        self.generated_states = 0
         
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
+        self.generated_states = 0
 
         # TODO
         """
@@ -40,22 +44,21 @@ class AI:
         """
         
         if nb_moves_this_turn == 0 and nb_transfers_this_turn == 0:
+            self.turn_time = time.time()
             self.debug_print(f"####### NEW TURN #######")
+            self.debug_print(f"Time left = {time_left}")
             self.debug_print(f"Player name = {self.player_name}")
             self.debug_print(f"Player order = {self.players_order}")
             self.debug_print(f"all_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_areas(self.player_name)]}")
             self.debug_print(f"border_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_border(self.player_name)]}")
             self.debug_print(f"inner_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_areas(self.player_name) if a not in board.get_player_border(self.player_name)]}")
         
-        
         if nb_moves_this_turn > 1:
             # TODO manage time
             end = time.time()
-            if (end - self.start) > 2*time_left:
-                self.debug_print(f"Turn time: {end - self.start}")
+            if (time_left > self.min_time_left) or (nb_moves_this_turn >= self.max_attacks_per_round):
+                self.debug_print(f"End turn, time: {end - self.turn_time}")
                 return EndTurnCommand()
-
-        self.start = time.time()
         
         max_transfers = self.max_transfers
         player = Mplayer(board, self.player_name)
@@ -81,6 +84,7 @@ class AI:
         # TODO IF evaluation infinite then tranfer die
         # TODO for board with many possibilities is calc time bigger then 10s
         move, evaluation = self.best_result_for_given_depth(board, self.players_order.index(self.player_name), 4)
+        self.debug_print(f"States in turn {self.generated_states}")
 
         self.debug_print(f"Best evaluation {evaluation}")
         if move:
@@ -102,6 +106,8 @@ class AI:
                 return BattleCommand(move[0].get_name(), move[1].get_name())
             else:
                 self.debug_print("No attack")
+                end = time.time()
+                self.debug_print(f"End turn, time: {end - self.turn_time}")
                 return EndTurnCommand()
 
 
@@ -120,7 +126,10 @@ class AI:
         # Each move consist of success and loss with respective probabilities
         max_evaluation = [-inf for i in range(len(self.players_order))]
         move = None
+        count = 0
         for atack in resonable_attacks_for_player(self.players_order[player_index], board):
+            count += 1
+            self.generated_states += 1
             # Get porobabilities
             probability_of_win= probability_of_successful_attack(board, atack[0].get_name(), atack[1].get_name())
             probability_of_loss = 1 - probability_of_win
@@ -156,6 +165,7 @@ class AI:
                 max_evaluation = alfa
                 move = atack
 
+        self.debug_print(f"Depth: {depth}, States: {count}")
         return move, max_evaluation
     
     # Debug logger
