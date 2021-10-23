@@ -5,10 +5,10 @@ import numpy as np
 import time
 
 from .Mplayer import Mplayer
-from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board, probability_of_successful_attack_and_one_turn_hold
+from .Mattack import Mattack
+from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board, probability_of_successful_attack_and_one_turn_hold, is_endturn
 from .utils.transfer_utils import get_transfer_to_borders, get_transfer_to_spec_border, get_transfer_near_the_border, get_best_transfer, from_largest_region
 
-from numpy import inf
 from numpy.lib.function_base import append
 from dicewars.client.game import player
 
@@ -26,17 +26,17 @@ class AI:
     def __init__(self, player_name, board, players_order, max_transfers):
         self.player_name = player_name
         self.players_order = players_order
+        self.player_index = self.players_order.index(self.player_name)
         self.max_transfers = max_transfers
         self.players_ordered = sorted(players_order)
         self.logger = logging.getLogger('AI')
         self.allow_logs = False
         self.min_time_left = 5
         self.max_attacks_per_round = 4
-        self.generated_states = 0
+        self.depth = 4
         
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
-        self.generated_states = 0
-
+        mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index)
         # TODO
         """
         Start evaluation tournament:  python3 ./scripts/dicewars-tournament.py -r -g 2 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -s 1337 -l logy
@@ -56,7 +56,7 @@ class AI:
         if nb_moves_this_turn > 1:
             # TODO manage time
             end = time.time()
-            if (time_left > self.min_time_left) or (nb_moves_this_turn >= self.max_attacks_per_round):
+            if is_endturn(time_left, self.min_time_left, nb_moves_this_turn, self.max_attacks_per_round):
                 self.debug_print(f"End turn, time: {end - self.turn_time}")
                 return EndTurnCommand()
         
@@ -83,8 +83,8 @@ class AI:
 
         # TODO IF evaluation infinite then tranfer die
         # TODO for board with many possibilities is calc time bigger then 10s
-        move, evaluation = self.best_result_for_given_depth(board, self.players_order.index(self.player_name), 4)
-        self.debug_print(f"States in turn {self.generated_states}")
+        move, evaluation = mattack.best_result(board)
+        #move, evaluation = self.best_result_for_given_depth(board, self.players_order.index(self.player_name), 4)
 
         self.debug_print(f"Best evaluation {evaluation}")
         if move:
@@ -110,64 +110,6 @@ class AI:
                 self.debug_print(f"End turn, time: {end - self.turn_time}")
                 return EndTurnCommand()
 
-
-    # Generation of given depth of state space
-    # Uses Expectimax-n
-    def best_result_for_given_depth(self, board, player_index ,depth):
-        # Maximal depth of searching
-        if ((not resonable_attacks_for_player(self.players_order[player_index], board)) or (depth == 0)):
-            # Evaluation for each player
-            evaluation_list = []
-            for i in range(len(self.players_order)):
-                evaluation_list.append(evaluate_board(board, self.players_order[i], self.players_ordered))
-            return None, evaluation_list
-
-        # Get best move from all moves of player i 
-        # Each move consist of success and loss with respective probabilities
-        max_evaluation = [-inf for i in range(len(self.players_order))]
-        move = None
-        count = 0
-        for atack in resonable_attacks_for_player(self.players_order[player_index], board):
-            count += 1
-            self.generated_states += 1
-            # Get porobabilities
-            probability_of_win= probability_of_successful_attack(board, atack[0].get_name(), atack[1].get_name())
-            probability_of_loss = 1 - probability_of_win
-
-            # Generate win move
-            board_win = simulate_succesfull_move(self.players_order[player_index], board, atack[0].get_name(), atack[1].get_name())
-
-            # Evaluation values
-            alfa = [0 for i in range(len(self.players_order))]
-
-            # If probability of succesfull atack is greather then x, dont generate loss tree for quicker generation
-            # TODO x = 0.95
-            if probability_of_win > 0.95:
-                _, result_win = self.best_result_for_given_depth(board_win, (player_index + 1) % len(self.players_order), depth - 1)
-
-                alfa = result_win
-            else:
-                # Generate loss move
-                board_loss = simulate_lossing_move(board, atack[0].get_name(), atack[1].get_name())
-
-                # Calculate joined evaluation
-                alfa = [0 for i in range(len(self.players_order))]
-                _, result_win = self.best_result_for_given_depth(board_win, (player_index + 1) % len(self.players_order), depth - 1)
-                for i in range(len(alfa)):
-                    alfa[i] = alfa[i] + (result_win[i] * probability_of_win)
-
-                _, result_loss = self.best_result_for_given_depth(board_loss, (player_index + 1) % len(self.players_order), depth - 1)
-                for i in range(len(alfa)):
-                    alfa[i] = alfa[i] + (result_loss[i] * probability_of_loss)
-
-            # Store better value for current maximazer 
-            if alfa[player_index] > max_evaluation[player_index]:
-                max_evaluation = alfa
-                move = atack
-
-        self.debug_print(f"Depth: {depth}, States: {count}")
-        return move, max_evaluation
-    
     # Debug logger
     def debug_print(self, text):
         if self.allow_logs:

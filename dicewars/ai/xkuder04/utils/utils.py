@@ -55,6 +55,20 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int]) -
     score = player.is_alive*(up/down)
     return score
 
+#TODO delete
+def evaluate_board_me(board: Board, player_name: int, players_ordered: List[int]) -> float:
+    players = [Mplayer(board, player_name) for player_name in players_ordered]
+    total_areas = sum(player.n_all_areas for player in players)
+    total_dices = sum(player.n_dice for player in players)
+
+    player = players[player_name - 1]
+
+    up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size
+    down = total_areas + total_dices + player.n_border_areas
+    score = player.is_alive*(up/down)
+    print([player.n_all_areas, player.n_dice, player.n_border_dice, player.n_biggest_region_size, total_areas, total_dices, player.n_border_areas, score])
+    return score
+
 # Simulate winning move on board
 def simulate_succesfull_move(player_name: int, board: Board, atk_from: int, atk_to: int) -> Board:
     edited_board = copy.deepcopy(board)
@@ -93,3 +107,10 @@ def simulate_lossing_move(board: Board, atk_from: int, atk_to:int) -> Board:
     area_from.set_dice(1)
 
     return edited_board
+
+def is_endturn(time_left, min_time_left, nb_moves_this_turn, max_attacks_per_round):
+    if time_left > min_time_left:
+        return True
+    if nb_moves_this_turn >= max_attacks_per_round:
+        return True
+    return False
