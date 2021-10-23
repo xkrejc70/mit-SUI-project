@@ -1,0 +1,1574 @@
+####### NEW TURN #######
+Time left = 10.0
+Player name = 2
+Player order = [1, 2]
+all_areas: [(8, 2), (11, 3), (12, 2), (14, 3), (16, 1), (17, 1), (18, 1), (20, 1), (21, 2), (23, 3), (24, 1), (25, 2), (27, 2), (29, 2), (34, 2)]
+border_areas: [(8, 2), (11, 3), (12, 2), (14, 3), (20, 1)]
+inner_areas: [(16, 1), (17, 1), (18, 1), (21, 2), (23, 3), (24, 1), (25, 2), (27, 2), (29, 2), (34, 2)]
+=> Transfer: (23, 17)
+=> Transfer: (17, 8)
+=> Transfer: (21, 16)
+=> Transfer: (16, 11)
+No transfer (inner -> border) found
+Evaluate board: 0.5950413223140496
+States in turn 0
+Best evaluation [0.875, 0.5950413223140496]
+Best value attack 14->31
+No transfer (inner -> border) found
+Evaluate board: 0.5714285714285714
+States in turn 0
+Best evaluation [0.8898305084745762, 0.5714285714285714]
+Best value attack 8->7
+End turn, time: 0.038332223892211914
+####### NEW TURN #######
+Time left = 11.726025
+Player name = 2
+Player order = [1, 2]
+all_areas: [(8, 2), (11, 6), (12, 4), (14, 3), (16, 1), (17, 2), (18, 2), (20, 2), (21, 2), (23, 2), (24, 1), (25, 2), (27, 4), (29, 2), (34, 3)]
+border_areas: [(8, 2), (11, 6), (12, 4), (14, 3), (20, 2)]
+inner_areas: [(16, 1), (17, 2), (18, 2), (21, 2), (23, 2), (24, 1), (25, 2), (27, 4), (29, 2), (34, 3)]
+=> Transfer: (23, 17)
+=> Transfer: (17, 8)
+=> Transfer: (18, 17)
+=> Transfer: (17, 8)
+=> Transfer: (21, 16)
+=> Transfer: (16, 11)
+Out of transfers (6/6)
+Evaluate board: 0.5973154362416108
+Depth: 1, States: 3
+Depth: 2, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 1
+Depth: 3, States: 2
+Depth: 1, States: 2
+Depth: 1, States: 3
+Depth: 2, States: 1
+Depth: 1, States: 3
+Depth: 2, States: 1
+Depth: 1, States: 2
+Depth: 2, States: 1
+Depth: 3, States: 3
+Depth: 4, States: 1
+States in turn 25
+Best evaluation [0.8603842419037705, 0.5002603907529054]
+Depth search attack 11->7
+Out of transfers (6/6)
+Evaluate board: 0.6028368794326241
+States in turn 0
+Best evaluation [0.7943262411347518, 0.6028368794326241]
+Best value attack 20->33
+End turn, time: 0.449723482131958
+####### NEW TURN #######
+Time left = 13.543065
+Player name = 2
+Player order = [1, 2]
+all_areas: [(7, 6), (8, 5), (11, 3), (12, 4), (14, 6), (16, 3), (17, 3), (18, 2), (20, 2), (21, 1), (23, 2), (24, 3), (25, 2), (27, 6), (29, 2), (34, 3)]
+border_areas: [(7, 6), (12, 4), (14, 6), (20, 2)]
+inner_areas: [(8, 5), (11, 3), (16, 3), (17, 3), (18, 2), (21, 1), (23, 2), (24, 3), (25, 2), (27, 6), (29, 2), (34, 3)]
+=> Transfer: (16, 11)
+=> Transfer: (11, 7)
+=> Transfer: (17, 8)
+=> Transfer: (11, 12)
+No transfer (inner -> border) found
+Evaluate board: 0.6149425287356322
+States in turn 0
+Best evaluation [0.7701149425287356, 0.6149425287356322]
+Best value attack 7->4
+=> Transfer: (8, 7)
+=> Transfer: (7, 4)
+Out of transfers (6/6)
+Evaluate board: 0.6374269005847953
+States in turn 0
+Best evaluation [0.7906976744186046, 0.6374269005847953]
+Best value attack 4->3
+End turn, time: 0.05933642387390137
+####### NEW TURN #######
+Time left = 15.750965
+Player name = 2
+Player order = [1, 2]
+all_areas: [(7, 6), (8, 3), (11, 2), (12, 7), (14, 8), (16, 3), (17, 1), (18, 2), (20, 3), (21, 2), (23, 3), (24, 3), (25, 4), (27, 7), (29, 3), (34, 4)]
+border_areas: [(7, 6), (12, 7), (14, 8), (20, 3)]
+inner_areas: [(8, 3), (11, 2), (16, 3), (17, 1), (18, 2), (21, 2), (23, 3), (24, 3), (25, 4), (27, 7), (29, 3), (34, 4)]
+=> Transfer: (16, 11)
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.6102564102564103
+Depth: 1, States: 1
+Depth: 2, States: 3
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 2
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 1, States: 3
+Depth: 1, States: 1
+Depth: 2, States: 2
+Depth: 1, States: 1
+Depth: 1, States: 3
+Depth: 1, States: 1
+Depth: 1, States: 2
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 4, States: 2
+States in turn 37
+Best evaluation [0.7749503278870564, 0.6200025676528544]
+Depth search attack 7->4
+=> Transfer: (8, 7)
+=> Transfer: (7, 4)
+No transfer (inner -> border) found
+Evaluate board: 0.6402116402116402
+Depth: 1, States: 1
+Depth: 2, States: 3
+Depth: 1, States: 2
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 1, States: 2
+Depth: 1, States: 1
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 2, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 2
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 4, States: 2
+States in turn 43
+Best evaluation [0.7672887749002135, 0.6095183322058417]
+Depth search attack 4->6
+End turn, time: 1.467484712600708
+####### NEW TURN #######
+Time left = 16.053501
+Player name = 2
+Player order = [1, 2]
+all_areas: [(7, 3), (8, 2), (11, 2), (12, 6), (14, 8), (16, 1), (17, 3), (18, 2), (20, 3), (21, 4), (23, 5), (24, 4), (25, 5), (27, 8), (29, 4), (34, 4)]
+border_areas: [(7, 3), (12, 6), (14, 8), (20, 3)]
+inner_areas: [(8, 2), (11, 2), (16, 1), (17, 3), (18, 2), (21, 4), (23, 5), (24, 4), (25, 5), (27, 8), (29, 4), (34, 4)]
+=> Transfer: (17, 8)
+=> Transfer: (8, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.6102564102564103
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.7371134020618557, 0.6217616580310881]
+Depth search attack 7->4
+No transfer (inner -> border) found
+Evaluate board: 0.6217616580310881
+States in turn 0
+Best evaluation [0.7371134020618557, 0.6217616580310881]
+Best value attack 14->31
+End turn, time: 0.04996967315673828
+####### NEW TURN #######
+Time left = 17.264481
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 6), (7, 1), (8, 4), (11, 3), (12, 7), (16, 1), (17, 2), (18, 5), (21, 5), (23, 7), (24, 4), (25, 6), (27, 8), (29, 5), (31, 5), (34, 5)]
+border_areas: [(4, 6), (12, 7), (31, 5)]
+inner_areas: [(7, 1), (8, 4), (11, 3), (16, 1), (17, 2), (18, 5), (21, 5), (23, 7), (24, 4), (25, 6), (27, 8), (29, 5), (34, 5)]
+=> Transfer: (8, 7)
+=> Transfer: (7, 4)
+No transfer (inner -> border) found
+Evaluate board: 0.6116504854368932
+Depth: 1, States: 2
+Depth: 1, States: 3
+Depth: 2, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 1, States: 1
+Depth: 1, States: 2
+Depth: 1, States: 1
+Depth: 2, States: 2
+Depth: 3, States: 3
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 2, States: 1
+Depth: 3, States: 1
+Depth: 4, States: 2
+States in turn 46
+Best evaluation [0.701052784945643, 0.6096855778685725]
+Depth search attack 31->32
+No transfer (inner -> border) found
+Evaluate board: 0.6274509803921569
+Depth: 1, States: 3
+Depth: 2, States: 1
+Depth: 1, States: 2
+Depth: 1, States: 2
+Depth: 1, States: 2
+Depth: 2, States: 2
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 3, States: 3
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 2, States: 1
+Depth: 1, States: 2
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 4, States: 2
+States in turn 40
+Best evaluation [0.6954612310088767, 0.6170557047039436]
+Depth search attack 32->33
+End turn, time: 1.1151916980743408
+####### NEW TURN #######
+Time left = 17.412536
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 8), (7, 3), (8, 3), (11, 4), (12, 7), (16, 1), (17, 2), (18, 7), (21, 7), (23, 8), (24, 6), (25, 6), (27, 8), (29, 7), (31, 3), (32, 2), (33, 4), (34, 5)]
+border_areas: [(4, 8), (12, 7), (31, 3), (32, 2), (33, 4)]
+inner_areas: [(7, 3), (8, 3), (11, 4), (16, 1), (17, 2), (18, 7), (21, 7), (23, 8), (24, 6), (25, 6), (27, 8), (29, 7), (34, 5)]
+=> Transfer: (8, 7)
+=> Transfer: (11, 12)
+No transfer (inner -> border) found
+Evaluate board: 0.6637554585152838
+Depth: 1, States: 2
+Depth: 2, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 3
+Depth: 3, States: 2
+Depth: 4, States: 1
+States in turn 12
+Best evaluation [0.6620734383980891, 0.6508969648173515]
+Depth search attack 12->14
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.68
+Depth: 3, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 2
+Depth: 3, States: 3
+Depth: 4, States: 1
+States in turn 10
+Best evaluation [0.6349706292432304, 0.6355213808397726]
+Depth search attack 14->20
+End turn, time: 0.4363555908203125
+####### NEW TURN #######
+Time left = 18.488978
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 8), (7, 8), (8, 1), (11, 1), (14, 3), (16, 4), (17, 2), (18, 8), (20, 8), (21, 8), (23, 8), (24, 7), (25, 8), (27, 8), (29, 8), (32, 4), (33, 7), (34, 5)]
+border_areas: [(4, 8), (11, 1), (14, 3), (32, 4)]
+inner_areas: [(7, 8), (8, 1), (16, 4), (17, 2), (18, 8), (20, 8), (21, 8), (23, 8), (24, 7), (25, 8), (27, 8), (29, 8), (33, 7), (34, 5)]
+=> Transfer: (21, 16)
+=> Transfer: (16, 11)
+=> Transfer: (21, 16)
+=> Transfer: (20, 14)
+=> Transfer: (17, 8)
+=> Transfer: (33, 32)
+Out of transfers (6/6)
+Evaluate board: 0.6827309236947792
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.6070757967746914, 0.7136999833770491]
+Depth search attack 11->12
+Out of transfers (6/6)
+Evaluate board: 0.7172131147540983
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.6099585062240664, 0.6736401673640168]
+Depth search attack 14->31
+End turn, time: 0.11784887313842773
+####### NEW TURN #######
+Time left = 20.63851
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 6), (7, 8), (8, 5), (11, 2), (12, 8), (14, 5), (16, 6), (17, 2), (18, 8), (20, 5), (21, 3), (23, 8), (24, 8), (25, 8), (27, 8), (29, 8), (31, 8), (32, 8), (33, 4), (34, 6)]
+border_areas: [(4, 6), (31, 8)]
+inner_areas: [(7, 8), (8, 5), (11, 2), (12, 8), (14, 5), (16, 6), (17, 2), (18, 8), (20, 5), (21, 3), (23, 8), (24, 8), (25, 8), (27, 8), (29, 8), (32, 8), (33, 4), (34, 6)]
+=> Transfer: (8, 7)
+=> Transfer: (7, 4)
+=> Transfer: (8, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.6818181818181818
+States in turn 0
+Best evaluation [0.5977443609022557, 0.6818181818181818]
+Best value attack 4->6
+=> Transfer: (7, 4)
+=> Transfer: (20, 14)
+No transfer (inner -> border) found
+Evaluate board: 0.7241379310344828
+States in turn 0
+Best evaluation [0.6007604562737643, 0.7241379310344828]
+Best value attack 31->28
+End turn, time: 0.05404162406921387
+####### NEW TURN #######
+Time left = 22.601875
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 6), (6, 6), (7, 1), (8, 6), (11, 5), (12, 8), (14, 8), (16, 8), (17, 5), (18, 8), (20, 3), (21, 4), (23, 8), (24, 8), (25, 8), (27, 8), (29, 8), (31, 3), (32, 8), (33, 7), (34, 8)]
+border_areas: [(4, 6), (6, 6), (31, 3)]
+inner_areas: [(7, 1), (8, 6), (11, 5), (12, 8), (14, 8), (16, 8), (17, 5), (18, 8), (20, 3), (21, 4), (23, 8), (24, 8), (25, 8), (27, 8), (29, 8), (32, 8), (33, 7), (34, 8)]
+=> Transfer: (33, 32)
+=> Transfer: (12, 31)
+=> Transfer: (33, 32)
+No transfer (inner -> border) found
+Evaluate board: 0.7596899224806202
+States in turn 0
+Best evaluation [0.5038461538461538, 0.7596899224806202]
+Best value attack 31->28
+=> Transfer: (14, 31)
+=> Transfer: (33, 32)
+No transfer (inner -> border) found
+Evaluate board: 0.7590361445783133
+States in turn 0
+Best evaluation [0.5059760956175299, 0.7590361445783133]
+Best value attack 31->28
+End turn, time: 0.058362722396850586
+####### NEW TURN #######
+Time left = 24.563954
+Player name = 2
+Player order = [1, 2]
+all_areas: [(7, 5), (8, 7), (11, 5), (12, 6), (14, 3), (16, 8), (17, 5), (18, 8), (20, 6), (21, 6), (23, 8), (24, 8), (25, 8), (27, 8), (29, 8), (31, 2), (32, 8), (33, 8), (34, 8)]
+border_areas: [(7, 5), (31, 2)]
+inner_areas: [(8, 7), (11, 5), (12, 6), (14, 3), (16, 8), (17, 5), (18, 8), (20, 6), (21, 6), (23, 8), (24, 8), (25, 8), (27, 8), (29, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (16, 11)
+=> Transfer: (11, 7)
+=> Transfer: (33, 32)
+=> Transfer: (32, 31)
+=> Transfer: (33, 32)
+No transfer (inner -> border) found
+Evaluate board: 0.7019607843137254
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.5410306739547146, 0.6985764682071205]
+Depth search attack 31->28
+=> Transfer: (32, 31)
+Out of transfers (6/6)
+Evaluate board: 0.7580645161290323
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.49795918367346936, 0.7479674796747967]
+Depth search attack 28->30
+End turn, time: 0.056589603424072266
+####### NEW TURN #######
+Time left = 26.773836
+Player name = 2
+Player order = [1, 2]
+all_areas: [(7, 6), (8, 8), (11, 7), (12, 7), (14, 8), (16, 7), (17, 6), (18, 8), (20, 8), (21, 6), (23, 8), (24, 8), (25, 8), (27, 8), (28, 2), (29, 8), (30, 8), (31, 8), (32, 4), (33, 3), (34, 8)]
+border_areas: [(7, 6), (28, 2), (31, 8)]
+inner_areas: [(8, 8), (11, 7), (12, 7), (14, 8), (16, 7), (17, 6), (18, 8), (20, 8), (21, 6), (23, 8), (24, 8), (25, 8), (27, 8), (29, 8), (30, 8), (32, 4), (33, 3), (34, 8)]
+=> Transfer: (20, 14)
+=> Transfer: (8, 7)
+=> Transfer: (20, 14)
+=> Transfer: (30, 28)
+=> Transfer: (20, 14)
+No transfer (inner -> border) found
+Evaluate board: 0.7749077490774908
+States in turn 0
+Best evaluation [0.46296296296296297, 0.7749077490774908]
+Best value attack 28->19
+=> Transfer: (31, 19)
+Out of transfers (6/6)
+Evaluate board: 0.769811320754717
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.44904564116731516, 0.7686920596033188]
+Depth search attack 19->26
+End turn, time: 0.05266523361206055
+####### NEW TURN #######
+Time left = 28.988949
+Player name = 2
+Player order = [1, 2]
+all_areas: [(7, 8), (8, 7), (11, 8), (12, 8), (14, 8), (16, 7), (17, 6), (18, 8), (19, 3), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (27, 8), (28, 7), (29, 8), (30, 4), (31, 7), (32, 8), (33, 6), (34, 8)]
+border_areas: [(7, 8), (19, 3)]
+inner_areas: [(8, 7), (11, 8), (12, 8), (14, 8), (16, 7), (17, 6), (18, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (27, 8), (28, 7), (29, 8), (30, 4), (31, 7), (32, 8), (33, 6), (34, 8)]
+=> Transfer: (12, 11)
+=> Transfer: (31, 19)
+=> Transfer: (12, 11)
+No transfer (inner -> border) found
+Evaluate board: 0.7551724137931034
+States in turn 0
+Best evaluation [0.4879725085910653, 0.7551724137931034]
+Best value attack 19->26
+=> Transfer: (28, 19)
+=> Transfer: (12, 11)
+=> Transfer: (31, 19)
+Out of transfers (6/6)
+Evaluate board: 0.7544483985765125
+Depth: 3, States: 1
+Depth: 3, States: 2
+Depth: 4, States: 1
+States in turn 4
+Best evaluation [0.4481233876145956, 0.7580462543153891]
+Depth search attack 19->26
+End turn, time: 0.06499481201171875
+####### NEW TURN #######
+Time left = 31.188734
+Player name = 2
+Player order = [1, 2]
+all_areas: [(7, 6), (8, 8), (11, 8), (12, 8), (14, 8), (16, 8), (17, 8), (18, 8), (19, 5), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 7), (27, 8), (28, 7), (29, 8), (30, 8), (31, 4), (32, 8), (33, 7), (34, 8)]
+border_areas: [(7, 6), (19, 5), (26, 7)]
+inner_areas: [(8, 8), (11, 8), (12, 8), (14, 8), (16, 8), (17, 8), (18, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (27, 8), (28, 7), (29, 8), (30, 8), (31, 4), (32, 8), (33, 7), (34, 8)]
+=> Transfer: (16, 11)
+=> Transfer: (11, 7)
+=> Transfer: (16, 11)
+=> Transfer: (28, 19)
+=> Transfer: (12, 11)
+No transfer (inner -> border) found
+Evaluate board: 0.8197278911564626
+States in turn 0
+Best evaluation [0.40955631399317405, 0.8197278911564626]
+Best value attack 19->15
+=> Transfer: (26, 15)
+Out of transfers (6/6)
+Evaluate board: 0.8280701754385965
+States in turn 0
+Best evaluation [0.38596491228070173, 0.8280701754385965]
+Best value attack 7->4
+End turn, time: 0.044144392013549805
+####### NEW TURN #######
+Time left = 33.416719
+Player name = 2
+Player order = [1, 2]
+all_areas: [(7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 6), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 7), (34, 8)]
+border_areas: [(7, 8), (15, 8)]
+inner_areas: [(8, 8), (11, 8), (12, 8), (14, 8), (16, 8), (17, 8), (18, 8), (19, 6), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 7), (34, 8)]
+=> Transfer: (16, 11)
+No transfer (inner -> border) found
+Evaluate board: 0.8433333333333334
+States in turn 0
+Best evaluation [0.36, 0.8433333333333334]
+Best value attack 7->4
+No transfer (inner -> border) found
+Evaluate board: 0.8698630136986302
+States in turn 0
+Best evaluation [0.3287671232876712, 0.8698630136986302]
+Best value attack 15->6
+End turn, time: 0.027753591537475586
+####### NEW TURN #######
+Time left = 34.395703
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 8), (6, 6), (7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(4, 8), (6, 6)]
+inner_areas: [(7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (11, 7)
+=> Transfer: (15, 6)
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.898360655737705
+States in turn 0
+Best evaluation [0.3081967213114754, 0.898360655737705]
+Best value attack 6->10
+=> Transfer: (15, 6)
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.8952702702702703
+States in turn 0
+Best evaluation [0.30405405405405406, 0.8952702702702703]
+Best value attack 4->3
+End turn, time: 0.03802967071533203
+####### NEW TURN #######
+Time left = 36.372675
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 8), (6, 8), (7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(4, 8), (6, 8)]
+inner_areas: [(7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.8961038961038961
+States in turn 0
+Best evaluation [0.3116883116883117, 0.8961038961038961]
+Best value attack 6->10
+=> Transfer: (15, 6)
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.8996655518394648
+States in turn 0
+Best evaluation [0.3076923076923077, 0.8996655518394648]
+Best value attack 6->10
+End turn, time: 0.034224748611450195
+####### NEW TURN #######
+Time left = 37.849258
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 8), (6, 8), (7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(4, 8), (6, 8)]
+inner_areas: [(7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.9078947368421053
+States in turn 0
+Best evaluation [0.2894736842105263, 0.9078947368421053]
+Best value attack 6->10
+=> Transfer: (15, 6)
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.911864406779661
+States in turn 0
+Best evaluation [0.2847457627118644, 0.911864406779661]
+Best value attack 6->10
+End turn, time: 0.041892051696777344
+####### NEW TURN #######
+Time left = 39.321448
+Player name = 2
+Player order = [1, 2]
+all_areas: [(4, 8), (6, 8), (7, 8), (8, 8), (10, 6), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(4, 8), (6, 8), (10, 6)]
+inner_areas: [(7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (11, 7)
+No transfer (inner -> border) found
+Evaluate board: 0.9570957095709571
+States in turn 0
+Best evaluation [0.2582781456953642, 0.9570957095709571]
+Best value attack 4->3
+=> Transfer: (6, 3)
+=> Transfer: (7, 4)
+=> Transfer: (6, 10)
+=> Transfer: (15, 6)
+No transfer (inner -> border) found
+Evaluate board: 0.9727891156462585
+States in turn 0
+Best evaluation [0.2576271186440678, 0.9727891156462585]
+Best value attack 3->2
+End turn, time: 0.04850506782531738
+####### NEW TURN #######
+Time left = 41.290816
+Player name = 2
+Player order = [1, 2]
+all_areas: [(3, 8), (4, 8), (6, 8), (7, 8), (8, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(3, 8), (10, 8)]
+inner_areas: [(4, 8), (6, 8), (7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (7, 4)
+No transfer (inner -> border) found
+Evaluate board: 1.0033898305084745
+States in turn 0
+Best evaluation [0.21283783783783783, 1.0033898305084745]
+Best value attack 3->2
+=> Transfer: (4, 3)
+=> Transfer: (7, 4)
+No transfer (inner -> border) found
+Evaluate board: 1.055363321799308
+States in turn 0
+Best evaluation [0.17301038062283736, 1.055363321799308]
+Best value attack 3->1
+End turn, time: 0.05219268798828125
+####### NEW TURN #######
+Time left = 42.751282
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 6), (2, 8), (3, 8), (4, 8), (6, 8), (7, 8), (8, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(1, 6), (2, 8), (3, 8), (10, 8)]
+inner_areas: [(4, 8), (6, 8), (7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (7, 4)
+No transfer (inner -> border) found
+Evaluate board: 1.1006711409395973
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.1292517006802721, 1.097972972972973]
+Depth search attack 1->5
+=> Transfer: (5, 1)
+=> Transfer: (7, 4)
+No transfer (inner -> border) found
+Evaluate board: 1.1114864864864864
+States in turn 0
+Best evaluation [0.1292517006802721, 1.1114864864864864]
+Best value attack 2->9
+End turn, time: 0.05828285217285156
+####### NEW TURN #######
+Time left = 44.204724
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(1, 8), (2, 8), (3, 8), (10, 8)]
+inner_areas: [(4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (7, 4)
+No transfer (inner -> border) found
+Evaluate board: 1.1140065146579805
+States in turn 0
+Best evaluation [0.13114754098360656, 1.1140065146579805]
+Best value attack 2->9
+=> Transfer: (3, 2)
+=> Transfer: (4, 3)
+=> Transfer: (3, 9)
+=> Transfer: (6, 3)
+No transfer (inner -> border) found
+Evaluate board: 1.1237458193979932
+States in turn 0
+Best evaluation [0.10738255033557047, 1.1237458193979932]
+Best value attack 9->13
+End turn, time: 0.04903006553649902
+####### NEW TURN #######
+Time left = 46.17044
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(1, 8), (2, 8), (9, 8)]
+inner_areas: [(3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (4, 3)
+No transfer (inner -> border) found
+Evaluate board: 1.1205211726384365
+States in turn 0
+Best evaluation [0.10457516339869281, 1.1205211726384365]
+Best value attack 1->22
+=> Transfer: (2, 22)
+=> Transfer: (4, 3)
+No transfer (inner -> border) found
+Evaluate board: 1.1342281879194631
+Depth: 4, States: 2
+States in turn 2
+Best evaluation [0.005421047916666667, 1.1178449454995825]
+Depth search attack 9->13
+End turn, time: 0.05084490776062012
+####### NEW TURN #######
+Time left = 47.631335
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+border_areas: [(9, 8), (22, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8), (34, 8)]
+=> Transfer: (4, 3)
+No transfer (inner -> border) found
+Evaluate board: 1.1344262295081968
+Depth: 4, States: 2
+States in turn 2
+Best evaluation [0.0014174519322033906, 1.1144874196281516]
+Depth search attack 9->13
+No transfer (inner -> border) found
+Evaluate board: 1.1140939597315436
+States in turn 0
+Best evaluation [0.0, 1.1140939597315436]
+No attack
+End turn, time: 0.03362107276916504
+####### NEW TURN #######
+Time left = 10.0
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 3), (2, 2), (3, 3), (5, 2), (7, 1), (8, 1), (11, 1), (17, 2), (18, 2), (22, 1), (23, 3), (28, 4), (31, 1), (34, 1)]
+border_areas: [(1, 3), (2, 2), (5, 2), (7, 1), (17, 2), (23, 3), (31, 1)]
+inner_areas: [(3, 3), (8, 1), (11, 1), (18, 2), (22, 1), (28, 4), (34, 1)]
+=> Transfer: (18, 8)
+=> Transfer: (28, 23)
+No transfer (inner -> border) found
+Evaluate board: 0.5528455284552846
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 2
+Depth: 1, States: 2
+Depth: 2, States: 1
+Depth: 3, States: 2
+Depth: 4, States: 1
+States in turn 11
+Best evaluation [0.9333333333333333, 0.5630252100840336]
+Depth search attack 23->21
+No transfer (inner -> border) found
+Evaluate board: 0.6033057851239669
+Depth: 3, States: 3
+Depth: 4, States: 1
+States in turn 4
+Best evaluation [0.9301707793103449, 0.5470704461327232]
+Depth search attack 21->27
+End turn, time: 0.426372766494751
+####### NEW TURN #######
+Time left = 10.834295000000001
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 3), (2, 4), (3, 4), (5, 2), (7, 2), (8, 2), (11, 2), (17, 4), (18, 3), (22, 2)]
+border_areas: [(1, 3), (2, 4), (5, 2), (7, 2), (17, 4)]
+inner_areas: [(3, 4), (8, 2), (11, 2), (18, 3), (22, 2)]
+=> Transfer: (18, 8)
+=> Transfer: (8, 1)
+No transfer (inner -> border) found
+Evaluate board: 0.46153846153846156
+States in turn 0
+Best evaluation [1.0547945205479452, 0.46153846153846156]
+Best value attack 1->4
+No transfer (inner -> border) found
+Evaluate board: 0.4855072463768116
+Depth: 1, States: 1
+Depth: 2, States: 1
+Depth: 2, States: 1
+Depth: 3, States: 1
+Depth: 1, States: 2
+Depth: 1, States: 2
+Depth: 2, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 3
+Depth: 2, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 1
+Depth: 3, States: 3
+Depth: 4, States: 1
+States in turn 20
+Best evaluation [1.006569643448558, 0.4393737487141714]
+Depth search attack 4->15
+End turn, time: 0.5739531517028809
+####### NEW TURN #######
+Time left = 11.524541
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 1), (3, 7), (4, 1), (5, 3), (7, 2), (8, 1), (11, 2), (15, 6), (17, 7), (18, 4), (22, 2)]
+border_areas: [(1, 1), (4, 1), (5, 3), (15, 6), (17, 7)]
+inner_areas: [(3, 7), (7, 2), (8, 1), (11, 2), (18, 4), (22, 2)]
+=> Transfer: (18, 8)
+=> Transfer: (3, 1)
+No transfer (inner -> border) found
+Evaluate board: 0.49696969696969695
+Depth: 1, States: 1
+Depth: 1, States: 3
+Depth: 1, States: 2
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 4, States: 3
+States in turn 13
+Best evaluation [0.9451219512195121, 0.5185185185185185]
+Depth search attack 17->27
+No transfer (inner -> border) found
+Evaluate board: 0.5185185185185185
+Depth: 1, States: 3
+Depth: 1, States: 2
+Depth: 2, States: 2
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 1, States: 2
+Depth: 2, States: 2
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 1, States: 3
+Depth: 1, States: 2
+Depth: 2, States: 2
+Depth: 1, States: 3
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 3, States: 3
+Depth: 1, States: 2
+Depth: 1, States: 3
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 4, States: 3
+States in turn 57
+Best evaluation [0.9274842296019481, 0.5106059227211293]
+Depth search attack 1->2
+End turn, time: 1.3044822216033936
+####### NEW TURN #######
+Time left = 11.481248
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 1), (2, 8), (3, 1), (4, 2), (5, 8), (7, 4), (8, 4), (11, 2), (15, 7), (17, 1), (18, 1), (22, 4), (27, 6)]
+border_areas: [(2, 8), (4, 2), (5, 8), (15, 7), (17, 1), (27, 6)]
+inner_areas: [(1, 1), (3, 1), (7, 4), (8, 4), (11, 2), (18, 1), (22, 4)]
+=> Transfer: (8, 1)
+=> Transfer: (7, 4)
+No transfer (inner -> border) found
+Evaluate board: 0.582010582010582
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.893048128342246, 0.6021505376344086]
+Depth search attack 5->9
+No transfer (inner -> border) found
+Evaluate board: 0.6021505376344086
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.8688524590163934, 0.5934065934065934]
+Depth search attack 2->6
+End turn, time: 0.15380597114562988
+####### NEW TURN #######
+Time left = 12.588542
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 5), (2, 1), (3, 1), (4, 6), (5, 3), (6, 8), (7, 4), (8, 2), (9, 8), (11, 3), (15, 8), (17, 1), (18, 3), (22, 4), (27, 7)]
+border_areas: [(5, 3), (6, 8), (9, 8), (15, 8), (17, 1), (27, 7)]
+inner_areas: [(1, 5), (2, 1), (3, 1), (4, 6), (7, 4), (8, 2), (11, 3), (18, 3), (22, 4)]
+=> Transfer: (18, 11)
+=> Transfer: (1, 5)
+=> Transfer: (8, 3)
+=> Transfer: (11, 17)
+No transfer (inner -> border) found
+Evaluate board: 0.6372093023255814
+Depth: 2, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 4, States: 2
+States in turn 7
+Best evaluation [0.8388782507127003, 0.6324824358771992]
+Depth search attack 27->31
+No transfer (inner -> border) found
+Evaluate board: 0.6009615384615384
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.8480392156862745, 0.5862068965517241]
+Depth search attack 15->25
+End turn, time: 0.3015575408935547
+####### NEW TURN #######
+Time left = 14.054401
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 2), (2, 5), (3, 5), (4, 7), (5, 8), (6, 8), (7, 5), (8, 2), (9, 8), (11, 1), (15, 1), (17, 7), (18, 2), (22, 4), (25, 7), (27, 2)]
+border_areas: [(5, 8), (6, 8), (9, 8), (17, 7), (27, 2)]
+inner_areas: [(1, 2), (2, 5), (3, 5), (4, 7), (7, 5), (8, 2), (11, 1), (15, 1), (18, 2), (22, 4), (25, 7)]
+=> Transfer: (7, 1)
+=> Transfer: (3, 17)
+=> Transfer: (8, 3)
+No transfer (inner -> border) found
+Evaluate board: 0.5907172995780591
+States in turn 0
+Best evaluation [0.8235294117647058, 0.5907172995780591]
+Best value attack 17->21
+No transfer (inner -> border) found
+Evaluate board: 0.6103896103896104
+States in turn 0
+Best evaluation [0.8197424892703863, 0.6103896103896104]
+Best value attack 5->29
+End turn, time: 0.07461166381835938
+####### NEW TURN #######
+Time left = 15.4928
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 6), (2, 5), (3, 5), (4, 7), (5, 2), (6, 8), (7, 2), (8, 4), (9, 8), (11, 1), (15, 4), (17, 3), (18, 4), (21, 4), (22, 7), (25, 8), (27, 3)]
+border_areas: [(5, 2), (6, 8), (9, 8), (21, 4), (27, 3)]
+inner_areas: [(1, 6), (2, 5), (3, 5), (4, 7), (7, 2), (8, 4), (11, 1), (15, 4), (17, 3), (18, 4), (22, 7), (25, 8)]
+=> Transfer: (8, 3)
+=> Transfer: (3, 5)
+=> Transfer: (15, 4)
+=> Transfer: (17, 21)
+=> Transfer: (15, 4)
+No transfer (inner -> border) found
+Evaluate board: 0.6218487394957983
+States in turn 0
+Best evaluation [0.7791666666666667, 0.6218487394957983]
+Best value attack 5->29
+=> Transfer: (1, 5)
+Out of transfers (6/6)
+Evaluate board: 0.670995670995671
+States in turn 0
+Best evaluation [0.7629310344827587, 0.670995670995671]
+Best value attack 6->12
+End turn, time: 0.08013176918029785
+####### NEW TURN #######
+Time left = 17.684574
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 2), (2, 5), (3, 3), (4, 8), (5, 8), (6, 3), (7, 3), (8, 3), (9, 8), (11, 2), (15, 3), (17, 2), (18, 6), (21, 6), (22, 8), (25, 8), (27, 6), (29, 6)]
+border_areas: [(5, 8), (6, 3), (9, 8), (21, 6), (27, 6), (29, 6)]
+inner_areas: [(1, 2), (2, 5), (3, 3), (4, 8), (7, 3), (8, 3), (11, 2), (15, 3), (17, 2), (18, 6), (22, 8), (25, 8)]
+=> Transfer: (8, 3)
+=> Transfer: (4, 6)
+=> Transfer: (7, 1)
+=> Transfer: (17, 21)
+=> Transfer: (15, 4)
+No transfer (inner -> border) found
+Evaluate board: 0.7316017316017316
+Depth: 4, States: 2
+States in turn 2
+Best evaluation [0.712436509467836, 0.7390974105694981]
+Depth search attack 6->12
+No transfer (inner -> border) found
+Evaluate board: 0.7589285714285714
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.6756756756756757, 0.7747747747747747]
+Depth search attack 12->24
+End turn, time: 0.17585301399230957
+####### NEW TURN #######
+Time left = 19.528515
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 4), (2, 7), (3, 6), (4, 8), (5, 8), (6, 2), (7, 2), (8, 2), (9, 8), (11, 5), (12, 1), (15, 2), (17, 1), (18, 7), (21, 8), (22, 8), (24, 8), (25, 8), (27, 8)]
+border_areas: [(5, 8), (9, 8), (12, 1), (21, 8), (24, 8), (27, 8)]
+inner_areas: [(1, 4), (2, 7), (3, 6), (4, 8), (6, 2), (7, 2), (8, 2), (11, 5), (15, 2), (17, 1), (18, 7), (22, 8), (25, 8)]
+=> Transfer: (4, 2)
+=> Transfer: (6, 12)
+=> Transfer: (4, 2)
+No transfer (inner -> border) found
+Evaluate board: 0.746938775510204
+States in turn 0
+Best evaluation [0.6951219512195121, 0.746938775510204]
+Best value attack 21->23
+No transfer (inner -> border) found
+Evaluate board: 0.7161016949152542
+States in turn 0
+Best evaluation [0.7046413502109705, 0.7161016949152542]
+Best value attack 5->29
+End turn, time: 0.06124472618103027
+####### NEW TURN #######
+Time left = 20.978478
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 6), (2, 8), (3, 8), (4, 7), (5, 3), (6, 1), (7, 3), (8, 3), (9, 6), (11, 8), (12, 4), (15, 4), (17, 3), (18, 8), (21, 2), (22, 8), (24, 8), (25, 8), (27, 6), (29, 6)]
+border_areas: [(5, 3), (9, 6), (12, 4), (21, 2), (24, 8), (27, 6), (29, 6)]
+inner_areas: [(1, 6), (2, 8), (3, 8), (4, 7), (6, 1), (7, 3), (8, 3), (11, 8), (15, 4), (17, 3), (18, 8), (22, 8), (25, 8)]
+=> Transfer: (11, 3)
+=> Transfer: (3, 5)
+=> Transfer: (11, 3)
+=> Transfer: (17, 21)
+=> Transfer: (4, 2)
+No transfer (inner -> border) found
+Evaluate board: 0.8240343347639485
+States in turn 0
+Best evaluation [0.5665236051502146, 0.8240343347639485]
+Best value attack 5->33
+No transfer (inner -> border) found
+Evaluate board: 0.8464912280701754
+States in turn 0
+Best evaluation [0.5614035087719298, 0.8464912280701754]
+Best value attack 24->13
+End turn, time: 0.11140823364257812
+####### NEW TURN #######
+Time left = 22.887191
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 2), (6, 3), (7, 4), (8, 3), (9, 8), (11, 3), (12, 4), (15, 7), (17, 4), (18, 8), (21, 6), (22, 8), (25, 8), (27, 8), (29, 7), (33, 6)]
+border_areas: [(9, 8), (12, 4), (21, 6), (27, 8), (29, 7), (33, 6)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 2), (6, 3), (7, 4), (8, 3), (11, 3), (15, 7), (17, 4), (18, 8), (22, 8), (25, 8)]
+=> Transfer: (3, 5)
+=> Transfer: (5, 29)
+=> Transfer: (2, 5)
+=> Transfer: (5, 33)
+=> Transfer: (1, 5)
+=> Transfer: (17, 21)
+Out of transfers (6/6)
+Evaluate board: 0.8649789029535865
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 1
+Depth: 3, States: 1
+Depth: 4, States: 2
+States in turn 8
+Best evaluation [0.5085585984356177, 0.8828828373166308]
+Depth search attack 9->10
+Out of transfers (6/6)
+Evaluate board: 0.8879310344827587
+Depth: 3, States: 1
+Depth: 4, States: 1
+States in turn 2
+Best evaluation [0.5066079295154186, 0.8859649122807017]
+Depth search attack 10->19
+End turn, time: 0.4079923629760742
+####### NEW TURN #######
+Time left = 24.751035
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 6), (2, 8), (3, 7), (4, 8), (5, 8), (6, 5), (7, 5), (8, 6), (9, 2), (10, 4), (11, 4), (15, 7), (17, 4), (18, 8), (19, 8), (21, 8), (22, 8), (25, 8), (27, 8), (29, 8), (33, 8)]
+border_areas: [(6, 5), (9, 2), (10, 4), (19, 8), (21, 8), (27, 8), (29, 8), (33, 8)]
+inner_areas: [(1, 6), (2, 8), (3, 7), (4, 8), (5, 8), (7, 5), (8, 6), (11, 4), (15, 7), (17, 4), (18, 8), (22, 8), (25, 8)]
+=> Transfer: (15, 4)
+=> Transfer: (2, 6)
+=> Transfer: (15, 4)
+=> Transfer: (5, 9)
+=> Transfer: (15, 4)
+No transfer (inner -> border) found
+Evaluate board: 0.9448818897637795
+Depth: 4, States: 2
+States in turn 2
+Best evaluation [0.4697066174821011, 0.9359087147346938]
+Depth search attack 6->12
+=> Transfer: (4, 6)
+Out of transfers (6/6)
+Evaluate board: 0.9510204081632653
+Depth: 4, States: 2
+States in turn 2
+Best evaluation [0.4635465667216163, 0.9462053627951859]
+Depth search attack 6->12
+End turn, time: 0.2523496150970459
+####### NEW TURN #######
+Time left = 26.768455
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 7), (3, 8), (4, 3), (5, 6), (6, 4), (7, 5), (8, 7), (9, 8), (10, 4), (11, 7), (12, 8), (15, 8), (17, 6), (18, 8), (19, 8), (21, 8), (22, 8), (25, 8), (27, 8), (29, 8), (33, 8)]
+border_areas: [(10, 4), (12, 8), (19, 8), (21, 8), (27, 8), (29, 8), (33, 8)]
+inner_areas: [(1, 8), (2, 7), (3, 8), (4, 3), (5, 6), (6, 4), (7, 5), (8, 7), (9, 8), (11, 7), (15, 8), (17, 6), (18, 8), (22, 8), (25, 8)]
+=> Transfer: (3, 17)
+=> Transfer: (9, 10)
+=> Transfer: (1, 5)
+No transfer (inner -> border) found
+Evaluate board: 0.9547169811320755
+Depth: 3, States: 1
+Depth: 4, States: 1
+States in turn 2
+Best evaluation [0.4230904435234375, 0.9605838016225376]
+Depth search attack 12->24
+=> Transfer: (9, 12)
+=> Transfer: (2, 6)
+=> Transfer: (6, 12)
+Out of transfers (6/6)
+Evaluate board: 0.9924242424242424
+States in turn 0
+Best evaluation [0.4351145038167939, 0.9924242424242424]
+Best value attack 29->16
+End turn, time: 0.16128015518188477
+####### NEW TURN #######
+Time left = 28.874783
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 5), (3, 8), (4, 5), (5, 8), (6, 5), (7, 8), (8, 8), (9, 3), (10, 8), (11, 8), (12, 8), (15, 8), (16, 6), (17, 8), (18, 8), (19, 8), (21, 8), (22, 8), (24, 8), (25, 8), (27, 8), (29, 7), (33, 8)]
+border_areas: [(10, 8), (12, 8), (16, 6), (19, 8), (21, 8), (24, 8), (27, 8), (29, 7), (33, 8)]
+inner_areas: [(1, 8), (2, 5), (3, 8), (4, 5), (5, 8), (6, 5), (7, 8), (8, 8), (9, 3), (11, 8), (15, 8), (17, 8), (18, 8), (22, 8), (25, 8)]
+=> Transfer: (3, 17)
+=> Transfer: (5, 29)
+=> Transfer: (3, 17)
+No transfer (inner -> border) found
+Evaluate board: 1.050179211469534
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.3505535055350554, 1.069090909090909]
+Depth search attack 29->30
+No transfer (inner -> border) found
+Evaluate board: 1.069090909090909
+States in turn 0
+Best evaluation [0.3505535055350554, 1.069090909090909]
+Best value attack 10->14
+End turn, time: 0.16750192642211914
+####### NEW TURN #######
+Time left = 30.221156
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 7), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 7), (10, 7), (11, 8), (12, 8), (14, 6), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (21, 8), (22, 8), (24, 8), (25, 8), (27, 8), (29, 4), (30, 8), (33, 8)]
+border_areas: [(10, 7), (12, 8), (14, 6), (16, 8), (19, 8), (21, 8), (24, 8), (27, 8), (30, 8)]
+inner_areas: [(1, 8), (2, 7), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 7), (11, 8), (15, 8), (17, 8), (18, 8), (22, 8), (25, 8), (29, 4), (33, 8)]
+=> Transfer: (5, 9)
+=> Transfer: (9, 10)
+=> Transfer: (4, 6)
+=> Transfer: (33, 14)
+=> Transfer: (4, 6)
+No transfer (inner -> border) found
+Evaluate board: 1.106164383561644
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.2972027972027972, 1.1134020618556701]
+Depth search attack 14->26
+No transfer (inner -> border) found
+Evaluate board: 1.1134020618556701
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.2704626334519573, 1.0669014084507042]
+Depth search attack 26->32
+End turn, time: 0.13733649253845215
+####### NEW TURN #######
+Time left = 32.101374
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (22, 8), (24, 6), (25, 8), (26, 8), (27, 8), (29, 8), (30, 8), (32, 8), (33, 8)]
+border_areas: [(10, 8), (12, 8), (17, 8), (19, 8), (24, 6), (27, 8), (30, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (11, 8), (14, 8), (15, 8), (16, 8), (18, 8), (22, 8), (25, 8), (26, 8), (29, 8), (32, 8), (33, 8)]
+=> Transfer: (26, 14)
+No transfer (inner -> border) found
+Evaluate board: 1.080536912751678
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.21472579353846155, 1.077154446747405]
+Depth search attack 17->21
+=> Transfer: (30, 21)
+=> Transfer: (5, 9)
+No transfer (inner -> border) found
+Evaluate board: 1.0934256055363323
+States in turn 0
+Best evaluation [0.1958041958041958, 1.0934256055363323]
+Best value attack 10->13
+End turn, time: 0.12757587432861328
+####### NEW TURN #######
+Time left = 33.486039
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (21, 8), (22, 8), (24, 8), (25, 8), (26, 8), (27, 8), (29, 8), (30, 8), (32, 8), (33, 8)]
+border_areas: [(10, 8), (12, 8), (19, 8), (21, 8), (24, 8), (27, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (11, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (22, 8), (25, 8), (26, 8), (29, 8), (30, 8), (32, 8), (33, 8)]
+=> Transfer: (5, 9)
+No transfer (inner -> border) found
+Evaluate board: 1.089700996677741
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.1963154151541582, 1.0642160904581957]
+Depth search attack 12->13
+=> Transfer: (10, 13)
+=> Transfer: (9, 12)
+No transfer (inner -> border) found
+Evaluate board: 1.0551724137931036
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.1602787456445993, 1.0452961672473868]
+Depth search attack 13->20
+End turn, time: 0.10197210311889648
+####### NEW TURN #######
+Time left = 34.900286
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (24, 8), (25, 8), (26, 8), (27, 8), (29, 8), (30, 8), (32, 8), (33, 8)]
+border_areas: [(21, 8), (27, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (22, 8), (24, 8), (25, 8), (26, 8), (29, 8), (30, 8), (32, 8), (33, 8)]
+=> Transfer: (3, 17)
+No transfer (inner -> border) found
+Evaluate board: 1.0293159609120521
+States in turn 0
+Best evaluation [0.1758957654723127, 1.0293159609120521]
+Best value attack 21->23
+=> Transfer: (17, 21)
+=> Transfer: (3, 17)
+No transfer (inner -> border) found
+Evaluate board: 1.0369127516778522
+States in turn 0
+Best evaluation [0.16778523489932887, 1.0369127516778522]
+Best value attack 21->23
+End turn, time: 0.025972604751586914
+####### NEW TURN #######
+Time left = 36.385005
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 6), (24, 8), (25, 8), (26, 8), (27, 6), (29, 8), (30, 8), (32, 8), (33, 8)]
+border_areas: [(23, 6), (27, 6)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (24, 8), (25, 8), (26, 8), (29, 8), (30, 8), (32, 8), (33, 8)]
+=> Transfer: (30, 21)
+=> Transfer: (21, 23)
+=> Transfer: (30, 21)
+=> Transfer: (21, 27)
+=> Transfer: (3, 17)
+No transfer (inner -> border) found
+Evaluate board: 1.098976109215017
+States in turn 0
+Best evaluation [0.08191126279863481, 1.098976109215017]
+Best value attack 23->28
+No transfer (inner -> border) found
+Evaluate board: 1.1137931034482758
+States in turn 0
+Best evaluation [0.08275862068965517, 1.1137931034482758]
+Best value attack 27->31
+End turn, time: 0.050780296325683594
+####### NEW TURN #######
+Time left = 38.357411
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 6), (29, 8), (30, 8), (31, 8), (32, 8), (33, 8)]
+border_areas: [(28, 6), (31, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (29, 8), (30, 8), (32, 8), (33, 8)]
+=> Transfer: (21, 23)
+=> Transfer: (23, 28)
+=> Transfer: (21, 23)
+No transfer (inner -> border) found
+Evaluate board: 1.1466666666666667
+Depth: 4, States: 2
+States in turn 2
+Best evaluation [0.0, 1.114864864864865]
+Depth search attack 28->34
+No transfer (inner -> border) found
+Evaluate board: 1.114864864864865
+States in turn 0
+Best evaluation [0.0, 1.114864864864865]
+No attack
+End turn, time: 0.031838417053222656
+####### NEW TURN #######
+Time left = 10.0
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 1), (2, 2), (3, 2), (4, 5), (5, 1), (12, 4), (13, 3), (14, 2), (15, 1), (17, 2), (18, 5), (21, 4), (33, 3)]
+border_areas: [(4, 5), (5, 1), (12, 4), (13, 3), (14, 2), (15, 1), (17, 2), (18, 5), (33, 3)]
+inner_areas: [(1, 1), (2, 2), (3, 2), (21, 4)]
+=> Transfer: (2, 21)
+=> Transfer: (21, 12)
+No transfer (inner -> border) found
+Evaluate board: 0.6791044776119403
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 4, States: 3
+States in turn 11
+Best evaluation [0.8017266232898622, 0.6948700319534884]
+Depth search attack 4->6
+No transfer (inner -> border) found
+Evaluate board: 0.7
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.7720658566999488, 0.7160674671577381]
+Depth search attack 6->10
+End turn, time: 0.34349536895751953
+####### NEW TURN #######
+Time left = 10.915057000000001
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 1), (2, 5), (3, 3), (4, 2), (5, 1), (6, 1), (10, 5), (12, 8), (13, 3), (14, 3), (15, 3), (17, 4), (18, 5), (21, 2), (33, 4)]
+border_areas: [(4, 2), (10, 5), (12, 8), (13, 3), (14, 3), (17, 4), (18, 5), (33, 4)]
+inner_areas: [(1, 1), (2, 5), (3, 3), (5, 1), (6, 1), (15, 3), (21, 2)]
+=> Transfer: (2, 21)
+=> Transfer: (21, 18)
+No transfer (inner -> border) found
+Evaluate board: 0.7267080745341615
+Depth: 2, States: 2
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 2, States: 3
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 4, States: 3
+States in turn 15
+Best evaluation [0.7300287048363636, 0.7324600161281833]
+Depth search attack 18->22
+No transfer (inner -> border) found
+Evaluate board: 0.7354838709677419
+Depth: 2, States: 3
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 2, States: 3
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 4, States: 3
+States in turn 17
+Best evaluation [0.6912751677852349, 0.7284768211920529]
+Depth search attack 22->29
+End turn, time: 0.6285750865936279
+####### NEW TURN #######
+Time left = 11.547398
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 2), (2, 1), (3, 4), (4, 2), (5, 3), (6, 1), (10, 5), (12, 8), (13, 5), (14, 6), (15, 3), (17, 5), (18, 1), (21, 5), (22, 2), (29, 8), (33, 6)]
+border_areas: [(4, 2), (10, 5), (12, 8), (13, 5), (14, 6), (17, 5), (22, 2)]
+inner_areas: [(1, 2), (2, 1), (3, 4), (5, 3), (6, 1), (15, 3), (18, 1), (21, 5), (29, 8), (33, 6)]
+=> Transfer: (1, 3)
+=> Transfer: (29, 22)
+No transfer (inner -> border) found
+Evaluate board: 0.7608695652173914
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.648959122843268, 0.7323500159776536]
+Depth search attack 17->11
+=> Transfer: (14, 11)
+=> Transfer: (11, 10)
+=> Transfer: (15, 5)
+=> Transfer: (3, 4)
+Out of transfers (6/6)
+Evaluate board: 0.770949720670391
+Depth: 4, States: 3
+States in turn 3
+Best evaluation [0.6534090909090909, 0.7865168539325843]
+Depth search attack 10->8
+End turn, time: 0.14192557334899902
+####### NEW TURN #######
+Time left = 13.675771
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 1), (2, 3), (3, 3), (4, 6), (5, 6), (6, 2), (8, 8), (10, 4), (11, 6), (12, 8), (13, 4), (14, 3), (15, 2), (17, 1), (18, 3), (21, 7), (22, 8), (29, 4), (33, 6)]
+border_areas: [(4, 6), (8, 8), (10, 4), (12, 8), (13, 4), (22, 8)]
+inner_areas: [(1, 1), (2, 3), (3, 3), (5, 6), (6, 2), (11, 6), (14, 3), (15, 2), (17, 1), (18, 3), (21, 7), (29, 4), (33, 6)]
+=> Transfer: (14, 11)
+=> Transfer: (11, 10)
+=> Transfer: (2, 21)
+=> Transfer: (5, 4)
+=> Transfer: (15, 5)
+No transfer (inner -> border) found
+Evaluate board: 0.8028846153846154
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 1, States: 3
+Depth: 2, States: 2
+Depth: 2, States: 2
+Depth: 3, States: 1
+Depth: 4, States: 3
+States in turn 14
+Best evaluation [0.5816975197622631, 0.7917770654851373]
+Depth search attack 10->7
+=> Transfer: (4, 7)
+Out of transfers (6/6)
+Evaluate board: 0.8009950248756219
+Depth: 1, States: 2
+Depth: 1, States: 1
+Depth: 1, States: 1
+Depth: 2, States: 3
+Depth: 2, States: 3
+Depth: 3, States: 1
+Depth: 4, States: 1
+States in turn 12
+Best evaluation [0.5839008410753624, 0.7480269811397197]
+Depth search attack 8->9
+End turn, time: 0.4036407470703125
+####### NEW TURN #######
+Time left = 15.547766
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 2), (2, 4), (3, 4), (4, 8), (5, 6), (6, 2), (7, 8), (8, 1), (9, 8), (10, 1), (11, 5), (12, 8), (13, 7), (14, 5), (15, 2), (17, 2), (18, 4), (21, 8), (22, 8), (29, 5), (33, 8)]
+border_areas: [(7, 8), (8, 1), (9, 8), (12, 8), (22, 8)]
+inner_areas: [(1, 2), (2, 4), (3, 4), (4, 8), (5, 6), (6, 2), (10, 1), (11, 5), (13, 7), (14, 5), (15, 2), (17, 2), (18, 4), (21, 8), (29, 5), (33, 8)]
+=> Transfer: (5, 4)
+No transfer (inner -> border) found
+Evaluate board: 0.7735042735042735
+States in turn 0
+Best evaluation [0.5689655172413793, 0.7735042735042735]
+Best value attack 7->19
+=> Transfer: (4, 7)
+=> Transfer: (5, 4)
+No transfer (inner -> border) found
+Evaluate board: 0.8362831858407079
+States in turn 0
+Best evaluation [0.5446428571428571, 0.8362831858407079]
+Best value attack 7->16
+End turn, time: 0.052053213119506836
+####### NEW TURN #######
+Time left = 17.007189
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 5), (2, 6), (3, 5), (4, 6), (5, 2), (6, 3), (7, 4), (8, 1), (9, 8), (10, 2), (11, 6), (12, 8), (13, 7), (14, 8), (15, 5), (16, 7), (17, 2), (18, 5), (21, 8), (22, 8), (29, 8), (33, 8)]
+border_areas: [(7, 4), (8, 1), (9, 8), (16, 7)]
+inner_areas: [(1, 5), (2, 6), (3, 5), (4, 6), (5, 2), (6, 3), (10, 2), (11, 6), (12, 8), (13, 7), (14, 8), (15, 5), (17, 2), (18, 5), (21, 8), (22, 8), (29, 8), (33, 8)]
+=> Transfer: (21, 12)
+=> Transfer: (12, 16)
+=> Transfer: (21, 12)
+=> Transfer: (4, 7)
+=> Transfer: (29, 22)
+=> Transfer: (10, 8)
+Out of transfers (6/6)
+Evaluate board: 0.768
+States in turn 0
+Best evaluation [0.5341365461847389, 0.768]
+Best value attack 7->19
+Out of transfers (6/6)
+Evaluate board: 0.7925311203319502
+States in turn 0
+Best evaluation [0.4791666666666667, 0.7925311203319502]
+Best value attack 16->25
+End turn, time: 0.04848289489746094
+####### NEW TURN #######
+Time left = 19.2252
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 6), (2, 8), (3, 5), (4, 3), (5, 4), (6, 3), (7, 3), (8, 5), (9, 8), (10, 5), (11, 8), (12, 8), (13, 8), (14, 8), (15, 6), (16, 2), (17, 3), (18, 7), (19, 7), (21, 8), (22, 8), (29, 8), (33, 8)]
+border_areas: [(9, 8), (16, 2), (19, 7)]
+inner_areas: [(1, 6), (2, 8), (3, 5), (4, 3), (5, 4), (6, 3), (7, 3), (8, 5), (10, 5), (11, 8), (12, 8), (13, 8), (14, 8), (15, 6), (17, 3), (18, 7), (21, 8), (22, 8), (29, 8), (33, 8)]
+=> Transfer: (21, 12)
+=> Transfer: (12, 16)
+=> Transfer: (21, 12)
+=> Transfer: (8, 19)
+=> Transfer: (29, 22)
+No transfer (inner -> border) found
+Evaluate board: 0.7916666666666666
+States in turn 0
+Best evaluation [0.4790874524714829, 0.7916666666666666]
+Best value attack 16->25
+No transfer (inner -> border) found
+Evaluate board: 0.8203125
+States in turn 0
+Best evaluation [0.4549019607843137, 0.8203125]
+Best value attack 9->20
+End turn, time: 0.04999947547912598
+####### NEW TURN #######
+Time left = 21.1961
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 6), (4, 4), (5, 8), (6, 5), (7, 7), (8, 6), (9, 1), (10, 5), (11, 8), (12, 8), (13, 8), (14, 8), (15, 7), (16, 1), (17, 6), (18, 8), (19, 8), (20, 6), (21, 5), (22, 8), (29, 8), (33, 8)]
+border_areas: [(16, 1), (19, 8), (20, 6)]
+inner_areas: [(1, 8), (2, 8), (3, 6), (4, 4), (5, 8), (6, 5), (7, 7), (8, 6), (9, 1), (10, 5), (11, 8), (12, 8), (13, 8), (14, 8), (15, 7), (17, 6), (18, 8), (21, 5), (22, 8), (29, 8), (33, 8)]
+=> Transfer: (18, 12)
+=> Transfer: (12, 16)
+=> Transfer: (18, 12)
+No transfer (inner -> border) found
+Evaluate board: 0.8364312267657993
+States in turn 0
+Best evaluation [0.43866171003717475, 0.8364312267657993]
+Best value attack 16->25
+=> Transfer: (19, 20)
+=> Transfer: (13, 9)
+=> Transfer: (19, 25)
+Out of transfers (6/6)
+Evaluate board: 0.85
+States in turn 0
+Best evaluation [0.38461538461538464, 0.85]
+Best value attack 20->24
+End turn, time: 0.04310798645019531
+####### NEW TURN #######
+Time left = 23.419864
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 6), (4, 8), (5, 8), (6, 7), (7, 7), (8, 8), (9, 8), (10, 7), (11, 8), (12, 8), (13, 3), (14, 8), (15, 8), (16, 2), (17, 8), (18, 4), (19, 6), (20, 3), (21, 8), (22, 8), (25, 8), (29, 8), (33, 8)]
+border_areas: [(20, 3), (25, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 6), (4, 8), (5, 8), (6, 7), (7, 7), (8, 8), (9, 8), (10, 7), (11, 8), (12, 8), (13, 3), (14, 8), (15, 8), (16, 2), (17, 8), (18, 4), (19, 6), (21, 8), (22, 8), (29, 8), (33, 8)]
+=> Transfer: (8, 19)
+=> Transfer: (19, 20)
+=> Transfer: (12, 16)
+No transfer (inner -> border) found
+Evaluate board: 0.8505338078291815
+States in turn 0
+Best evaluation [0.37722419928825623, 0.8505338078291815]
+Best value attack 20->24
+=> Transfer: (9, 20)
+=> Transfer: (16, 19)
+=> Transfer: (25, 24)
+Out of transfers (6/6)
+Evaluate board: 0.8827838827838828
+States in turn 0
+Best evaluation [0.3795620437956204, 0.8827838827838828]
+Best value attack 24->31
+End turn, time: 0.04113578796386719
+####### NEW TURN #######
+Time left = 25.644173
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 6), (4, 8), (5, 8), (6, 8), (7, 8), (8, 7), (9, 2), (10, 8), (11, 8), (12, 5), (13, 6), (14, 8), (15, 8), (16, 6), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (25, 8), (29, 8), (33, 8)]
+border_areas: [(20, 8), (25, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 6), (4, 8), (5, 8), (6, 8), (7, 8), (8, 7), (9, 2), (10, 8), (11, 8), (12, 5), (13, 6), (14, 8), (15, 8), (16, 6), (17, 8), (18, 8), (19, 8), (21, 8), (22, 8), (29, 8), (33, 8)]
+=> Transfer: (7, 19)
+No transfer (inner -> border) found
+Evaluate board: 0.8561643835616438
+States in turn 0
+Best evaluation [0.363013698630137, 0.8561643835616438]
+Best value attack 20->24
+=> Transfer: (19, 20)
+=> Transfer: (7, 19)
+No transfer (inner -> border) found
+Evaluate board: 0.8586572438162544
+States in turn 0
+Best evaluation [0.36042402826855124, 0.8586572438162544]
+Best value attack 20->24
+End turn, time: 0.04266548156738281
+####### NEW TURN #######
+Time left = 27.118054
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 3), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (25, 8), (29, 8), (33, 8)]
+border_areas: [(20, 8), (25, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 3), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (21, 8), (22, 8), (29, 8), (33, 8)]
+=> Transfer: (8, 19)
+No transfer (inner -> border) found
+Evaluate board: 0.87
+States in turn 0
+Best evaluation [0.34, 0.87]
+Best value attack 20->24
+=> Transfer: (19, 20)
+=> Transfer: (8, 19)
+No transfer (inner -> border) found
+Evaluate board: 0.872852233676976
+States in turn 0
+Best evaluation [0.33676975945017185, 0.872852233676976]
+Best value attack 20->24
+End turn, time: 0.03760504722595215
+####### NEW TURN #######
+Time left = 28.593239
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (24, 6), (25, 8), (29, 8), (33, 8)]
+border_areas: [(20, 8), (24, 6)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (21, 8), (22, 8), (25, 8), (29, 8), (33, 8)]
+=> Transfer: (16, 19)
+=> Transfer: (25, 24)
+=> Transfer: (16, 19)
+No transfer (inner -> border) found
+Evaluate board: 0.9013157894736842
+States in turn 0
+Best evaluation [0.32786885245901637, 0.9013157894736842]
+Best value attack 24->31
+=> Transfer: (25, 24)
+=> Transfer: (16, 19)
+No transfer (inner -> border) found
+Evaluate board: 0.939799331103679
+States in turn 0
+Best evaluation [0.28859060402684567, 0.939799331103679]
+Best value attack 20->23
+End turn, time: 0.04681873321533203
+####### NEW TURN #######
+Time left = 30.564139
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (24, 8), (25, 8), (29, 8), (31, 6), (33, 8)]
+border_areas: [(20, 8), (24, 8), (31, 6)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (21, 8), (22, 8), (25, 8), (29, 8), (33, 8)]
+=> Transfer: (16, 19)
+No transfer (inner -> border) found
+Evaluate board: 0.9931506849315068
+Depth: 4, States: 2
+States in turn 2
+Best evaluation [0.2058586063155529, 0.9985288297836312]
+Depth search attack 20->23
+No transfer (inner -> border) found
+Evaluate board: 1.0246478873239437
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.16428571428571428, 1.0390070921985815]
+Depth search attack 23->32
+End turn, time: 0.07543373107910156
+####### NEW TURN #######
+Time left = 31.498272
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8), (24, 8), (25, 8), (29, 8), (31, 8), (32, 8), (33, 8)]
+border_areas: [(23, 8), (24, 8), (31, 8), (32, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (25, 8), (29, 8), (33, 8)]
+=> Transfer: (19, 20)
+No transfer (inner -> border) found
+Evaluate board: 1.0557377049180328
+States in turn 0
+Best evaluation [0.1848184818481848, 1.0557377049180328]
+Best value attack 23->26
+=> Transfer: (20, 23)
+=> Transfer: (19, 20)
+=> Transfer: (32, 26)
+=> Transfer: (9, 20)
+No transfer (inner -> border) found
+Evaluate board: 1.08
+States in turn 0
+Best evaluation [0.174496644295302, 1.08]
+Best value attack 26->27
+End turn, time: 0.0492401123046875
+####### NEW TURN #######
+Time left = 33.464499
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8), (24, 8), (25, 8), (26, 8), (29, 8), (31, 8), (32, 8), (33, 8)]
+border_areas: [(23, 8), (24, 8), (26, 8), (31, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (25, 8), (29, 8), (32, 8), (33, 8)]
+=> Transfer: (19, 20)
+No transfer (inner -> border) found
+Evaluate board: 1.0921052631578947
+States in turn 0
+Best evaluation [0.16556291390728478, 1.0921052631578947]
+Best value attack 23->28
+=> Transfer: (24, 28)
+=> Transfer: (20, 23)
+No transfer (inner -> border) found
+Evaluate board: 1.0816326530612246
+Depth: 4, States: 2
+States in turn 2
+Best evaluation [0.08212185887719298, 1.0896172406923077]
+Depth search attack 26->27
+End turn, time: 0.06377840042114258
+####### NEW TURN #######
+Time left = 34.913829
+Player name = 2
+Player order = [1, 2]
+all_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8), (24, 8), (25, 8), (26, 8), (27, 8), (28, 8), (29, 8), (31, 8), (32, 8), (33, 8)]
+border_areas: [(27, 8), (28, 8)]
+inner_areas: [(1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8), (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8), (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8), (24, 8), (25, 8), (26, 8), (29, 8), (31, 8), (32, 8), (33, 8)]
+=> Transfer: (32, 26)
+No transfer (inner -> border) found
+Evaluate board: 1.105263157894737
+States in turn 0
+Best evaluation [0.066006600660066, 1.105263157894737]
+Best value attack 27->30
+=> Transfer: (28, 30)
+=> Transfer: (26, 27)
+No transfer (inner -> border) found
+Evaluate board: 1.1036789297658862
+Depth: 4, States: 1
+States in turn 1
+Best evaluation [0.02553355096551724, 1.1026507787586208]
+Depth search attack 30->34
+End turn, time: 0.03404736518859863
+012Win counts {'xkuder04.xkuder04 (AI)': 3}
+Nb battles min/avg/max 45/65.67/82

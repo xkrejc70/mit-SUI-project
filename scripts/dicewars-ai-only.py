@@ -2,6 +2,7 @@
 import sys
 from signal import signal, SIGCHLD
 from argparse import ArgumentParser
+import time
 
 from dicewars.server.summary import get_win_rates
 from utils import run_ai_only_game, ListStats, BoardDefinition
@@ -51,7 +52,9 @@ def main():
         exit(1)
 
     summaries = []
+    times = []
     for i in range(args.nb_games):
+        start = time.time()
         if args.report:
             sys.stdout.write('\r{}'.format(i))
         try:
@@ -73,6 +76,9 @@ def main():
         except AttributeError:
             for p in procs:
                 p.kill()
+        end = time.time()
+        times.append(end-start)
+
     if args.report:
         sys.stdout.write('\r')
 
@@ -82,6 +88,13 @@ def main():
     nb_battles_stats = ListStats([s.nb_battles for s in summaries])
     sys.stdout.write("Nb battles {}\n".format(nb_battles_stats))
 
+    # Edit for time messurment
+    times = [round(x, 3) for x in times]
+    mean = round(sum(times)/len(times), 3)
+    max_time = max(times)
+    dif = round(max(times) - sum(times)/len(times), 3)
+    sys.stdout.write(f"\nTimes = {sorted(times)}\n")
+    sys.stdout.write(f"Mean time = {mean}, Max time = {max_time}, Dif = {dif}\n")
 
 if __name__ == '__main__':
     main()

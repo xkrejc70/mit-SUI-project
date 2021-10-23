@@ -6,10 +6,13 @@ from ..Mplayer import Mplayer
 from dicewars.ai.utils import attack_succcess_probability, probability_of_successful_attack, probability_of_holding_area
 
 # List of resonable attacks for specified player
-# Returns moves that have good probability of success and have good chance to sorvive other AIs moves
+# Returns X moves that have good probability of success and have good chance to sorvive other AIs moves
 # TODO make complexer moves selector
 def resonable_attacks_for_player(player: int, board: Board):
+    min_joined_probability = 0.4
+    max_attacks = 3
     list_of_attacks = []
+
     for area in board.get_player_border(player):
         if not area.can_attack():
             continue
@@ -20,11 +23,10 @@ def resonable_attacks_for_player(player: int, board: Board):
             adjacent_area = board.get_area(adj)
             if adjacent_area.get_owner_name() != player:
                 joined_probability = probability_of_successful_attack_and_one_turn_hold(player, board, area, adjacent_area)
-                if joined_probability >= 0.4:
-                    list_of_attacks.append((area, adjacent_area))
+                if joined_probability >= min_joined_probability:
+                    list_of_attacks.append((area, adjacent_area, joined_probability))
                     
-
-    return list_of_attacks
+    return sorted(list_of_attacks, key= lambda x: x[2])[-max_attacks:]
 
 # Calculates joined probability of succesfull atack and holding conquered area for another turn
 def probability_of_successful_attack_and_one_turn_hold(player, board, area, adjacent_area):
