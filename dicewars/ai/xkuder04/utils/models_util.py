@@ -41,24 +41,30 @@ def load_model(filepath):
         return pickle.load(f)
 
 def create_rf_regr(features, values):
-    regr = RandomForestRegressor()
+    regr = RandomForestRegressor(max_depth=3)
     regr.fit(features, values)
     return regr
 
+def normalize_values(values):
+    max_val = max(values)
+    return [round(val/max_val,3)for val in values]
 
-eval_state = "eval_state"
-eval_state_raw = model_data_dir_filepath(f"{eval_state}.raw")
-lines = file2lines(eval_state_raw)
-lines = filter_score_increase(lines)
+def create_eval_state():
+    eval_state = "eval_state"
+    eval_state_raw = model_data_dir_filepath(f"{eval_state}.raw")
+    lines = file2lines(eval_state_raw)
+    lines = filter_score_increase(lines)
 
-features = [line[:-1] for line in lines]
-values = [line[-1] for line in lines]
-regr = create_rf_regr(features, values)
+    features = [line[:-1] for line in lines]
+    values = normalize_values([line[-1] for line in lines])
+    regr = create_rf_regr(features, values)
 
-print(regr.predict([[20, 96, 19, 19, 34, 175, 3]]))
+    #print(regr.predict([[20, 96, 19, 19, 34, 175, 3]]))
 
-model_path = models_dir_filepath("eval_state_rf.model")
-save_model(regr, model_path)
+    model_path = models_dir_filepath("eval_state_rf.model")
+    save_model(regr, model_path)
 
-l_regr = load_model(model_path)
-print(l_regr.predict([[20, 96, 19, 15, 34, 175, 3]]))
+#l_regr = load_model(model_path)
+#print(l_regr.predict([[20, 96, 19, 15, 34, 175, 3]]))
+
+create_eval_state()

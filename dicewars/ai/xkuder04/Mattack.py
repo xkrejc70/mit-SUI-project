@@ -3,6 +3,7 @@ from dicewars.client.game.area import Area
 from numpy import inf
 from dicewars.ai.utils import save_state, probability_of_successful_attack, attack_succcess_probability
 from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board, evaluate_board_me
+from .utils.models_util import load_model, models_dir_filepath
 
 class Mattack:
     def __init__(self, depth, players_order, players_ordered, player_index):
@@ -10,6 +11,7 @@ class Mattack:
         self.players_order = players_order
         self.players_ordered = players_ordered
         self.player_index = player_index
+        self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
 
     def best_result(self, board):
         evaluate_board_me(board, self.players_order[self.player_index], self.players_ordered)
@@ -22,7 +24,7 @@ class Mattack:
             # Evaluation for each player
             evaluation_list = []
             for i in range(len(self.players_order)):
-                evaluation_list.append(evaluate_board(board, self.players_order[i], self.players_ordered))
+                evaluation_list.append(evaluate_board(board, self.players_order[i], self.players_ordered, self.regr))
             return None, evaluation_list
 
         # Get best move from all moves of player i 

@@ -10,7 +10,7 @@ from utils import column_t
 import random
 import sys
 import pickle
-
+import traceback
 
 parser = ArgumentParser(prog='Dice_Wars')
 parser.add_argument('-p', '--port', help="Server port", type=int, default=5005)
@@ -49,10 +49,10 @@ PLAYING_AIs = [
     #'dt.wpm_c',
     #'kb.sdc_post_at',
     #'kb.sdc_post_dt',
-    #'kb.sdc_pre_at', # X
-    #'kb.stei_adt', # X
+    'kb.sdc_pre_at', # X
+    'kb.stei_adt', # X
     'kb.stei_at', # X
-    #'kb.stei_dt', # X
+    'kb.stei_dt', # X
     'xkuder04.xkuder04' # X
     # 'kb.xlogin42',
     # 'kb.xlogin00',
@@ -127,6 +127,8 @@ def main():
                 all_games.append(game_summary)
     except (Exception, KeyboardInterrupt) as e:
         sys.stderr.write("Breaking the tournament because of {}\n".format(repr(e)))
+        #our
+        sys.stderr.write(f"\n{traceback.format_exc()}\n")
         for p in procs:
             p.kill()
 

@@ -4,6 +4,7 @@ from dicewars.client.game.area import Area
 from typing import Iterator, List, Tuple
 from ..Mplayer import Mplayer
 from dicewars.ai.utils import attack_succcess_probability, probability_of_successful_attack, probability_of_holding_area
+from .models_util import load_model, models_dir_filepath
 
 # List of resonable attacks for specified player
 # Returns X moves that have good probability of success and have good chance to sorvive other AIs moves
@@ -43,7 +44,7 @@ def probability_of_successful_attack_and_one_turn_hold(player, board, area, adja
 
 # Evaluate board score for player
 # TODO make complexer evaluation
-def evaluate_board(board: Board, player_name: int, players_ordered: List[int]) -> float:
+def evaluate_board(board: Board, player_name: int, players_ordered: List[int], regr) -> float:
     players = [Mplayer(board, player_name) for player_name in players_ordered]
     total_areas = sum(player.n_all_areas for player in players)
     total_dices = sum(player.n_dice for player in players)
@@ -53,7 +54,17 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int]) -
     up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size
     down = total_areas + total_dices + player.n_border_areas
     score = player.is_alive*(up/down)
-    return score
+
+    features = [player.n_all_areas, player.n_dice, player.n_border_dice, player.n_biggest_region_size, total_areas, total_dices, player.n_border_areas]
+    #regr = load_model(models_dir_filepath("eval_state_rf.model"))
+    regr_result = regr.predict([features])[0]
+
+    #print(f"Score: {score}, Rscore: {regr_result}")
+    #diff = round(score-regr_result, 3)
+    #print(diff)
+
+    #return score
+    return regr_result
 
 #TODO delete
 def evaluate_board_me(board: Board, player_name: int, players_ordered: List[int]) -> float:
@@ -66,7 +77,7 @@ def evaluate_board_me(board: Board, player_name: int, players_ordered: List[int]
     up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size
     down = total_areas + total_dices + player.n_border_areas
     score = player.is_alive*(up/down)
-    print([player.n_all_areas, player.n_dice, player.n_border_dice, player.n_biggest_region_size, total_areas, total_dices, player.n_border_areas, score])
+    #print([player.n_all_areas, player.n_dice, player.n_border_dice, player.n_biggest_region_size, total_areas, total_dices, player.n_border_areas, score])
     return score
 
 # Simulate winning move on board

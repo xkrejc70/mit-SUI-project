@@ -31,12 +31,12 @@ class AI:
         self.players_ordered = sorted(players_order)
         self.logger = logging.getLogger('AI')
         self.allow_logs = False
-        self.min_time_left = 5
+        self.min_time_left = 6
         self.max_attacks_per_round = 4
         self.depth = 4
+        self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index)
         
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
-        mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index)
         # TODO
         """
         Start evaluation tournament:  python3 ./scripts/dicewars-tournament.py -r -g 2 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -s 1337 -l logy
@@ -79,11 +79,11 @@ class AI:
         # For testing purpuses can be switched between testing AI and AI in construction
         # Testing of Expectiminimax
        
-        self.debug_print(f"Evaluate board: {evaluate_board(board, self.player_name, self.players_ordered)}")
+        self.debug_print(f"Evaluate board: {evaluate_board(board, self.player_name, self.players_ordered, self.mattack.regr)}")
 
         # TODO IF evaluation infinite then tranfer die
         # TODO for board with many possibilities is calc time bigger then 10s
-        move, evaluation = mattack.best_result(board)
+        move, evaluation = self.mattack.best_result(board)
         #move, evaluation = self.best_result_for_given_depth(board, self.players_order.index(self.player_name), 4)
 
         self.debug_print(f"Best evaluation {evaluation}")
