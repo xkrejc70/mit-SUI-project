@@ -11,9 +11,9 @@ class Mplayer:
         self.n_inner_areas = len(self.inner_areas)
         self.n_border_dice = sum(a.get_dice() for a in self.border_areas)
         self.is_alive = bool(self.n_all_areas)
-        #self.print_F()
 
-    def print_F(self):
+    #TODO delete
+    """def print_F(self):
         print(f"player_name : {self.player_name}")
         print(f"n_dice : {self.n_dice}")
         print(f"all_areas : {[(a.get_name(), a.get_dice()) for a in self.all_areas]}")
@@ -22,4 +22,4 @@ class Mplayer:
         print(f"n_all_areas : {self.n_all_areas}")
         print(f"n_border_areas : {self.n_border_areas}")
         print(f"is_alive : {self.is_alive}")
-        print()
+        print()"""
