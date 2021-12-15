@@ -8,7 +8,7 @@ case $1 in
     ;;
 
   2)
-    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 1 --ai dt.stei xkuder04.xkuder04 -l logy # 10 HER STEI
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 --ai dt.stei xkuder04.xkuder04 -l logy # 10 HER STEI
     ;;
 
   3)
