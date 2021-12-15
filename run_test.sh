@@ -4,15 +4,23 @@
 case $1 in
 
   1)
-    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 1 --ai dt.stei xkuder04.xkuder04 -l logy # 1 HRA STEI
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 1 --ai dt.stei xkuder04.xkuder04 -l logy # 1 HRA dt.stei 
     ;;
 
   2)
-    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 --ai dt.stei xkuder04.xkuder04 -l logy # 10 HER STEI
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 --ai dt.stei xkuder04.xkuder04 -l logy # 10 HER dt.stei 
     ;;
 
   3)
     python3 ./scripts/dicewars-tournament.py -r -g 2 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -s 1337 -l logy # EVALUEATION TOURNAMENT
+    ;;
+
+  4)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 1 --ai kb.stei_at xkuder04.xkuder04 -l logy # 1 HRA kb.stei_at
+    ;;
+
+  5)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 --ai kb.stei_at xkuder04.xkuder04 -l logy # 10 HER kb.stei_at
     ;;
 
   *)

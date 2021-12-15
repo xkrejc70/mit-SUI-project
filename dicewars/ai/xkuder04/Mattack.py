@@ -19,19 +19,25 @@ class Mattack:
 
     # Uses Expectimax-n
     def best_result_for_given_depth(self, board, player_index, depth):
-        # Maximal depth of searching
-        if ((not resonable_attacks_for_player(self.players_order[player_index], board)) or (depth == 0)):
+        reasonable_attacks = resonable_attacks_for_player(self.players_order[player_index], board)
+        #Do leaf part of search
+        if x:= self.part_leaf(reasonable_attacks, depth, board): return x
+        #Do recursive part of search
+        if x:= self.part_recursive(reasonable_attacks, depth, board, player_index): return x
+
+    def part_leaf(self, reasonable_attacks, depth, board):
+        if ((not reasonable_attacks) or (depth == 0)):
             # Evaluation for each player
             evaluation_list = []
             for i in range(len(self.players_order)):
                 evaluation_list.append(evaluate_board(board, self.players_order[i], self.players_ordered, self.regr))
             return None, evaluation_list
+        return None
 
-        # Get best move from all moves of player i 
-        # Each move consist of success and loss with respective probabilities
+    def part_recursive(self, reasonable_attacks, depth, board, player_index):
         max_evaluation = [-inf for i in range(len(self.players_order))]
         move = None
-        for atack in resonable_attacks_for_player(self.players_order[player_index], board):
+        for atack in reasonable_attacks:
             # Get porobabilities
             probability_of_win= probability_of_successful_attack(board, atack[0].get_name(), atack[1].get_name())
             probability_of_loss = 1 - probability_of_win
