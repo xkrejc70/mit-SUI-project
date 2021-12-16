@@ -6,6 +6,7 @@ from typing import Iterator, List, Tuple
 from ..Mplayer import Mplayer
 from dicewars.ai.utils import attack_succcess_probability, probability_of_successful_attack, probability_of_holding_area, possible_attacks
 from .models_util import load_model, models_dir_filepath
+from .debug import DP_FLAG, debug_print
 import time
 
 # List of resonable attacks for specified player
@@ -142,10 +143,10 @@ def is_endturn(time_left, min_time_left, nb_moves_this_turn, max_attacks_per_rou
 def print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_left):
     if nb_moves_this_turn == 0 and nb_transfers_this_turn == 0:
         self.turn_time = time.time()
-        self.debug_print(f"####### NEW TURN #######")
-        self.debug_print(f"Time left = {time_left}")
-        self.debug_print(f"Player name = {self.player_name}")
-        self.debug_print(f"Player order = {self.players_order}")
-        self.debug_print(f"all_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_areas(self.player_name)]}")
-        self.debug_print(f"border_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_border(self.player_name)]}")
-        self.debug_print(f"inner_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_areas(self.player_name) if a not in board.get_player_border(self.player_name)]}")
+        debug_print(f"\n####### NEW TURN #######", flag=DP_FLAG.NEW_TURN)
+        debug_print(f"Time left = {time_left}", flag=DP_FLAG.NEW_TURN)
+        debug_print(f"Player name = {self.player_name}", flag=DP_FLAG.NEW_TURN)
+        debug_print(f"Player order = {self.players_order}", flag=DP_FLAG.NEW_TURN)
+        #debug_print(f"all_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_areas(self.player_name)]}")
+        #debug_print(f"border_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_border(self.player_name)]}")
+        #debug_print(f"inner_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_areas(self.player_name) if a not in board.get_player_border(self.player_name)]}")

@@ -7,6 +7,7 @@ import time
 from .Mplayer import Mplayer
 from .Mattack import Mattack
 from .utils.utils import evaluate_board, is_endturn, print_start, best_possible_attack
+from .utils.debug import DP_FLAG, debug_print
 from .utils.transfer_utils import get_transfer_to_borders, get_transfer_to_spec_border
 
 from numpy.lib.function_base import append
@@ -30,8 +31,6 @@ class AI:
         self.max_transfers = max_transfers
         self.players_ordered = sorted(players_order)
         self.logger = logging.getLogger('AI')
-        self.allow_logs = False
-        #self.allow_logs = True
         self.min_time_left = 6
         self.max_attacks_per_round = 4
         self.depth = 4
@@ -48,7 +47,7 @@ class AI:
         if nb_moves_this_turn > 1:
             # TODO manage time
             if is_endturn(time_left, self.min_time_left, nb_moves_this_turn, self.max_attacks_per_round):
-                self.debug_print(f"End turn, time: {time.time() - self.turn_time}")
+                #debug_print(f"End turn, time: {time.time() - self.turn_time}")
                 return EndTurnCommand()
         return None
 
@@ -62,38 +61,33 @@ class AI:
             transfer = get_transfer_to_borders(player, board, transfer_depth)
             #transfer = self.get_transfer_to_spec_border(player, board, player.border_areas[0], 1)
             if transfer:
-                self.debug_print(f"=> Transfer: {transfer[0], transfer[1]}")
+                debug_print(f"=> Transfer: {transfer[0], transfer[1]}", flag=DP_FLAG.TRANSFER)
                 return TransferCommand(transfer[0], transfer[1])
             else:
-                self.debug_print(f"No transfer (inner -> border) found")
+                debug_print(f"No transfer (inner -> border) found", flag=DP_FLAG.TRANSFER)
         else:
-            self.debug_print(f"Out of transfers ({nb_transfers_this_turn}/{self.max_transfers})")
+            debug_print(f"Out of transfers ({nb_transfers_this_turn}/{self.max_transfers})", flag=DP_FLAG.TRANSFER)
         return None
 
     def part_attack(self, board):
-        self.debug_print(f"Evaluate board: {evaluate_board(board, self.player_name, self.players_ordered, self.mattack.regr)}")
+        debug_print(f"Evaluate board: {evaluate_board(board, self.player_name, self.players_ordered, self.mattack.regr)}")
 
         # TODO IF evaluation infinite then tranfer die
         # TODO for board with many possibilities is calc time bigger then 10s
         move, evaluation = self.mattack.best_result(board)
 
-        self.debug_print(f"Best evaluation {evaluation}")
+        debug_print(f"Best evaluation {evaluation}")
         if move: # ATTACK
-            self.debug_print(f"Depth search attack {move[0].get_name()}->{move[1].get_name()}")
+            debug_print(f"Depth search attack {move[0].get_name()}->{move[1].get_name()}")
             return BattleCommand(move[0].get_name(), move[1].get_name())
         else:
             # Try move with best chance of winning and holding arrea
             move = best_possible_attack(board, self.player_name)
 
             if move is not None:
-                self.debug_print(f"Best value attack {move[0].get_name()}->{move[1].get_name()}")
+                debug_print(f"Best value attack {move[0].get_name()}->{move[1].get_name()}")
                 return BattleCommand(move[0].get_name(), move[1].get_name())
             else:
-                self.debug_print("No attack")
+                debug_print("No attack")
                 return EndTurnCommand()
         return None
-
-    #TODO delete - Debug logger
-    def debug_print(self, text):
-        if self.allow_logs:
-            print(text)

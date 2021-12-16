@@ -23,6 +23,10 @@ case $1 in
     python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 --ai kb.stei_at xkuder04.xkuder04 -l logy # 10 HER kb.stei_at
     ;;
 
+  6)
+    python3 ./scripts/dicewars-human.py --ai kb.stei_at xkuder04.xkuder04 -l logy #HRA HUMAN
+    ;;
+
   *)
     echo "Unknown argument"
     ;;
