@@ -1,11 +1,14 @@
 from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
 import numpy as np
+from .debug import debug_print, DP_FLAG
 
 # Get transfer from inner_area to border_area
 # TODO generate states, find best based on the number of transfers
 # TODO presouvat na zaklade moznych utokz na borders (n_dice, dulezitost udrzeni hranice), presun kostek mezi borders
 def get_transfer_to_borders(player, board: Board, depth : int):
+    ebd = eval_board_distribution(player, board)
+    debug_print(f"Vector: {ebd}", DP_FLAG.TRANSFER_VECTOR)
     if depth == 1:
         # Get transfer from inner_area with the most dice
         best_transfers = []
@@ -102,3 +105,45 @@ def from_largest_region(logger, board, attacks, player_name):
     the_largest_region = max_sized_regions[0]
     logger.debug('The largest region: {}'.format(the_largest_region))
     return [attack for attack in attacks if attack[0].get_name() in the_largest_region]
+
+def board2dist_dict_recursive(dist, dist_dict, dist_dict_set, area_names, board):
+    dist_dict[dist] = []
+    for b_a in dist_dict[dist-1]:
+        for nb_a_name in b_a.get_adjacent_areas_names():
+            if nb_a_name not in dist_dict_set and nb_a_name in area_names:
+                dist_dict[dist].append(board.get_area(nb_a_name))
+                dist_dict_set.add(nb_a_name)
+    if len(dist_dict[dist]) != 0:
+        board2dist_dict_recursive(dist+1, dist_dict, dist_dict_set, area_names, board)
+    else:
+        del dist_dict[dist]
+
+def player_board2dist_dict(player, board: Board):
+    area_names = [a.name for a in player.all_areas]
+    dist_dict_set = set()
+    dist_dict = {}
+    dist = 1
+    dist_dict[dist] = []
+    for b_a in player.border_areas:
+        dist_dict[dist].append(b_a)
+        dist_dict_set.add(b_a.name)
+    board2dist_dict_recursive(dist+1, dist_dict, dist_dict_set, area_names, board)
+    return dist_dict
+
+def dist_dict2vector(dist_dict):
+    vector = 1
+    dist_values = {}
+    for distance in dist_dict.keys():
+        dist_values[distance] = 0
+        for area in dist_dict[distance]:
+            dist_values[distance] += area.dice
+    #count = sum(dist_values[distance] for distance in dist_values.keys())
+    m_count = sum(dist_values[distance]*distance for distance in dist_values.keys())
+    for distance in range(2, len(dist_values.keys())):
+        vector -= distance * (dist_values[distance]/m_count)
+    return vector
+
+def eval_board_distribution(player, board: Board):
+    dist_dict = player_board2dist_dict(player, board)
+    vector = dist_dict2vector(dist_dict)
+    return vector
