@@ -52,7 +52,6 @@ class Mattack:
             if probability_of_win > 0.95:
                 _, result_win = self.best_result_for_given_depth(board_win, (player_index + 1) % len(self.players_order), depth - 1)
 
-                #alfa = result_win #DOUFAM ZE TAHLE UPRAVA JE OK MATES
                 for i in range(len(alfa)):
                     alfa[i] = alfa[i] + (result_win[i] * probability_of_win)
             else:
@@ -60,7 +59,6 @@ class Mattack:
                 board_loss = simulate_lossing_move(board, atack[0].get_name(), atack[1].get_name())
 
                 # Calculate joined evaluation
-                alfa = [0 for i in range(len(self.players_order))]
                 _, result_win = self.best_result_for_given_depth(board_win, (player_index + 1) % len(self.players_order), depth - 1)
                 for i in range(len(alfa)):
                     alfa[i] = alfa[i] + (result_win[i] * probability_of_win)

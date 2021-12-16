@@ -6,7 +6,7 @@ class DP_FLAG:
 
 def debug_print(text, flag = DP_FLAG.UNKNOWN):
     allowed_flags = [DP_FLAG.NEW_TURN, DP_FLAG.TRANSFER]
-    allow_logs = True
-    #allow_logs = False
+    #allow_logs = True
+    allow_logs = False
     if allow_logs and flag in allowed_flags:
         print(text)
