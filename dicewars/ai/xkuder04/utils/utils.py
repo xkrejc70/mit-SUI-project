@@ -133,7 +133,7 @@ def simulate_lossing_move(board: Board, atk_from: int, atk_to:int) -> Board:
     return edited_board
 
 def is_endturn(time_left, min_time_left, nb_moves_this_turn, max_attacks_per_round):
-    if time_left > min_time_left:
+    if time_left < min_time_left:
         return True
     if nb_moves_this_turn >= max_attacks_per_round:
         return True

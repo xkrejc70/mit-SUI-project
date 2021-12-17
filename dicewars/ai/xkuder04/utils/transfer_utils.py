@@ -3,17 +3,21 @@ from dicewars.client.game.area import Area
 import numpy as np
 import time
 from .debug import debug_print, DP_FLAG
+from .transfer_tree import transfer_tree
+
+def get_best_transfer_route(player, board: Board):
+    dist_dict = player_board2dist_dict(player, board)
+    dist_counts = dist_dict2dist_counts(dist_dict)
+    dist_direction = dist_counts2direction(dist_counts)
+    tt = transfer_tree(dist_dict)
+    route = tt.find_best_transfer()
+    debug_print(f"Route: {route}", DP_FLAG.TRANSFER_VECTOR)
+    return route
 
 # Get transfer from inner_area to border_area
 # TODO generate states, find best based on the number of transfers
 # TODO presouvat na zaklade moznych utokz na borders (n_dice, dulezitost udrzeni hranice), presun kostek mezi borders
 def get_transfer_to_borders(player, board: Board, depth : int):
-    dist_dict = player_board2dist_dict(player, board)
-    dist_counts = dist_dict2dist_counts(dist_dict)
-    dist_direction = dist_counts2direction(dist_counts)
-
-    debug_print(f"Směrnice distribuce kostek: {dist_direction}", DP_FLAG.TRANSFER_VECTOR)
-
     if depth == 1:
         # Get transfer from inner_area with the most dice
         best_transfers = []

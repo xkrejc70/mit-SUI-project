@@ -8,7 +8,7 @@ from .Mplayer import Mplayer
 from .Mattack import Mattack
 from .utils.utils import evaluate_board, is_endturn, print_start, best_possible_attack
 from .utils.debug import DP_FLAG, debug_print
-from .utils.transfer_utils import get_transfer_to_borders, get_transfer_to_spec_border
+from .utils.transfer_utils import get_transfer_to_borders, get_transfer_to_spec_border, get_best_transfer_route
 
 from numpy.lib.function_base import append
 from dicewars.client.game import player
@@ -35,10 +35,13 @@ class AI:
         self.max_attacks_per_round = 4
         self.depth = 4
         self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index)
+        self.transfer_route = []
         
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
         print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_left)
+
         if x:= self.part_endturn(nb_moves_this_turn, time_left): return x
+        if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
         if x:= self.part_transfer(board, nb_transfers_this_turn): return x
         if x:= self.part_attack(board): return x
         return EndTurnCommand()
@@ -47,7 +50,7 @@ class AI:
         if nb_moves_this_turn > 1:
             # TODO manage time
             if is_endturn(time_left, self.min_time_left, nb_moves_this_turn, self.max_attacks_per_round):
-                #debug_print(f"End turn, time: {time.time() - self.turn_time}")
+                debug_print(f"End turn, time: {time.time() - self.turn_time}", DP_FLAG.ENDTURN_PART)
                 return EndTurnCommand()
         return None
 
@@ -90,4 +93,13 @@ class AI:
             else:
                 debug_print("No attack")
                 return EndTurnCommand()
+        return None
+
+    def part_transfer_deep(self, board, nb_transfers_this_turn, nb_moves_this_turn):
+        player = Mplayer(board, self.player_name)
+        if nb_transfers_this_turn == 0 and nb_moves_this_turn == 0:
+            self.transfer_route = get_best_transfer_route(player, board)
+        if len(self.transfer_route) != 0:
+            transfer = self.transfer_route.pop()
+            return TransferCommand(transfer[0], transfer[1])
         return None
