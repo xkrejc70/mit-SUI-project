@@ -4,16 +4,21 @@ from numpy import inf
 from dicewars.ai.utils import save_state, probability_of_successful_attack, attack_succcess_probability
 from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board, evaluate_board_me
 from .utils.models_util import load_model, models_dir_filepath
+import time
 
 class Mattack:
-    def __init__(self, depth, players_order, players_ordered, player_index):
+    def __init__(self, depth, players_order, players_ordered, player_index, min_time_left):
         self.depth = depth
         self.players_order = players_order
         self.players_ordered = players_ordered
         self.player_index = player_index
+        self.min_time_left = min_time_left
+        self.half_min_time_left = min_time_left/2
         self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
 
-    def best_result(self, board):
+    def best_result(self, board, time_left, start_turn_time):
+        self.time_left = time_left
+        self.start_turn_time = start_turn_time
         evaluate_board_me(board, self.players_order[self.player_index], self.players_ordered)
         return self.best_result_for_given_depth(board, self.player_index, self.depth)
 
@@ -26,7 +31,9 @@ class Mattack:
         if x:= self.part_recursive(reasonable_attacks, depth, board, player_index): return x
 
     def part_leaf(self, reasonable_attacks, depth, board):
-        if ((not reasonable_attacks) or (depth == 0)):
+        time_spent = time.time() - self.start_turn_time
+        is_no_time = (self.time_left - time_spent) < self.half_min_time_left
+        if ((not reasonable_attacks) or (depth == 0)) or is_no_time:
             # Evaluation for each player
             evaluation_list = []
             for i in range(len(self.players_order)):

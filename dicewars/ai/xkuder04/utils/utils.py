@@ -142,7 +142,6 @@ def is_endturn(time_left, min_time_left, nb_moves_this_turn, max_attacks_per_rou
 #TODO delete
 def print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_left):
     if nb_moves_this_turn == 0 and nb_transfers_this_turn == 0:
-        self.turn_time = time.time()
         debug_print(f"\n####### NEW TURN #######", flag=DP_FLAG.NEW_TURN)
         debug_print(f"Time left = {time_left}", flag=DP_FLAG.NEW_TURN)
         debug_print(f"Player name = {self.player_name}", flag=DP_FLAG.NEW_TURN)

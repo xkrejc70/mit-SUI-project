@@ -34,23 +34,24 @@ class AI:
         self.min_time_left = 6
         self.max_attacks_per_round = 4
         self.depth = 4
-        self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index)
+        self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index, self.min_time_left)
         self.transfer_route = []
         
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
+        self.start_turn_time = time.time()
         print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_left)
 
         if x:= self.part_endturn(nb_moves_this_turn, time_left): return x
         if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
         if x:= self.part_transfer(board, nb_transfers_this_turn): return x
-        if x:= self.part_attack(board): return x
+        if x:= self.part_attack(board, time_left): return x
         return EndTurnCommand()
 
     def part_endturn(self, nb_moves_this_turn, time_left):
         if nb_moves_this_turn > 1:
             # TODO manage time
             if is_endturn(time_left, self.min_time_left, nb_moves_this_turn, self.max_attacks_per_round):
-                debug_print(f"End turn, time: {time.time() - self.turn_time}", DP_FLAG.ENDTURN_PART)
+                debug_print(f"End turn, time: {time.time() - self.start_turn_time}", DP_FLAG.ENDTURN_PART)
                 return EndTurnCommand()
         return None
 
@@ -72,12 +73,11 @@ class AI:
             debug_print(f"Out of transfers ({nb_transfers_this_turn}/{self.max_transfers})", flag=DP_FLAG.TRANSFER)
         return None
 
-    def part_attack(self, board):
+    def part_attack(self, board, time_left):
         debug_print(f"Evaluate board: {evaluate_board(board, self.player_name, self.players_ordered, self.mattack.regr)}")
-
         # TODO IF evaluation infinite then tranfer die
         # TODO for board with many possibilities is calc time bigger then 10s
-        move, evaluation = self.mattack.best_result(board)
+        move, evaluation = self.mattack.best_result(board, time_left, self.start_turn_time)
 
         debug_print(f"Best evaluation {evaluation}")
         if move: # ATTACK
