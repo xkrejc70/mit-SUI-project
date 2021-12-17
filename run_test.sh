@@ -27,6 +27,11 @@ case $1 in
     python3 ./scripts/dicewars-human.py --ai kb.stei_at xkuder04.xkuder04 -l logy #HRA HUMAN
     ;;
 
+  7)
+    python3 ./scripts/dicewars-human.py --ai xkuder04.xkuder04 -l logy #HRA HUMAN SOLO
+    ;;
+
+
   *)
     echo "Unknown argument"
     ;;
