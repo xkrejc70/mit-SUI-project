@@ -13,7 +13,7 @@ def get_transfer_to_borders(player, board: Board, depth : int):
     dist_direction = dist_counts2direction(dist_counts)
 
     debug_print(f"Směrnice distribuce kostek: {dist_direction}", DP_FLAG.TRANSFER_VECTOR)
-    
+
     if depth == 1:
         # Get transfer from inner_area with the most dice
         best_transfers = []
@@ -144,8 +144,7 @@ def dist_dict2dist_counts(dist_dict):
     return dist_counts
 
 def dist_counts2direction(dist_counts):
-    #y = (sum(k for k in dist_counts.keys()))
-    y = (sum(k*2 for k in dist_counts.keys()))
+    y = (sum(k for k in dist_counts.keys()))
     x = (sum(i for i in dist_counts.values()))
     vector = (x,y)
     direction = vector[1] / vector[0]
