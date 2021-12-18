@@ -31,6 +31,9 @@ case $1 in
     python3 ./scripts/dicewars-human.py --ai xkuder04.xkuder04 -l logy #HRA HUMAN SOLO
     ;;
 
+  8)
+    python3 ./scripts/dicewars-tournament.py -r -g 4 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -s 1337 -l logy # EVALUEATION TOURNAMENT 4
+    ;;
 
   *)
     echo "Unknown argument"
