@@ -14,6 +14,12 @@ def get_best_transfer_route(player, board: Board):
     debug_print(f"Route: {route}", DP_FLAG.TRANSFER_VECTOR)
     return route
 
+def get_own_area_info(player, board: Board):
+    dist_dict = player_board2dist_dict(player, board)
+    dist_counts = dist_dict2dist_counts(dist_dict)
+    dist_direction = dist_counts2direction(dist_counts)
+    return dist_direction
+
 # Get transfer from inner_area to border_area
 # TODO generate states, find best based on the number of transfers
 # TODO presouvat na zaklade moznych utokz na borders (n_dice, dulezitost udrzeni hranice), presun kostek mezi borders
