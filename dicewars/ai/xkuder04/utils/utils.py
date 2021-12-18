@@ -1,4 +1,5 @@
 import copy
+from os import PRIO_PROCESS
 import pickle
 from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
@@ -63,20 +64,118 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int], r
 
     player = players[player_name - 1]
 
-    up = player.n_all_areas + player.n_dice + player.n_border_dice + player.n_biggest_region_size
-    down = total_areas + total_dices + player.n_border_areas
-    score = player.is_alive*(up/down)
+    # Owerall priorities
+    priority_area = 1
+    priority_max_area = 5
+    priority_border_area = 2
+    priority_layer_dice = 4
+    sum_priority = priority_area + priority_max_area + priority_border_area + priority_layer_dice
 
-    features = [player.n_all_areas, player.n_dice, player.n_border_dice, player.n_biggest_region_size, total_areas, total_dices, player.n_border_areas]
-    #regr = load_model(models_dir_filepath("eval_state_rf.model"))
-    regr_result = regr.predict([features])[0]
+    score = 0
 
-    #print(f"Score: {score}, Rscore: {regr_result}")
-    #diff = round(score-regr_result, 3)
-    #print(diff)
+    if player.n_all_areas == 0:
+        return 0
+    elif player.n_all_areas == total_areas:
+        return 1
+    else:
+        ############### Maximaze me ####################
+        # All in 0 - 1 inervals
+        # Areas
+        areas = player.n_all_areas/total_areas
+        max_area = player.n_biggest_region_size / player.n_all_areas
+        #dice = player.n_dice / total_dices
+        border = player.n_inner_areas / player.n_all_areas
+        
+        layers_dice_ratio = list()
+        for i in range(player.n_layers):
+            layers_dice_ratio.append(player.dice_in_layers[i] / (len(player.areas_in_layers[i])*8))
 
-    #return score
-    return regr_result
+        # Distribute priority
+        priorities_list = [1, 2/3, 4/7, 8/15, 16/31, 1/2]
+        priority = priorities_list[-1]
+        if player.n_layers < len(priorities_list):
+            priority = priorities_list[player.n_layers-1]
+
+        layer_priorities = list()
+        for i in range(player.n_layers):
+            layer_priorities.append(layers_dice_ratio[i]*pow(priority, i+1))
+
+        layers = sum(layer_priorities)
+        score_me = areas*priority_area + max_area*priority_max_area + border*priority_border_area + layers*priority_layer_dice
+        score += score_me/sum_priority
+
+    return score
+
+    """
+    for player in players:
+        if player.player_name == player_name:
+            if player.n_all_areas == 0:
+                return 0
+            elif player.n_all_areas == total_areas:
+                return 1
+            else:
+                ############### Maximaze me ####################
+                # All in 0 - 1 inervals
+                # Areas
+                areas = player.n_all_areas/total_areas
+                max_area = player.n_biggest_region_size / player.n_all_areas
+                #dice = player.n_dice / total_dices
+                border = player.n_inner_areas / player.n_all_areas
+                
+                layers_dice_ratio = list()
+                for i in range(player.n_layers):
+                    layers_dice_ratio.append(player.dice_in_layers[i] / (len(player.areas_in_layers[i])*8))
+
+                # Distribute priority
+                priorities_list = [1, 2/3, 4/7, 8/15, 16/31, 1/2]
+                priority = priorities_list[-1]
+                if player.n_layers < len(priorities_list):
+                    priority = priorities_list[player.n_layers-1]
+
+                layer_priorities = list()
+                for i in range(player.n_layers):
+                    layer_priorities.append(layers_dice_ratio[i]*pow(priority, i+1))
+
+                layers = sum(layer_priorities)
+
+                score_me = areas*priority_area + max_area*priority_max_area + border*priority_border_area + layers*priority_layer_dice
+                score += score_me/sum_priority
+        else:
+            if player.n_all_areas == 0:
+                return 0
+            elif player.n_all_areas == total_areas:
+                return 1
+            else:
+                ############### Minimize others ####################
+                # All in 0 - 1 inervals
+                # Areas
+                areas = player.n_all_areas/total_areas
+                max_area = player.n_biggest_region_size / player.n_all_areas
+                #dice = player.n_dice / total_dices
+                border = player.n_inner_areas / player.n_all_areas
+                
+                layers_dice_ratio = list()
+                for i in range(player.n_layers):
+                    layers_dice_ratio.append(player.dice_in_layers[i] / (len(player.areas_in_layers[i])*8))
+
+                # Distribute priority
+                priorities_list = [1, 2/3, 4/7, 8/15, 16/31, 1/2]
+                priority = priorities_list[-1]
+                if player.n_layers < len(priorities_list):
+                    priority = priorities_list[player.n_layers-1]
+
+                layer_priorities = list()
+                for i in range(player.n_layers):
+                    layer_priorities.append(layers_dice_ratio[i]*pow(priority, i+1))
+
+                layers = sum(layer_priorities)
+
+                score_me = areas*priority_area + max_area*priority_max_area + border*priority_border_area + layers*priority_layer_dice
+                score += (1 - score_me/sum_priority)
+
+    return score / len(players)
+    """
+
 
 #TODO delete
 def evaluate_board_me(board: Board, player_name: int, players_ordered: List[int]) -> float:

@@ -12,7 +12,7 @@ case $1 in
     ;;
 
   3)
-    python3 ./scripts/dicewars-tournament.py -r -g 2 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -s 1337 -l logy # EVALUEATION TOURNAMENT
+    python3 ./scripts/dicewars-tournament.py -r -g 2 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -s 1337 -l logy # EVALUEATION TOURNAMENT 2
     ;;
 
   4)
@@ -32,6 +32,34 @@ case $1 in
     ;;
 
   8)
+    python3 ./scripts/dicewars-tournament.py -r -g 4 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -s 1337 -l logy # EVALUEATION TOURNAMENT 4
+    ;;
+
+  9)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 1 --ai kb.stei_dt xkuder04.xkuder04 -l logy # 1 HRA kb.stei_dt
+    ;;
+
+  10)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 --ai kb.stei_dt xkuder04.xkuder04 -l logy # 10 HRA kb.stei_dt
+    ;;
+
+  11)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 1 --ai kb.stei_adt xkuder04.xkuder04 -l logy # 1 HRA kb.stei_adt
+    ;;
+
+  12)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 --ai kb.stei_adt xkuder04.xkuder04 -l logy # 10 HRA kb.stei_adt
+    ;;
+
+  13)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 1 --ai kb.sdc_pre_at xkuder04.xkuder04 -l logy # 1 HRA kb.sdc_pre_at
+    ;;
+
+  14)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 10 --ai kb.sdc_pre_at xkuder04.xkuder04 -l logy # 10 HRA kb.sdc_pre_at
+    ;;
+
+  15)
     python3 ./scripts/dicewars-tournament.py -r -g 4 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -s 1337 -l logy # EVALUEATION TOURNAMENT 4
     ;;
 

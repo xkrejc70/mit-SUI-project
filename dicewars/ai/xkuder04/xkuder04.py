@@ -36,16 +36,23 @@ class AI:
         self.depth = 4
         self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index, self.min_time_left)
         self.transfer_route = []
+
+        self.tactik = 1
         
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
         self.start_turn_time = time.time()
         print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_left)
 
-        if x:= self.part_endturn(nb_moves_this_turn, time_left): return x
-        if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
-        if x:= self.part_transfer(board, nb_transfers_this_turn): return x
-        if x:= self.part_attack(board, time_left): return x
-        return EndTurnCommand()
+        if self.tactik == 1:
+            if x:= self.part_endturn(nb_moves_this_turn, time_left): return x
+            if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
+            if x:= self.part_transfer(board, nb_transfers_this_turn): return x
+            if x:= self.part_attack(board, time_left): return x
+            return EndTurnCommand()
+        elif self.tactik == 2:
+            pass
+        else:
+            return EndTurnCommand()
 
     def part_endturn(self, nb_moves_this_turn, time_left):
         if nb_moves_this_turn > 1:
