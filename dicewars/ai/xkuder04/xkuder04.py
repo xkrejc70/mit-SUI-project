@@ -34,6 +34,7 @@ class AI:
         self.logger = logging.getLogger('AI')
         self.min_time_left = 6
         self.max_attacks_per_round = 4
+        self.strategy = STRATEGY.DEFAULT
         self.depth = 4
         self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index, self.min_time_left)
         self.transfer_route = []
@@ -44,22 +45,16 @@ class AI:
 
         if x:= self.part_endturn(nb_moves_this_turn, time_left): return x
 
-        while True:
-            ss = select_strategy(self, board)
-            if ss == STRATEGY.DEFAULT:
-                if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
-                if x:= self.part_transfer(board, nb_transfers_this_turn): return x
-                if x:= self.part_attack(board, time_left): return x
-                break
-            elif ss == STRATEGY.ATTACK:
-                # EX
-                pass
-                # vyhodnocena nova strategie
-                # ss = select_strategy(self, board)
-            elif ss == STRATEGY.SUPPORT_BORDERS:
-                pass
-            elif ss == STRATEGY.END_TURN:
-                break
+        self.strategy = select_strategy(self, board)
+        if self.strategy == STRATEGY.DEFAULT:
+            self.strategy = "default"
+            if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
+            if x:= self.part_transfer(board, nb_transfers_this_turn): return x
+            if x:= self.part_attack(board, time_left): return x
+        elif self.strategy == STRATEGY.ATTACK:
+            pass
+        elif self.strategy == STRATEGY.SUPPORT_BORDERS:
+            pass
 
 
         return EndTurnCommand()

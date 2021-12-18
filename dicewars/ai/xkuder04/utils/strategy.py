@@ -13,14 +13,19 @@ def select_strategy(self, board):
     return STRATEGY.DEFAULT
     player = Mplayer(board, self.player_name)
 
+    # Borders full
     if player.n_border_dice == player.n_border_areas * 8:
         print("full borders")
-        return 
+        return STRATEGY.SUPPORT_2ND_LINE
 
-    #vector = get_own_area_info(player, board)
-    #print(vector)
     print("b_a")
     for b_a in player.border_areas:
         print(b_a.dice)
+    
 
-    return STRATEGY.SUPPORT_2ND_LINE
+    
+    
+    #vector = get_own_area_info(player, board)
+    #print(vector)
+
+    return STRATEGY.DEFAULT
