@@ -19,7 +19,7 @@ class Mattack:
     def best_result(self, board, time_left, start_turn_time):
         self.time_left = time_left
         self.start_turn_time = start_turn_time
-        evaluate_board_me(board, self.players_order[self.player_index], self.players_ordered)
+        #evaluate_board_me(board, self.players_order[self.player_index], self.players_ordered)
         return self.best_result_for_given_depth(board, self.player_index, self.depth)
 
     # Uses Expectimax-n
