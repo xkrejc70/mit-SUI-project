@@ -50,7 +50,7 @@ class AI:
                 if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
                 if x:= self.part_transfer(board, nb_transfers_this_turn): return x
                 if x:= self.part_attack(board, time_left): return x
-                ss = STRATEGY.END_TURN
+                break
             elif ss == STRATEGY.ATTACK:
                 # EX
                 pass
