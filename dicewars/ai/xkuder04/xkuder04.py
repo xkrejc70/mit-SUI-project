@@ -8,7 +8,8 @@ from .Mplayer import Mplayer
 from .Mattack import Mattack
 from .utils.utils import evaluate_board, is_endturn, print_start, best_possible_attack
 from .utils.debug import DP_FLAG, debug_print
-from .utils.transfer_utils import get_transfer_to_borders, get_transfer_to_spec_border, get_best_transfer_route
+from .utils.transfer_utils import get_transfer_to_borders, get_transfer_to_spec_border, get_best_transfer_route, get_own_area_info
+from .utils.strategy import STRATEGY, select_strategy
 
 from numpy.lib.function_base import append
 from dicewars.client.game import player
@@ -42,9 +43,25 @@ class AI:
         print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_left)
 
         if x:= self.part_endturn(nb_moves_this_turn, time_left): return x
-        if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
-        if x:= self.part_transfer(board, nb_transfers_this_turn): return x
-        if x:= self.part_attack(board, time_left): return x
+
+        while True:
+            ss = select_strategy(self, board)
+            if ss == STRATEGY.DEFAULT:
+                if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
+                if x:= self.part_transfer(board, nb_transfers_this_turn): return x
+                if x:= self.part_attack(board, time_left): return x
+                ss = STRATEGY.END_TURN
+            elif ss == STRATEGY.ATTACK:
+                # EX
+                pass
+                # vyhodnocena nova strategie
+                # ss = select_strategy(self, board)
+            elif ss == STRATEGY.SUPPORT_BORDERS:
+                pass
+            elif ss == STRATEGY.END_TURN:
+                break
+
+
         return EndTurnCommand()
 
     def part_endturn(self, nb_moves_this_turn, time_left):
