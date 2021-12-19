@@ -6,12 +6,12 @@ import time
 from .debug import debug_print, DP_FLAG
 from .transfer_tree import transfer_tree
 
-def get_best_transfer_route(player, board: Board):
+def get_best_transfer_route(player, board: Board, start_depth, available_steps):
     dist_dict = player_board2dist_dict(player, board)
     dist_counts = dist_dict2dist_counts(dist_dict)
     dist_direction = dist_counts2direction(dist_counts)
     tt = transfer_tree(dist_dict)
-    route = tt.find_best_transfer()
+    route = tt.find_best_transfer(start_depth, available_steps)
     debug_print(f"Route: {route}", DP_FLAG.TRANSFER_VECTOR)
     return route
 
@@ -19,27 +19,20 @@ def get_best_transfer_route(player, board: Board):
 def final_support(self, board):
     player = Mplayer(board, self.player_name)
 
-    # TODO
-    # if (nb of remaining transfers) > 2: use tree
-    # else:
-
     # Support border with the least number of dice
     transfer_depth = 1
-    border_to_support = min(player.border_areas, key = lambda border: border.dice)
-    debug_print(f"min: {border_to_support.get_dice()}", DP_FLAG.TRANSFER)
-    if border_to_support.get_dice() != 8:
-        transfer = get_transfer_to_spec_border(player, board, border_to_support, transfer_depth)
-        if transfer:
-            return transfer
-        else:
-            debug_print(f"No transfer (inner -> border) found", flag=DP_FLAG.TRANSFER)
-    
-    # Support arrea in 2nd line with the least number of dice
-    # TODO
-    # area_to_support = get_transfer_to_spec_area()
-    # or
-    # area_to_support = transferTree
+    sorted_border_areas = sorted(player.border_areas, key=lambda border: border.dice)
 
+    for border_to_support in sorted_border_areas:
+        debug_print(f"min: {border_to_support.get_dice()}", DP_FLAG.TRANSFER)
+        if border_to_support.get_dice() != 8:
+            transfer = get_transfer_to_spec_border(player, board, border_to_support, transfer_depth)
+            if transfer:
+                return transfer
+        else:
+            break
+    
+    debug_print(f"No transfer (inner -> border) found", flag=DP_FLAG.TRANSFER)
     return None
 
 

@@ -4,7 +4,7 @@ class transfer_tree:
     def __init__(self, dist_dict):
         self.dist_dict = dist_dict
 
-    def find_best_transfer(self, start_depth = 0, available_steps = 6):
+    def find_best_transfer(self, start_depth, available_steps):
         roots = []
         for area in self.dist_dict.get(start_depth, []):
             if area.dice < 8:

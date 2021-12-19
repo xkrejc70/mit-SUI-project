@@ -33,7 +33,7 @@ class AI:
         self.players_ordered = sorted(players_order)
         self.logger = logging.getLogger('AI')
         self.min_time_left = 6
-        self.max_attacks_per_round = 4
+        self.max_attacks_per_round = 10
         self.strategy = STRATEGY.DEFAULT
         #self.strategy = STRATEGY.SUPPORT
         self.ongoing_strategy = False
@@ -49,21 +49,23 @@ class AI:
 
         self.unset_strategy(nb_moves_this_turn, nb_transfers_this_turn)
 
-        if x:= self.part_endturn(nb_moves_this_turn, time_left): return x
+        if self.strategy != STRATEGY.FINAL_SUPPORT:
+            if x:= self.part_endturn(nb_moves_this_turn, time_left, board, nb_transfers_this_turn): return x
 
         if (self.ongoing_strategy == False):
             self.set_ongoing_strategy(select_strategy(self, board))
 
         debug_print(f"Strategy: {self.strategy}", flag=DP_FLAG.STRATEGY)
+        debug_print(f"nb_transfers_this_turn: {nb_transfers_this_turn}", flag=DP_FLAG.TRANSFER)
 
         if self.strategy == STRATEGY.DEFAULT: # TODELETE
-            if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
+            if x:= self.part_transfer_deep_test(board, nb_transfers_this_turn, nb_moves_this_turn): return x
             if x:= self.part_final_transfer(board, nb_transfers_this_turn): return x
             if x:= self.part_attack(board, time_left): return x
 
         elif self.strategy == STRATEGY.FIRST_ATTACK:
             if x:= self.part_attack(board, time_left): return x
-            # Transfers to borders - tree (max 4? transfers)
+            if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
             self.set_ongoing_strategy(STRATEGY.ATTACK)
             if x:= self.part_attack(board, time_left): return x
             self.set_ongoing_strategy(STRATEGY.FINAL_SUPPORT)
@@ -72,11 +74,10 @@ class AI:
         elif self.strategy == STRATEGY.ATTACK:
             if x:= self.part_attack(board, time_left): return x
             self.set_ongoing_strategy(STRATEGY.FINAL_SUPPORT)
-            print("now transfer final")
             if x:= self.part_final_transfer(board, nb_transfers_this_turn): return x
 
         elif self.strategy == STRATEGY.SUPPORT:
-            # Transfers to borders - tree (max 4? transfers)
+            if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
             self.set_ongoing_strategy(STRATEGY.ATTACK)
             if x:= self.part_attack(board, time_left): return x
             self.set_ongoing_strategy(STRATEGY.FINAL_SUPPORT)
@@ -87,26 +88,44 @@ class AI:
 
         return EndTurnCommand()
 
-    def part_endturn(self, nb_moves_this_turn, time_left):
+    def part_endturn(self, nb_moves_this_turn, time_left, board, nb_transfers_this_turn):
         if nb_moves_this_turn > 1:
             # TODO manage time
             if is_endturn(time_left, self.min_time_left, nb_moves_this_turn, self.max_attacks_per_round):
                 debug_print(f"End turn, time: {time.time() - self.start_turn_time}", DP_FLAG.ENDTURN_PART)
-                # TODO neukoncovat turn, nechat dobehnout presuny kostek
-                return EndTurnCommand()
+                # TODO ukonctit prohledavani driv, aby se stihl fokoncit finalni presun kostek
+                self.set_ongoing_strategy(STRATEGY.FINAL_SUPPORT)
+                if x:= self.part_final_transfer(board, nb_transfers_this_turn): return x
+                #return EndTurnCommand()
         return None
 
+    # Final support, transfer dice close to borders
     def part_final_transfer(self, board, nb_transfers_this_turn):
         player = Mplayer(board, self.player_name)
         if nb_transfers_this_turn < self.max_transfers:
+
+            # Support borders
+            if nb_transfers_this_turn < 2:
+                if x:= self.part_final_transfer_deep(board, 0, 4): return x
+            
+            if nb_transfers_this_turn < 4:
+                if x:= self.part_final_transfer_deep(board, 0, 2): return x
+
             transfer = final_support(player, board)
             if transfer:
                 debug_print(f"=> Transfer: {transfer[0], transfer[1]}", flag=DP_FLAG.TRANSFER)
                 return TransferCommand(transfer[0], transfer[1])
+
             else:
-                debug_print(f"No transfer to final support found", flag=DP_FLAG.TRANSFER)
+                # Support arrea in 2nd line
+                if nb_transfers_this_turn < 2:
+                    if x:= self.part_final_transfer_deep(board, 1, 4): return x
+
+                if x:= self.part_final_transfer_deep(board, 1, 2): return x
+
         else:
             debug_print(f"Out of transfers ({nb_transfers_this_turn}/{self.max_transfers})", flag=DP_FLAG.TRANSFER)
+            return EndTurnCommand()
         return None
 
     def part_attack(self, board, time_left):
@@ -117,26 +136,53 @@ class AI:
 
         debug_print(f"Best evaluation {evaluation}")
         if move: # ATTACK
-            debug_print(f"Depth search attack {move[0].get_name()}->{move[1].get_name()}")
+            debug_print(f"Depth search attack {move[0].get_name()}->{move[1].get_name()}", flag=DP_FLAG.ATTACK)
             return BattleCommand(move[0].get_name(), move[1].get_name())
         else:
             # Try move with best chance of winning and holding arrea
             move = best_possible_attack(board, self.player_name)
 
             if move is not None:
-                debug_print(f"Best value attack {move[0].get_name()}->{move[1].get_name()}")
+                debug_print(f"Best value attack {move[0].get_name()}->{move[1].get_name()}", flag=DP_FLAG.ATTACK)
                 return BattleCommand(move[0].get_name(), move[1].get_name())
             else:
                 debug_print("No attack")
                 #return EndTurnCommand()
         return None
 
-    def part_transfer_deep(self, board, nb_transfers_this_turn, nb_moves_this_turn):
+    def part_transfer_deep_old(self, board, nb_transfers_this_turn, nb_moves_this_turn):
         player = Mplayer(board, self.player_name)
         if nb_transfers_this_turn == 0 and nb_moves_this_turn == 0:
-            self.transfer_route = get_best_transfer_route(player, board)
+            self.transfer_route = get_best_transfer_route(player, board, 0, 6)
         if len(self.transfer_route) != 0:
             transfer = self.transfer_route.pop()
+            return TransferCommand(transfer[0], transfer[1])
+        return None
+
+    # First support
+    def part_transfer_deep(self, board, nb_transfers_this_turn, nb_moves_this_turn):
+        player = Mplayer(board, self.player_name)
+        available_steps = self.max_transfers - nb_transfers_this_turn
+
+        if nb_transfers_this_turn > 3 and not self.transfer_route:
+            return None
+
+        if not self.transfer_route:
+            self.transfer_route = get_best_transfer_route(player, board, 0, available_steps)
+        if len(self.transfer_route) != 0:
+            transfer = self.transfer_route.pop()
+            debug_print(f"=> Transfer: {transfer[0], transfer[1]}", flag=DP_FLAG.TRANSFER)
+            return TransferCommand(transfer[0], transfer[1])
+        return None
+
+    # Final support
+    def part_final_transfer_deep(self, board, start_depth, available_steps):
+        player = Mplayer(board, self.player_name)
+        if not self.transfer_route:
+            self.transfer_route = get_best_transfer_route(player, board, start_depth, available_steps)
+        if len(self.transfer_route) != 0:
+            transfer = self.transfer_route.pop()
+            debug_print(f"=> Transfer: {transfer[0], transfer[1]}", flag=DP_FLAG.TRANSFER)
             return TransferCommand(transfer[0], transfer[1])
         return None
 

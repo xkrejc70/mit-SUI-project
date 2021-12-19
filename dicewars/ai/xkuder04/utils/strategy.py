@@ -9,7 +9,7 @@ class STRATEGY:
     FINAL_SUPPORT = 4
 
 def select_strategy(self, board):
-    return STRATEGY.DEFAULT # Remove after all TODOs done
+    #return STRATEGY.DEFAULT # Remove after all TODOs done
     player = Mplayer(board, self.player_name)
 
     # Borders full -> attack
