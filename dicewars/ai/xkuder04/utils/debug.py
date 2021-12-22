@@ -1,3 +1,4 @@
+# type of print
 class DP_FLAG:
     UNKNOWN = 0
     START = 1
@@ -8,6 +9,7 @@ class DP_FLAG:
     STRATEGY = 6
     ATTACK = 7
 
+# Show selected default prints
 def debug_print(text, flag = DP_FLAG.UNKNOWN):
     allowed_flags = [DP_FLAG.NEW_TURN, DP_FLAG.TRANSFER, DP_FLAG.TRANSFER_VECTOR, DP_FLAG.ENDTURN_PART, DP_FLAG.STRATEGY, DP_FLAG.ATTACK]
     allow_logs = True

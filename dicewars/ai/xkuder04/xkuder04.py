@@ -6,7 +6,7 @@ import time
 
 from .Mplayer import Mplayer
 from .Mattack import Mattack
-from .utils.utils import evaluate_board, is_endturn, print_start, best_possible_attack
+from .utils.utils import best_winning_attack, evaluate_board, is_endturn, print_start, best_possible_attack
 from .utils.debug import DP_FLAG, debug_print
 from .utils.transfer_utils import get_best_transfer_route, final_support
 from .utils.strategy import STRATEGY, select_strategy
@@ -34,18 +34,21 @@ class AI:
         self.logger = logging.getLogger('AI')
         self.min_time_left = 6
         self.max_attacks_per_round = 10
-        self.strategy = STRATEGY.DEFAULT
-        #self.strategy = STRATEGY.SUPPORT
+        #self.strategy = STRATEGY.DEFAULT
+        self.strategy = STRATEGY.SUPPORT
         self.ongoing_strategy = False
         self.depth = 4
         self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index, self.min_time_left)
         self.transfer_route = []
-
-        self.tactik = 1
+        self.num_players = len(players_order)
         
     def ai_turn(self, board, nb_moves_this_turn, nb_transfers_this_turn, nb_turns_this_game, time_left):
         self.start_turn_time = time.time()
         print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_left)
+
+        if nb_transfers_this_turn == 0 and nb_moves_this_turn == 0:
+            self.transfer_route = []
+
 
         self.unset_strategy(nb_moves_this_turn, nb_transfers_this_turn)
 
@@ -57,6 +60,8 @@ class AI:
 
         debug_print(f"Strategy: {self.strategy}", flag=DP_FLAG.STRATEGY)
         debug_print(f"nb_transfers_this_turn: {nb_transfers_this_turn}", flag=DP_FLAG.TRANSFER)
+
+        ##################### Strategies #####################
 
         if self.strategy == STRATEGY.DEFAULT: # TODELETE
             if x:= self.part_transfer_deep_test(board, nb_transfers_this_turn, nb_moves_this_turn): return x
@@ -88,15 +93,13 @@ class AI:
 
         return EndTurnCommand()
 
+    # When time is low, end turn with final support
     def part_endturn(self, nb_moves_this_turn, time_left, board, nb_transfers_this_turn):
         if nb_moves_this_turn > 1:
-            # TODO manage time
             if is_endturn(time_left, self.min_time_left, nb_moves_this_turn, self.max_attacks_per_round):
                 debug_print(f"End turn, time: {time.time() - self.start_turn_time}", DP_FLAG.ENDTURN_PART)
-                # TODO ukonctit prohledavani driv, aby se stihl fokoncit finalni presun kostek
                 self.set_ongoing_strategy(STRATEGY.FINAL_SUPPORT)
                 if x:= self.part_final_transfer(board, nb_transfers_this_turn): return x
-                #return EndTurnCommand()
         return None
 
     # Final support, transfer dice close to borders
@@ -128,28 +131,40 @@ class AI:
             return EndTurnCommand()
         return None
 
+    # Do attack provided by expectimaxn
     def part_attack(self, board, time_left):
-        debug_print(f"Evaluate board: {evaluate_board(board, self.player_name, self.players_ordered, self.mattack.regr)}")
-        # TODO IF evaluation infinite then tranfer die
-        # TODO for board with many possibilities is calc time bigger then 10s
+        debug_print(f"Evaluate board: {evaluate_board(board, self.player_name, self.players_ordered, self.mattack.regr)}", flag=DP_FLAG.ATTACK)
+        
+        # Get result by expectimaxn
         move, evaluation = self.mattack.best_result(board, time_left, self.start_turn_time)
-
-        debug_print(f"Best evaluation {evaluation}")
-        if move: # ATTACK
+        debug_print(f"Best evaluation {evaluation}", flag=DP_FLAG.ATTACK)
+        
+        # Do provided attack
+        if move:
             debug_print(f"Depth search attack {move[0].get_name()}->{move[1].get_name()}", flag=DP_FLAG.ATTACK)
             return BattleCommand(move[0].get_name(), move[1].get_name())
         else:
-            # Try move with best chance of winning and holding arrea
-            move = best_possible_attack(board, self.player_name)
+            ### Tree returned no attack
+            # Try move with best chance of winning with probability
+            move, win_prob = best_winning_attack(board, self.player_name)
+            do_attack = random.random()
 
-            if move is not None:
+            # Do attack with good win probability
+            if win_prob >= 0.5:
                 debug_print(f"Best value attack {move[0].get_name()}->{move[1].get_name()}", flag=DP_FLAG.ATTACK)
                 return BattleCommand(move[0].get_name(), move[1].get_name())
             else:
-                debug_print("No attack")
-                #return EndTurnCommand()
+                # Do worse attack with probability
+                if do_attack < 0.3:
+                    # if move exists
+                    if move:
+                        debug_print(f"Worse attack with probability {move[0].get_name()}->{move[1].get_name()}", flag=DP_FLAG.ATTACK)
+                        return BattleCommand(move[0].get_name(), move[1].get_name())  
+                    else:
+                        debug_print(f"No attack", flag=DP_FLAG.ATTACK)
         return None
 
+    #TODO delete?
     def part_transfer_deep_old(self, board, nb_transfers_this_turn, nb_moves_this_turn):
         player = Mplayer(board, self.player_name)
         if nb_transfers_this_turn == 0 and nb_moves_this_turn == 0:
@@ -186,10 +201,12 @@ class AI:
             return TransferCommand(transfer[0], transfer[1])
         return None
 
+    # Set if turn is strategy continuation
     def set_ongoing_strategy(self, strategy):
         self.ongoing_strategy = True
         self.strategy = strategy
 
+    # Do if first turn
     def unset_strategy(self, nb_moves_this_turn, nb_transfers_this_turn):
         if (nb_moves_this_turn == 0) and (nb_transfers_this_turn == 0):
             self.ongoing_strategy = False

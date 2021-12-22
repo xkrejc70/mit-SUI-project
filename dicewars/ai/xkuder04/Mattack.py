@@ -2,7 +2,7 @@ from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
 from numpy import inf
 from dicewars.ai.utils import save_state, probability_of_successful_attack, attack_succcess_probability
-from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board, evaluate_board_me
+from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board
 from .utils.models_util import load_model, models_dir_filepath
 import time
 
@@ -16,10 +16,10 @@ class Mattack:
         self.half_min_time_left = min_time_left/2
         self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
 
+    # Return best move for given depth
     def best_result(self, board, time_left, start_turn_time):
         self.time_left = time_left
         self.start_turn_time = start_turn_time
-        #evaluate_board_me(board, self.players_order[self.player_index], self.players_ordered)
         return self.best_result_for_given_depth(board, self.player_index, self.depth)
 
     # Uses Expectimax-n
@@ -30,6 +30,7 @@ class Mattack:
         #Do recursive part of search
         if x:= self.part_recursive(reasonable_attacks, depth, board, player_index): return x
 
+    # Return vector for leaf evaluation
     def part_leaf(self, reasonable_attacks, depth, board):
         time_spent = time.time() - self.start_turn_time
         is_no_time = (self.time_left - time_spent) < self.half_min_time_left
@@ -41,6 +42,7 @@ class Mattack:
             return None, evaluation_list
         return None
 
+    # Recursively generate tree of moves
     def part_recursive(self, reasonable_attacks, depth, board, player_index):
         max_evaluation = [-inf for i in range(len(self.players_order))]
         move = None

@@ -1,6 +1,7 @@
 from pickle import DEFAULT_PROTOCOL
 from dicewars.ai.xkuder04.Mplayer import Mplayer
 
+# Strategy selector
 class STRATEGY:
     DEFAULT =       0
     FIRST_ATTACK =  1
@@ -9,7 +10,7 @@ class STRATEGY:
     FINAL_SUPPORT = 4
 
 def select_strategy(self, board):
-    #return STRATEGY.DEFAULT # Remove after all TODOs done
+    #return STRATEGY.DEFAULT # Remove after all TODO-s done
     player = Mplayer(board, self.player_name)
 
     # Borders full -> attack

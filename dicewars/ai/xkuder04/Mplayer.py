@@ -16,13 +16,15 @@ class Mplayer:
         self.n_border_dice = sum(a.get_dice() for a in self.border_areas)
         self.is_alive = bool(self.n_all_areas)
 
+        ######### Calculate layers from border and dice in them #############
         if self.n_all_areas != 0:
-            # Dice in layers
+            # Inicialize areas to layers
             area_layer = [256 for i in range(self.n_all_areas)]
             for i in range(self.n_all_areas):
                 if self.all_areas[i] in self.border_areas:
                     area_layer[i] = 1
 
+            # Calculate layer number form border
             areas_to_cover = list(self.border_areas)
             finished_areas = list()
             while areas_to_cover:
@@ -41,11 +43,13 @@ class Mplayer:
                         areas_to_cover.append(neighbour_area)
                         finished_areas.append(neighbour_area)
 
+            # Create list of layers with arreas
             areas_in_layers = [list() for i in range(max(area_layer))]
             for i in range(self.n_all_areas):
                 layer = area_layer[i]
                 areas_in_layers[layer-1].append(self.all_areas[i])
                 
+            # Calculate number of dice in layers
             dice_in_layers = [0 for i in range(max(area_layer))]
             for i in range(len(dice_in_layers)):
                 for area in areas_in_layers[i]:
