@@ -14,12 +14,14 @@ class Mattack:
         self.player_index = player_index
         self.min_time_left = min_time_left
         self.half_min_time_left = min_time_left/2
-        self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
+        #self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
+        self.regr = load_model(models_dir_filepath("eval_state_new_rf.model"))
 
     # Return best move for given depth
     def best_result(self, board, time_left, start_turn_time):
         self.time_left = time_left
         self.start_turn_time = start_turn_time
+        evaluate_board(board, self.players_order[self.player_index], self.players_ordered, self.regr, print_train_data = True)
         return self.best_result_for_given_depth(board, self.player_index, self.depth)
 
     # Uses Expectimax-n

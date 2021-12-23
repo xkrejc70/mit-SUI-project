@@ -9,6 +9,7 @@ from dicewars.ai.utils import attack_succcess_probability, probability_of_succes
 from .models_util import load_model, models_dir_filepath
 from .debug import DP_FLAG, debug_print
 import time
+from .transfer_utils import player_board2dist_dict, dist_dict2dist_counts, dist_counts2direction
 
 # List of resonable attacks for specified player
 # Returns X moves that have good probability of success and have good chance to sorvive other AIs moves
@@ -67,7 +68,8 @@ def best_winning_attack(board, player_name):
     return move, max_prob
 
 # Evaluate board score for player
-def evaluate_board(board: Board, player_name: int, players_ordered: List[int], regr) -> float:
+# TODO make more complex evaluation
+def evaluate_board(board: Board, player_name: int, players_ordered: List[int], model, print_train_data = False) -> float:
     players = [Mplayer(board, player_name) for player_name in players_ordered]
     total_areas = sum(player.n_all_areas for player in players)
     total_dices = sum(player.n_dice for player in players)
@@ -124,6 +126,12 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int], r
         print("####################################")
         """
 
+    features = get_feature_vector(score, areas, max_area, border, layers, players, player, board)
+    if print_train_data:
+        debug_print(f"{features}", DP_FLAG.TRAIN_DATA)
+    evaluation = model.predict([features])[0]
+    #evaluation = model.predict([features[:-1]])[0]
+    #return evaluation
     return score
 
     """
@@ -195,6 +203,26 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int], r
 
     return score / len(players)
     """
+
+def get_distribution_direction(player, board):
+    dist_dict = player_board2dist_dict(player, board)
+    dist_counts = dist_dict2dist_counts(dist_dict)
+    dist_direction = dist_counts2direction(dist_counts)
+    return dist_direction
+
+def get_feature_vector(score, areas, max_area, border, layers, players, player, board):
+    player_count = len([p for p in players if p.n_all_areas != 0])
+    distribution_direction = get_distribution_direction(player, board)
+    features = [
+        areas,
+        max_area, 
+        border,
+        layers,
+        player_count,
+        distribution_direction,
+        score
+    ]
+    return features
 
 # Simulate winning move on board
 def simulate_succesfull_move(player_name: int, board: Board, atk_from: int, atk_to: int) -> Board:
