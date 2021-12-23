@@ -76,9 +76,9 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int], r
 
     # Owerall priorities
     priority_area = 1
-    priority_max_area = 5
-    priority_border_area = 2
-    priority_layer_dice = 4
+    priority_max_area = 10
+    priority_border_area = 4
+    priority_layer_dice = 8
     sum_priority = priority_area + priority_max_area + priority_border_area + priority_layer_dice
 
     score = 0
@@ -113,6 +113,16 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int], r
         layers = sum(layer_priorities)
         score_me = areas*priority_area + max_area*priority_max_area + border*priority_border_area + layers*priority_layer_dice
         score += score_me/sum_priority
+        """
+        print(f"Player: {player_name}")
+        print(f"Area score: {areas}")
+        print(f"Score max area: {max_area}")
+        print(f"Border score: {border}")
+        print(f"Layers score: {layer_priorities}")
+        print(f"Layers sum score: {layers}")
+        print(f"Final score: {score}")
+        print("####################################")
+        """
 
     return score
 
