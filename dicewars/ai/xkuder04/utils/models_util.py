@@ -32,6 +32,18 @@ def filter_score_increase(lines, score_index = -1):
             good_lines.append(line)
     return good_lines
 
+def filter_score_decrease(lines, score_index = -1):
+    good_lines = []
+    for i in range(len(lines)-1):
+        line = lines[i]
+        next_line = lines[i+1]
+        if line is None or next_line is None:
+            continue
+        if line[score_index] > next_line[score_index]:
+            line[-1] = next_line[-1]
+            good_lines.append(line)
+    return good_lines
+
 def save_model(model, filepath):
     with open(filepath, 'wb') as f:
         pickle.dump(model, f)
@@ -49,22 +61,22 @@ def normalize_values(values):
     max_val = max(values)
     return [round(val/max_val,3)for val in values]
 
-def create_eval_state():
-    eval_state = "eval_state"
-    eval_state_raw = model_data_dir_filepath(f"{eval_state}.raw")
+def create_model(name):
+    eval_state_raw = model_data_dir_filepath(f"{name}.raw")
     lines = file2lines(eval_state_raw)
     lines = filter_score_increase(lines)
+    lines += filter_score_decrease(lines)
 
-    features = [line[:-1] for line in lines]
+    #features = [line[:-1] for line in lines]
+    features = lines
     values = normalize_values([line[-1] for line in lines])
     regr = create_rf_regr(features, values)
 
-    #print(regr.predict([[20, 96, 19, 19, 34, 175, 3]]))
-
-    model_path = models_dir_filepath("eval_state_rf.model")
+    model_path = models_dir_filepath(f"{name}_rf.model")
     save_model(regr, model_path)
 
 #l_regr = load_model(model_path)
 #print(l_regr.predict([[20, 96, 19, 15, 34, 175, 3]]))
 
-create_eval_state()
+#create_model("eval_state")
+create_model("eval_state_new")

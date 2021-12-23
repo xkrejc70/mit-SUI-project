@@ -2,7 +2,7 @@ from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
 from numpy import inf
 from dicewars.ai.utils import save_state, probability_of_successful_attack, attack_succcess_probability
-from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board, evaluate_board_me
+from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board
 from .utils.models_util import load_model, models_dir_filepath
 import time
 
@@ -14,12 +14,13 @@ class Mattack:
         self.player_index = player_index
         self.min_time_left = min_time_left
         self.half_min_time_left = min_time_left/2
-        self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
+        #self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
+        self.regr = load_model(models_dir_filepath("eval_state_new_rf.model"))
 
     def best_result(self, board, time_left, start_turn_time):
         self.time_left = time_left
         self.start_turn_time = start_turn_time
-        #evaluate_board_me(board, self.players_order[self.player_index], self.players_ordered)
+        evaluate_board(board, self.players_order[self.player_index], self.players_ordered, self.regr, print_train_data = True)
         return self.best_result_for_given_depth(board, self.player_index, self.depth)
 
     # Uses Expectimax-n
