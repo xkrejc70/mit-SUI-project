@@ -11,6 +11,7 @@ class DP_FLAG:
     ATTACK = 7
     TRAIN_DATA = 8
 
+# Show selected default prints
 def debug_print(text, flag = DP_FLAG.UNKNOWN):
     allowed_flags = [
         #DP_FLAG.NEW_TURN,

@@ -17,6 +17,7 @@ class Mattack:
         #self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
         self.regr = load_model(models_dir_filepath("eval_state_new_rf.model"))
 
+    # Return best move for given depth
     def best_result(self, board, time_left, start_turn_time):
         self.time_left = time_left
         self.start_turn_time = start_turn_time
@@ -31,6 +32,7 @@ class Mattack:
         #Do recursive part of search
         if x:= self.part_recursive(reasonable_attacks, depth, board, player_index): return x
 
+    # Return vector for leaf evaluation
     def part_leaf(self, reasonable_attacks, depth, board):
         time_spent = time.time() - self.start_turn_time
         is_no_time = (self.time_left - time_spent) < self.half_min_time_left
@@ -42,6 +44,7 @@ class Mattack:
             return None, evaluation_list
         return None
 
+    # Recursively generate tree of moves
     def part_recursive(self, reasonable_attacks, depth, board, player_index):
         max_evaluation = [-inf for i in range(len(self.players_order))]
         move = None

@@ -158,6 +158,8 @@ def dist_dict2dist_counts(dist_dict):
 def dist_counts2direction(dist_counts):
     y = (sum(k for k in dist_counts.keys()))
     x = (sum(i for i in dist_counts.values()))
+    if y == 0:
+        return 1
     vector = (x,y)
     direction = vector[1] / vector[0]
     return direction

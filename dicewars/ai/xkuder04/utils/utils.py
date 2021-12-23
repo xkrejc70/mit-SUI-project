@@ -13,7 +13,6 @@ from .transfer_utils import player_board2dist_dict, dist_dict2dist_counts, dist_
 
 # List of resonable attacks for specified player
 # Returns X moves that have good probability of success and have good chance to sorvive other AIs moves
-# TODO make complexer moves selector
 def resonable_attacks_for_player(player: int, board: Board):
     min_joined_probability = 0.4
     max_attacks = 3
@@ -46,6 +45,7 @@ def probability_of_successful_attack_and_one_turn_hold(player, board, area, adja
 
     return attack_probability * hold_probability
 
+# Return move with best actual attack and hold probability
 def best_possible_attack(board, player_name):
     max_prob = 0
     move = None
@@ -55,6 +55,17 @@ def best_possible_attack(board, player_name):
             max_prob = prob
             move = attack
     return move
+
+# Return move with best actual attack prob
+def best_winning_attack(board, player_name):
+    max_prob = 0
+    move = None
+    for attack in possible_attacks(board, player_name):
+        prob = probability_of_successful_attack(board, attack[0].get_name(), attack[1].get_name())
+        if prob > max_prob:
+            max_prob = prob
+            move = attack
+    return move, max_prob
 
 # Evaluate board score for player
 # TODO make more complex evaluation
@@ -243,6 +254,7 @@ def simulate_lossing_move(board: Board, atk_from: int, atk_to:int) -> Board:
 
     return edited_board
 
+# Check if not enough time to continue
 def is_endturn(time_left, min_time_left, nb_moves_this_turn, max_attacks_per_round):
     if time_left < min_time_left:
         return True
