@@ -77,6 +77,3 @@ def create_model(name):
 
 #l_regr = load_model(model_path)
 #print(l_regr.predict([[20, 96, 19, 15, 34, 175, 3]]))
-
-#create_model("eval_state")
-create_model("eval_state_new")

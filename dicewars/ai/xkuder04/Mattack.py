@@ -15,7 +15,8 @@ class Mattack:
         self.min_time_left = min_time_left
         self.half_min_time_left = min_time_left/2
         #self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
-        self.regr = load_model(models_dir_filepath("eval_state_new_rf.model"))
+        #self.regr = load_model(models_dir_filepath("eval_state_new_rf.model"))
+        self.regr = load_model(models_dir_filepath("eval_state_2_rf.model"))
 
     # Return best move for given depth
     def best_result(self, board, time_left, start_turn_time):
