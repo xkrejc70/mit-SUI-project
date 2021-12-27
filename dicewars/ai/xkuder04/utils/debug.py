@@ -26,7 +26,7 @@ def debug_print(text, flag = DP_FLAG.UNKNOWN):
     allow_logs = not allow_logs
     if allow_logs and flag in allowed_flags:
         if flag == DP_FLAG.TRAIN_DATA:
-            with open(model_data_dir_filepath("eval_state_3.raw"), "a") as f:
+            with open(model_data_dir_filepath("eval_state_4.raw"), "a") as f:
                 f.write(f"{text}\n")
         else:
             print(text)

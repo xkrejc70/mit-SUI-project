@@ -11,12 +11,59 @@ from .debug import DP_FLAG, debug_print
 import time
 from .transfer_utils import player_board2dist_dict, dist_dict2dist_counts, dist_counts2direction
 
+def largest_region(board, player_name):
+    players_regions = board.get_players_regions(player_name)
+    max_region_size = max(len(region) for region in players_regions)
+    return [region for region in players_regions if len(region) == max_region_size][0]
+
+def area_predictor_features(current_area, target_area, player_name, board: Board, players_ordered):
+    player = Mplayer(board, player_name)
+    neighbours = [board.get_area(name) for name in target_area.get_adjacent_areas_names()]
+    enemy_neighbours = [area for area in neighbours if area.get_owner_name() != player_name]
+    border = player.border_areas
+    #Pocet kostek ja na hranici
+    border_dice_me = sum(area.get_dice() for area in border)
+    #Pocet kostek ja na hranici prumer
+    border_dice_me_avg = border_dice_me/len(border)
+    #Pocet kostek policko ja
+    current_dice = current_area.get_dice()
+    #Pocet kostek policko nepritel
+    target_dice = target_area.get_dice()
+    #Pocet sousedu co nejsem ja
+    n_enemy_neighbours = len(enemy_neighbours)
+    #Pocet sousedu co jsem ja
+    n_me_neighbours = len([area for area in neighbours if area.get_owner_name() == player_name])
+    #am i in max area #NOT NOW
+    is_in_largest_region = 1 if current_area.get_name() in largest_region(board, player_name) else 0
+    #distribution_direction
+    distribution_direction = get_distribution_direction(player, board)
+    #player_count
+    n_players = len(players_ordered)
+    #moje area/areas
+    areas_ration = player.n_all_areas / len(board.areas)
+    #Pocet kostek soused na hranici prumer
+    border_dice_enemy_avg = 0 if n_enemy_neighbours == 0 else sum(area.get_dice() for area in enemy_neighbours)/n_enemy_neighbours
+
+    features = [
+        border_dice_me,
+        border_dice_me_avg,
+        current_dice,
+        target_dice,
+        n_enemy_neighbours,
+        n_me_neighbours,
+        is_in_largest_region,
+        distribution_direction,
+        n_players,
+        areas_ration,
+        border_dice_enemy_avg
+    ]
+    return features
+    
 # List of resonable attacks for specified player
 # Returns X moves that have good probability of success and have good chance to sorvive other AIs moves
-def resonable_attacks_for_player(player: int, board: Board):
-    min_joined_probability = 0.4
-    max_attacks = 3
-    list_of_attacks = []
+def resonable_attacks_for_player(player: int, board: Board, players_ordered, clf):
+    moves = []
+    feature_list = []
 
     for area in board.get_player_border(player):
         if not area.can_attack():
@@ -27,11 +74,19 @@ def resonable_attacks_for_player(player: int, board: Board):
         for adj in neighbours:
             adjacent_area = board.get_area(adj)
             if adjacent_area.get_owner_name() != player:
-                joined_probability = probability_of_successful_attack_and_one_turn_hold(player, board, area, adjacent_area)
-                if joined_probability >= min_joined_probability:
-                    list_of_attacks.append((area, adjacent_area, joined_probability))
-                    
-    return sorted(list_of_attacks, key= lambda x: x[2])[-max_attacks:]
+                features = area_predictor_features(area, adjacent_area, player, board, players_ordered)
+                feature_list.append(features)
+                moves.append((area, adjacent_area))
+    
+    if len(feature_list) == 0:
+        return []
+
+    list_of_attacks = []
+    results = clf.predict(feature_list)
+    for move, result in zip(moves, results):
+        if bool(result):
+            list_of_attacks.append(move)
+    return list_of_attacks
 
 # Calculates joined probability of succesfull atack and holding conquered area for another turn
 def probability_of_successful_attack_and_one_turn_hold(player, board, area, adjacent_area):
@@ -69,7 +124,7 @@ def best_winning_attack(board, player_name):
 
 # Evaluate board score for player
 # TODO make more complex evaluation
-def evaluate_board(board: Board, player_name: int, players_ordered: List[int], model, print_train_data = False) -> float:
+def evaluate_board(board: Board, player_name: int, players_ordered: List[int], model) -> float:
     players = [Mplayer(board, player_name) for player_name in players_ordered]
     total_areas = sum(player.n_all_areas for player in players)
     total_dices = sum(player.n_dice for player in players)
@@ -126,12 +181,6 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int], m
         print("####################################")
         """
 
-    features = get_feature_vector(score, areas, max_area, border, layers, players, player, board)
-    if print_train_data:
-        debug_print(f"{features}", DP_FLAG.TRAIN_DATA)
-    evaluation = model.predict([features])[0]
-    #evaluation = model.predict([features[:-1]])[0]
-    #return evaluation
     return score
 
     """

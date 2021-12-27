@@ -26,7 +26,7 @@ from dicewars.client.ai_driver import BattleCommand, EndTurnCommand, TransferCom
 
 class AI:
     def __init__(self, player_name, board, players_order, max_transfers):
-        debug_print("", DP_FLAG.TRAIN_DATA)
+        #debug_print("", DP_FLAG.TRAIN_DATA)
         self.player_name = player_name
         self.players_order = players_order
         self.player_index = self.players_order.index(self.player_name)
