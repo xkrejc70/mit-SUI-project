@@ -16,6 +16,11 @@ class Mplayer:
         self.n_border_dice = sum(a.get_dice() for a in self.border_areas)
         self.is_alive = bool(self.n_all_areas)
 
+        self.biggest_region  = None
+        for region in board.get_players_regions(self.player_name):
+            if len(region) == self.n_biggest_region_size:
+                self.biggest_region = region
+
         ######### Calculate layers from border and dice in them #############
         if self.n_all_areas != 0:
             # Inicialize areas to layers
