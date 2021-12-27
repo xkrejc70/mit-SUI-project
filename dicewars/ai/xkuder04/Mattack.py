@@ -18,7 +18,8 @@ class Mattack:
         #self.regr = load_model(models_dir_filepath("eval_state_new_rf.model"))
         #self.regr = load_model(models_dir_filepath("eval_state_2_rf.model"))
         self.regr = load_model(models_dir_filepath("eval_state_3_rf.model"))
-        self.clf = load_model(models_dir_filepath("eval_state_4_cf_rf.model"))
+        #self.clf = load_model(models_dir_filepath("eval_state_4_cf_rf.model"))
+        self.clf = load_model(models_dir_filepath("eval_state_4_cf_svm.model"))
 
     # Return best move for given depth
     def best_result(self, board, time_left, start_turn_time):

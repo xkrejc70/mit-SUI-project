@@ -42,7 +42,7 @@ class AI:
         self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index, self.min_time_left)
         self.transfer_route = []
         self.num_players = len(players_order)
-        self.max_attacks = 5
+        self.max_attacks = 15
 
         self.made_attack = 0
         #print(f"player_name : {self.player_name}")

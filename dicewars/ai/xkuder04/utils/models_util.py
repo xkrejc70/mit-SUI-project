@@ -1,6 +1,9 @@
 import pickle
 from os.path import join, dirname, realpath
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 from ast import literal_eval
 
 def model_data_dir_filepath(filename):
@@ -57,6 +60,11 @@ def create_rf_regr(features, values):
     regr.fit(features, values)
     return regr
 
+def create_cf_svm(features, classes):
+    cf = make_pipeline(StandardScaler(), SVC())
+    cf.fit(features, classes)
+    return cf
+
 def create_cf_rf_regr(features, classes):
     cf = RandomForestClassifier(max_depth=10)
     cf.fit(features, classes)
@@ -102,6 +110,16 @@ def create_cf_model(name):
     cf = create_cf_rf_regr(features, classes)
 
     model_path = models_dir_filepath(f"{name}_cf_rf.model")
+    save_model(cf, model_path)
+
+def create_cf_svm_model(name):
+    eval_state_raw = model_data_dir_filepath(f"{name}.raw")
+    lines = file2lines(eval_state_raw)
+    features, classes = cf_lines(lines)
+
+    cf = create_cf_svm(features, classes)
+
+    model_path = models_dir_filepath(f"{name}_cf_svm.model")
     save_model(cf, model_path)
 
 
