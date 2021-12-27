@@ -9,6 +9,7 @@ class STRATEGY:
     SUPPORT =       3
     FINAL_SUPPORT = 4
     MULTI_TESTING = 5
+    ACTUAL_BEST = 6
 
 def select_strategy(self, board):
     #return STRATEGY.DEFAULT # Remove after all TODO-s done

@@ -1,6 +1,7 @@
 import copy
 from os import PRIO_PROCESS
 import pickle
+from posixpath import supports_unicode_filenames
 from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
 from typing import Iterator, List, Tuple
@@ -51,10 +52,61 @@ def best_possible_attack(board, player_name):
     move = None
     for attack in possible_attacks(board, player_name):
         prob = probability_of_successful_attack_and_one_turn_hold(player_name, board, attack[0], attack[1])
+        if attack[0] in Mplayer(board, player_name).biggest_region:
+            prob = prob * 2 # TODO only testing
         if prob > max_prob:
             max_prob = prob
             move = attack
     return move
+
+# Return transfers from endangered bord areas
+def retreat_transfers(board, player_name):
+    list_of_retreats = []
+    border_areas = board.get_player_border(player_name)
+
+    for area in border_areas:
+        transfer_area_dice = area.get_dice()
+        if transfer_area_dice < 2:
+            continue
+
+        neighbour_names = area.get_adjacent_areas_names()
+        neighbour_areas = [board.get_area(adj) for adj in neighbour_names]
+
+        # Make list of owned and enemy adnacent areas to calculate danger level
+        owned_adjacent_areas = []
+        enemy_adjacent_areas = []
+        for neighbour_area in neighbour_areas:
+            if neighbour_area.get_owner_name() != player_name:
+                enemy_adjacent_areas.append(neighbour_area)
+            else:
+                owned_adjacent_areas. append(neighbour_area)
+
+        # TODO test only max
+        # Caclulate average conquer probability of area
+        average_conguer_prob = 0
+        n_possible_attackers = 0
+        for enemy_area in enemy_adjacent_areas:
+            if not enemy_area.can_attack():
+                continue
+            
+            n_possible_attackers += 1
+            average_conguer_prob += probability_of_successful_attack(board, enemy_area.get_name(), area.get_name())
+
+        if n_possible_attackers == 0:
+            average_conguer_prob = 0
+        else:
+            average_conguer_prob /= n_possible_attackers
+        
+        # Calculate best area to transfer to.
+        transfer_area_dice = area.get_dice()
+        for owned_area in owned_adjacent_areas:
+            owned_area_dice = owned_area.get_dice()
+            new_dice_count = transfer_area_dice + owned_area_dice
+            if new_dice_count <= 8 and not(owned_area in border_areas):
+                #print(area.get_name(), owned_area.get_name(), average_conguer_prob*new_dice_count)
+                list_of_retreats.append((area.get_name(), owned_area.get_name(), average_conguer_prob*new_dice_count))
+
+    return sorted(list_of_retreats, key= lambda x: x[2], reverse=True)
 
 # Return move with best actual attack prob
 def best_winning_attack(board, player_name):
@@ -62,6 +114,8 @@ def best_winning_attack(board, player_name):
     move = None
     for attack in possible_attacks(board, player_name):
         prob = probability_of_successful_attack(board, attack[0].get_name(), attack[1].get_name())
+        if attack[0] in Mplayer(board, player_name).biggest_region:
+            prob = prob * 2 # TODO only testing
         if prob > max_prob:
             max_prob = prob
             move = attack

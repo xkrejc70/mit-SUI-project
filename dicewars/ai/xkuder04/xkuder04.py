@@ -6,7 +6,7 @@ import time
 
 from .Mplayer import Mplayer
 from .Mattack import Mattack
-from .utils.utils import best_winning_attack, evaluate_board, is_endturn, print_start, best_possible_attack
+from .utils.utils import best_winning_attack, evaluate_board, is_endturn, print_start, best_possible_attack, retreat_transfers
 from .utils.debug import DP_FLAG, debug_print
 from .utils.transfer_utils import get_best_transfer_route, final_support
 from .utils.strategy import STRATEGY, select_strategy
@@ -70,7 +70,7 @@ class AI:
 
         ##################### Strategies #####################
 
-        if self.strategy == STRATEGY.DEFAULT: # TODELETE
+        if self.strategy == STRATEGY.DEFAULT: # TODO DELETE
             if x:= self.part_transfer_deep_test(board, nb_transfers_this_turn, nb_moves_this_turn): return x
             if x:= self.part_final_transfer(board, nb_transfers_this_turn): return x
             if x:= self.part_attack(board, time_left): return x
@@ -98,10 +98,15 @@ class AI:
         elif self.strategy == STRATEGY.FINAL_SUPPORT:
             if x:= self.part_final_transfer(board, nb_transfers_this_turn): return x
 
-        elif self.strategy == STRATEGY.MULTI_TESTING:
+        elif self.strategy == STRATEGY.ACTUAL_BEST:
             if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
             if x:= self.attack_n_times(board, time_left): return x
             if x:= self.part_final_transfer(board, nb_transfers_this_turn): return x
+
+        elif self.strategy == STRATEGY.MULTI_TESTING:
+            if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
+            if x:= self.attack_n_times(board, time_left): return x
+            if x:= self.retreat_forces(board, nb_transfers_this_turn): return x
 
         return EndTurnCommand()
 
@@ -113,6 +118,20 @@ class AI:
                 self.set_ongoing_strategy(STRATEGY.FINAL_SUPPORT)
                 if x:= self.part_final_transfer(board, nb_transfers_this_turn): return x
         return None
+
+    def retreat_forces (self, board, nb_transfers_this_turn):
+        # Continue with retreats
+        list_of_reatreats = retreat_transfers(board, self.player_name)
+
+        if nb_transfers_this_turn < self.max_transfers:
+                if list_of_reatreats:
+                    source, destination, _ = list_of_reatreats.pop(0)
+          
+                    debug_print(f"=> Retreat transfer: {source, destination}", flag=DP_FLAG.TRANSFER)
+                    return TransferCommand(source, destination)
+
+        return None
+
 
     def attack_n_times(self, board, time_left):
         move, evaluation = self.mattack.best_result(board, time_left, self.start_turn_time)
@@ -132,7 +151,7 @@ class AI:
                 do_attack = random.random()
 
                 # Do attack with good win probability
-                if win_prob >= 0.5:
+                if win_prob >= 0.6:
                     debug_print(f"Best value attack {move[0].get_name()}->{move[1].get_name()}", flag=DP_FLAG.ATTACK)
                     return BattleCommand(move[0].get_name(), move[1].get_name())
                 else:
