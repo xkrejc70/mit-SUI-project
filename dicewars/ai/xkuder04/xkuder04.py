@@ -60,12 +60,12 @@ class AI:
         if self.strategy == STRATEGY.SUPPORT:
             if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
             if x:= self.attack_n_times(board, time_left): return x
-            #self.set_ongoing_strategy(STRATEGY.RETREAT)
+            self.set_ongoing_strategy(STRATEGY.RETREAT)
             if x:= self.retreat_forces(board, nb_transfers_this_turn): return x
 
         elif self.strategy == STRATEGY.FIRST_ATTACK:
             if x:= self.attack_n_times(board, time_left): return x
-            #self.set_ongoing_strategy(STRATEGY.RETREAT)
+            self.set_ongoing_strategy(STRATEGY.RETREAT)
             if x:= self.retreat_forces(board, nb_transfers_this_turn): return x
 
         elif self.strategy == STRATEGY.RETREAT:
