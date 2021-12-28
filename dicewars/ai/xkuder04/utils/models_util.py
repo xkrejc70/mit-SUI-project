@@ -60,12 +60,22 @@ def create_rf_regr(features, values):
     regr.fit(features, values)
     return regr
 
-def create_cf_svm(features, classes):
+def create_cf_prep_svm(features, classes):
     cf = make_pipeline(StandardScaler(), SVC())
     cf.fit(features, classes)
     return cf
 
-def create_cf_rf_regr(features, classes):
+def create_cf_prep_rf(features, classes):
+    cf = make_pipeline(StandardScaler(), RandomForestClassifier(max_depth=10))
+    cf.fit(features, classes)
+    return cf
+
+def create_cf_svm(features, classes):
+    cf = SVC()
+    cf.fit(features, classes)
+    return cf
+
+def create_cf_rf(features, classes):
     cf = RandomForestClassifier(max_depth=10)
     cf.fit(features, classes)
     return cf
@@ -101,13 +111,12 @@ def cf_lines(lines):
                 classes += [ group[0] ]
     return features, classes
 
-
-def create_cf_model(name):
+def create_cf_rf_model(name):
     eval_state_raw = model_data_dir_filepath(f"{name}.raw")
     lines = file2lines(eval_state_raw)
     features, classes = cf_lines(lines)
 
-    cf = create_cf_rf_regr(features, classes)
+    cf = create_cf_rf(features, classes)
 
     model_path = models_dir_filepath(f"{name}_cf_rf.model")
     save_model(cf, model_path)
@@ -121,3 +130,27 @@ def create_cf_svm_model(name):
 
     model_path = models_dir_filepath(f"{name}_cf_svm.model")
     save_model(cf, model_path)
+
+def create_cf_prep_rf_model(name):
+    eval_state_raw = model_data_dir_filepath(f"{name}.raw")
+    lines = file2lines(eval_state_raw)
+    features, classes = cf_lines(lines)
+
+    cf = create_cf_prep_rf(features, classes)
+
+    model_path = models_dir_filepath(f"{name}_cf_prep_rf.model")
+    save_model(cf, model_path)
+
+def create_cf_prep_svm_model(name):
+    eval_state_raw = model_data_dir_filepath(f"{name}.raw")
+    lines = file2lines(eval_state_raw)
+    features, classes = cf_lines(lines)
+
+    cf = create_cf_prep_svm(features, classes)
+
+    model_path = models_dir_filepath(f"{name}_cf_prep_svm.model")
+    save_model(cf, model_path)
+
+
+#l_regr = load_model(model_path)
+#print(l_regr.predict([[20, 96, 19, 15, 34, 175, 3]]))
