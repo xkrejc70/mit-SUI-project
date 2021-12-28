@@ -67,6 +67,10 @@ case $1 in
     python3 ./scripts/dicewars-ai-only.py -r -b 11 -o 22 -s 33 -c 44 -n 100 --ai kb.stei_at xkuder04.xkuder04 -l logy # 100 HER kb.stei_at
     ;;
 
+  17)
+    python3 ./scripts/dicewars-ai-only.py -r -b 11 -s 42 -n 400 --ai xkuder04-rf.xkuder04-rf xkuder04-rf-prep.xkuder04-rf-prep xkuder04-svm.xkuder04-svm xkuder04-svm-prep.xkuder04-svm-prep -l logy
+    ;;
+
   *)
     echo "Unknown argument"
     ;;
