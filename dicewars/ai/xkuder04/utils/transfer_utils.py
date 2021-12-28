@@ -98,9 +98,6 @@ def get_transfer_to_spec_border(player, board: Board, border : Area, n_transfers
         pass
     return None
 
-def get_transfer_to_spec_area():
-    pass
-
 # Get best transfer from neighbors
 def get_best_transfer(player, board, dst_area, illegal_areas):
     inner_areas_names = [a.name for a in player.inner_areas]
@@ -187,7 +184,6 @@ def retreat_transfers(board, player_name):
             else:
                 owned_adjacent_areas. append(neighbour_area)
 
-        # TODO test only max
         # Caclulate average conquer probability of area
         average_conguer_prob = 0
         n_possible_attackers = 0
@@ -209,7 +205,6 @@ def retreat_transfers(board, player_name):
             owned_area_dice = owned_area.get_dice()
             new_dice_count = transfer_area_dice + owned_area_dice
             if new_dice_count <= 8 and not(owned_area in border_areas):
-                #print(area.get_name(), owned_area.get_name(), average_conguer_prob*new_dice_count)
                 list_of_retreats.append((area.get_name(), owned_area.get_name(), average_conguer_prob*new_dice_count))
 
     return sorted(list_of_retreats, key= lambda x: x[2], reverse=True)

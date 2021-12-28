@@ -91,7 +91,6 @@ def create_model(name):
     lines += filter_score_decrease(lines)
 
     features = [line[:-1] for line in lines]
-    #features = lines
     values = normalize_values([line[-1] for line in lines])
     regr = create_rf_regr(features, values)
 
@@ -102,8 +101,6 @@ def cf_lines(lines):
     features = []
     classes = []
     groups = [(0, -1, 60), (1, 90, 110)]
-    #groups = [(0, -1, 60), (1, 80, 110)]
-    #groups = [(0, -1, 70), (1, 95, 110)]
     for line in lines:
         for group in groups:
             if line[-1] > group[1] and line[-1] < group[2]:
@@ -150,7 +147,3 @@ def create_cf_prep_svm_model(name):
 
     model_path = models_dir_filepath(f"{name}_cf_prep_svm.model")
     save_model(cf, model_path)
-
-
-#l_regr = load_model(model_path)
-#print(l_regr.predict([[20, 96, 19, 15, 34, 175, 3]]))

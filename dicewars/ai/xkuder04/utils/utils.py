@@ -128,7 +128,6 @@ def best_winning_attack(board, player_name):
     return move, max_prob
 
 # Evaluate board score for player
-# TODO make more complex evaluation
 def evaluate_board(board: Board, player_name: int, players_ordered: List[int]) -> float:
     players = [Mplayer(board, player_name) for player_name in players_ordered]
     total_areas = sum(player.n_all_areas for player in players)
@@ -155,7 +154,6 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int]) -
         # Areas
         areas = player.n_all_areas/total_areas
         max_area = player.n_biggest_region_size / player.n_all_areas
-        #dice = player.n_dice / total_dices
         border = player.n_inner_areas / player.n_all_areas
         
         layers_dice_ratio = list()
@@ -200,7 +198,6 @@ def get_feature_vector(score, areas, max_area, border, layers, players, player, 
 
 # Simulate winning move on board
 def simulate_succesfull_move(player_name: int, board: Board, atk_from: int, atk_to: int) -> Board:
-    #edited_board = copy.deepcopy(board)
     edited_board = pickle.loads(pickle.dumps(board))
 
     area_from = edited_board.get_area(atk_from)
@@ -214,7 +211,6 @@ def simulate_succesfull_move(player_name: int, board: Board, atk_from: int, atk_
 
 # Simulate lossing move on board
 def simulate_lossing_move(board: Board, atk_from: int, atk_to:int) -> Board:
-    #edited_board = copy.deepcopy(board)
     edited_board = pickle.loads(pickle.dumps(board))
 
     area_from = edited_board.get_area(atk_from)
@@ -246,7 +242,6 @@ def is_endturn(time_left, min_time_left, nb_moves_this_turn, max_attacks_per_rou
         return True
     return False
 
-#TODO delete
 def print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_left):
     if nb_moves_this_turn == 0 and nb_transfers_this_turn == 0:
         debug_print(f"\n####### NEW TURN #######", flag=DP_FLAG.NEW_TURN)
