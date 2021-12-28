@@ -9,7 +9,6 @@ from .Mattack import Mattack
 from .utils.utils import best_winning_attack, evaluate_board, print_start
 from .utils.debug import DP_FLAG, debug_print
 from .utils.transfer_utils import get_best_transfer_route, final_support, retreat_transfers
-from .utils.strategy import STRATEGY, select_strategy
 
 from numpy.lib.function_base import append
 from dicewars.client.game import player
@@ -31,8 +30,6 @@ class AI:
         self.logger = logging.getLogger('AI')
         self.min_time_left = 6
         self.max_attacks_per_round = 10
-        self.strategy = STRATEGY.SUPPORT
-        self.ongoing_strategy = False
         self.depth = 4
         self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index, self.min_time_left)
         self.transfer_route = []
@@ -48,28 +45,9 @@ class AI:
             self.transfer_route = []
             self.made_attack = 0
 
-        ##################### Strategies #####################
-        
-        self.unset_strategy(nb_moves_this_turn, nb_transfers_this_turn)
-        if (self.ongoing_strategy == False):
-            self.set_ongoing_strategy(select_strategy(self, board))
-
-        debug_print(f"Strategy: {self.strategy}", flag=DP_FLAG.STRATEGY)
-        debug_print(f"nb_transfers_this_turn: {nb_transfers_this_turn}", flag=DP_FLAG.TRANSFER)
-
-        if self.strategy == STRATEGY.SUPPORT:
-            if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
-            if x:= self.attack_n_times(board, time_left): return x
-            self.set_ongoing_strategy(STRATEGY.RETREAT)
-            if x:= self.retreat_forces(board, nb_transfers_this_turn): return x
-
-        elif self.strategy == STRATEGY.FIRST_ATTACK:
-            if x:= self.attack_n_times(board, time_left): return x
-            self.set_ongoing_strategy(STRATEGY.RETREAT)
-            if x:= self.retreat_forces(board, nb_transfers_this_turn): return x
-
-        elif self.strategy == STRATEGY.RETREAT:
-            if x:= self.retreat_forces(board, nb_transfers_this_turn): return x
+        if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
+        if x:= self.attack_n_times(board, time_left): return x
+        if x:= self.retreat_forces(board, nb_transfers_this_turn): return x
         
         return EndTurnCommand()
 
@@ -205,13 +183,3 @@ class AI:
             debug_print(f"=> Transfer: {transfer[0], transfer[1]}", flag=DP_FLAG.TRANSFER)
             return TransferCommand(transfer[0], transfer[1])
         return None
-
-    # Set if turn is strategy continuation
-    def set_ongoing_strategy(self, strategy):
-        self.ongoing_strategy = True
-        self.strategy = strategy
-
-    # Do if first turn
-    def unset_strategy(self, nb_moves_this_turn, nb_transfers_this_turn):
-        if (nb_moves_this_turn == 0) and (nb_transfers_this_turn == 0):
-            self.ongoing_strategy = False
