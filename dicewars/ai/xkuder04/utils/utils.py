@@ -108,60 +108,11 @@ def best_possible_attack(board, player_name):
     for attack in possible_attacks(board, player_name):
         prob = probability_of_successful_attack_and_one_turn_hold(player_name, board, attack[0], attack[1])
         if attack[0] in Mplayer(board, player_name).biggest_region:
-            prob = prob * 2 # TODO only testing
+            prob = prob * 2
         if prob > max_prob:
             max_prob = prob
             move = attack
     return move
-
-# Return transfers from endangered bord areas
-def retreat_transfers(board, player_name):
-    list_of_retreats = []
-    border_areas = board.get_player_border(player_name)
-
-    for area in border_areas:
-        transfer_area_dice = area.get_dice()
-        if transfer_area_dice < 2:
-            continue
-
-        neighbour_names = area.get_adjacent_areas_names()
-        neighbour_areas = [board.get_area(adj) for adj in neighbour_names]
-
-        # Make list of owned and enemy adnacent areas to calculate danger level
-        owned_adjacent_areas = []
-        enemy_adjacent_areas = []
-        for neighbour_area in neighbour_areas:
-            if neighbour_area.get_owner_name() != player_name:
-                enemy_adjacent_areas.append(neighbour_area)
-            else:
-                owned_adjacent_areas. append(neighbour_area)
-
-        # TODO test only max
-        # Caclulate average conquer probability of area
-        average_conguer_prob = 0
-        n_possible_attackers = 0
-        for enemy_area in enemy_adjacent_areas:
-            if not enemy_area.can_attack():
-                continue
-            
-            n_possible_attackers += 1
-            average_conguer_prob += probability_of_successful_attack(board, enemy_area.get_name(), area.get_name())
-
-        if n_possible_attackers == 0:
-            average_conguer_prob = 0
-        else:
-            average_conguer_prob /= n_possible_attackers
-        
-        # Calculate best area to transfer to.
-        transfer_area_dice = area.get_dice()
-        for owned_area in owned_adjacent_areas:
-            owned_area_dice = owned_area.get_dice()
-            new_dice_count = transfer_area_dice + owned_area_dice
-            if new_dice_count <= 8 and not(owned_area in border_areas):
-                #print(area.get_name(), owned_area.get_name(), average_conguer_prob*new_dice_count)
-                list_of_retreats.append((area.get_name(), owned_area.get_name(), average_conguer_prob*new_dice_count))
-
-    return sorted(list_of_retreats, key= lambda x: x[2], reverse=True)
 
 # Return move with best actual attack prob
 def best_winning_attack(board, player_name):
@@ -170,7 +121,7 @@ def best_winning_attack(board, player_name):
     for attack in possible_attacks(board, player_name):
         prob = probability_of_successful_attack(board, attack[0].get_name(), attack[1].get_name())
         if attack[0] in Mplayer(board, player_name).biggest_region:
-            prob = prob * 2 # TODO only testing
+            prob = prob * 2
         if prob > max_prob:
             max_prob = prob
             move = attack
@@ -224,88 +175,8 @@ def evaluate_board(board: Board, player_name: int, players_ordered: List[int], m
         layers = sum(layer_priorities)
         score_me = areas*priority_area + max_area*priority_max_area + border*priority_border_area + layers*priority_layer_dice
         score += score_me/sum_priority
-        """
-        print(f"Player: {player_name}")
-        print(f"Area score: {areas}")
-        print(f"Score max area: {max_area}")
-        print(f"Border score: {border}")
-        print(f"Layers score: {layer_priorities}")
-        print(f"Layers sum score: {layers}")
-        print(f"Final score: {score}")
-        print("####################################")
-        """
 
     return score
-
-    """
-    for player in players:
-        if player.player_name == player_name:
-            if player.n_all_areas == 0:
-                return 0
-            elif player.n_all_areas == total_areas:
-                return 1
-            else:
-                ############### Maximaze me ####################
-                # All in 0 - 1 inervals
-                # Areas
-                areas = player.n_all_areas/total_areas
-                max_area = player.n_biggest_region_size / player.n_all_areas
-                #dice = player.n_dice / total_dices
-                border = player.n_inner_areas / player.n_all_areas
-                
-                layers_dice_ratio = list()
-                for i in range(player.n_layers):
-                    layers_dice_ratio.append(player.dice_in_layers[i] / (len(player.areas_in_layers[i])*8))
-
-                # Distribute priority
-                priorities_list = [1, 2/3, 4/7, 8/15, 16/31, 1/2]
-                priority = priorities_list[-1]
-                if player.n_layers < len(priorities_list):
-                    priority = priorities_list[player.n_layers-1]
-
-                layer_priorities = list()
-                for i in range(player.n_layers):
-                    layer_priorities.append(layers_dice_ratio[i]*pow(priority, i+1))
-
-                layers = sum(layer_priorities)
-
-                score_me = areas*priority_area + max_area*priority_max_area + border*priority_border_area + layers*priority_layer_dice
-                score += score_me/sum_priority
-        else:
-            if player.n_all_areas == 0:
-                return 0
-            elif player.n_all_areas == total_areas:
-                return 1
-            else:
-                ############### Minimize others ####################
-                # All in 0 - 1 inervals
-                # Areas
-                areas = player.n_all_areas/total_areas
-                max_area = player.n_biggest_region_size / player.n_all_areas
-                #dice = player.n_dice / total_dices
-                border = player.n_inner_areas / player.n_all_areas
-                
-                layers_dice_ratio = list()
-                for i in range(player.n_layers):
-                    layers_dice_ratio.append(player.dice_in_layers[i] / (len(player.areas_in_layers[i])*8))
-
-                # Distribute priority
-                priorities_list = [1, 2/3, 4/7, 8/15, 16/31, 1/2]
-                priority = priorities_list[-1]
-                if player.n_layers < len(priorities_list):
-                    priority = priorities_list[player.n_layers-1]
-
-                layer_priorities = list()
-                for i in range(player.n_layers):
-                    layer_priorities.append(layers_dice_ratio[i]*pow(priority, i+1))
-
-                layers = sum(layer_priorities)
-
-                score_me = areas*priority_area + max_area*priority_max_area + border*priority_border_area + layers*priority_layer_dice
-                score += (1 - score_me/sum_priority)
-
-    return score / len(players)
-    """
 
 def get_distribution_direction(player, board):
     dist_dict = player_board2dist_dict(player, board)
@@ -382,6 +253,3 @@ def print_start(self, board, nb_moves_this_turn, nb_transfers_this_turn, time_le
         debug_print(f"Time left = {time_left}", flag=DP_FLAG.NEW_TURN)
         debug_print(f"Player name = {self.player_name}", flag=DP_FLAG.NEW_TURN)
         debug_print(f"Player order = {self.players_order}", flag=DP_FLAG.NEW_TURN)
-        #debug_print(f"all_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_areas(self.player_name)]}")
-        #debug_print(f"border_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_border(self.player_name)]}")
-        #debug_print(f"inner_areas: {[(a.get_name(), a.get_dice()) for a in board.get_player_areas(self.player_name) if a not in board.get_player_border(self.player_name)]}")

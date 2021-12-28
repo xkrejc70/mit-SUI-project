@@ -14,26 +14,21 @@ class Mattack:
         self.player_index = player_index
         self.min_time_left = min_time_left
         self.half_min_time_left = min_time_left/2
-        #self.regr = load_model(models_dir_filepath("eval_state_rf.model"))
-        #self.regr = load_model(models_dir_filepath("eval_state_new_rf.model"))
-        #self.regr = load_model(models_dir_filepath("eval_state_2_rf.model"))
         self.regr = load_model(models_dir_filepath("eval_state_3_rf.model"))
-        #self.clf = load_model(models_dir_filepath("eval_state_4_cf_rf.model"))
         self.clf = load_model(models_dir_filepath("eval_state_4_cf_svm.model"))
 
     # Return best move for given depth
     def best_result(self, board, time_left, start_turn_time):
         self.time_left = time_left
         self.start_turn_time = start_turn_time
-        #evaluate_board(board, self.players_order[self.player_index], self.players_ordered, self.regr, print_train_data = True)
         return self.best_result_for_given_depth(board, self.player_index, self.depth)
 
     # Uses Expectimax-n
     def best_result_for_given_depth(self, board, player_index, depth):
         reasonable_attacks = resonable_attacks_for_player(self.players_order[player_index], board, self.players_ordered, self.clf)
-        #Do leaf part of search
+        # Do leaf part of search
         if x:= self.part_leaf(reasonable_attacks, depth, board): return x
-        #Do recursive part of search
+        # Do recursive part of search
         if x:= self.part_recursive(reasonable_attacks, depth, board, player_index): return x
 
     # Return vector for leaf evaluation
@@ -63,7 +58,6 @@ class Mattack:
             alfa = [0 for i in range(len(self.players_order))]
 
             # If probability of succesfull atack is greather then x, dont generate loss tree for quicker generation
-            # TODO x = 0.95
             if probability_of_win > 0.95:
                 _, result_win = self.best_result_for_given_depth(board_win, (player_index + 1) % len(self.players_order), depth - 1)
 

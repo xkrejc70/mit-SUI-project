@@ -63,15 +63,3 @@ class Mplayer:
             self.areas_in_layers = areas_in_layers
             self.dice_in_layers = dice_in_layers
             self.n_layers = len(self.areas_in_layers)
-
-    #TODO delete
-    """def print_F(self):
-        print(f"player_name : {self.player_name}")
-        print(f"n_dice : {self.n_dice}")
-        print(f"all_areas : {[(a.get_name(), a.get_dice()) for a in self.all_areas]}")
-        print(f"border_areas : {[(a.get_name(), a.get_dice()) for a in self.border_areas]}")
-        print(f"inner_areas : {[(a.get_name(), a.get_dice()) for a in self.inner_areas]}")
-        print(f"n_all_areas : {self.n_all_areas}")
-        print(f"n_border_areas : {self.n_border_areas}")
-        print(f"is_alive : {self.is_alive}")
-        print()"""

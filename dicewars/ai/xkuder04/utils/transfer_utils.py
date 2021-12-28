@@ -1,6 +1,7 @@
 from dicewars.client.game.board import Board
 from dicewars.client.game.area import Area
 from dicewars.ai.xkuder04.Mplayer import Mplayer
+from dicewars.ai.xkuder04.utils.utils import probability_of_successful_attack
 import numpy as np
 import time
 from .debug import debug_print, DP_FLAG
@@ -163,3 +164,52 @@ def dist_counts2direction(dist_counts):
     vector = (x,y)
     direction = vector[1] / vector[0]
     return direction
+
+# Return transfers from endangered bord areas
+def retreat_transfers(board, player_name):
+    list_of_retreats = []
+    border_areas = board.get_player_border(player_name)
+
+    for area in border_areas:
+        transfer_area_dice = area.get_dice()
+        if transfer_area_dice < 2:
+            continue
+
+        neighbour_names = area.get_adjacent_areas_names()
+        neighbour_areas = [board.get_area(adj) for adj in neighbour_names]
+
+        # Make list of owned and enemy adnacent areas to calculate danger level
+        owned_adjacent_areas = []
+        enemy_adjacent_areas = []
+        for neighbour_area in neighbour_areas:
+            if neighbour_area.get_owner_name() != player_name:
+                enemy_adjacent_areas.append(neighbour_area)
+            else:
+                owned_adjacent_areas. append(neighbour_area)
+
+        # TODO test only max
+        # Caclulate average conquer probability of area
+        average_conguer_prob = 0
+        n_possible_attackers = 0
+        for enemy_area in enemy_adjacent_areas:
+            if not enemy_area.can_attack():
+                continue
+            
+            n_possible_attackers += 1
+            average_conguer_prob += probability_of_successful_attack(board, enemy_area.get_name(), area.get_name())
+
+        if n_possible_attackers == 0:
+            average_conguer_prob = 0
+        else:
+            average_conguer_prob /= n_possible_attackers
+        
+        # Calculate best area to transfer to.
+        transfer_area_dice = area.get_dice()
+        for owned_area in owned_adjacent_areas:
+            owned_area_dice = owned_area.get_dice()
+            new_dice_count = transfer_area_dice + owned_area_dice
+            if new_dice_count <= 8 and not(owned_area in border_areas):
+                #print(area.get_name(), owned_area.get_name(), average_conguer_prob*new_dice_count)
+                list_of_retreats.append((area.get_name(), owned_area.get_name(), average_conguer_prob*new_dice_count))
+
+    return sorted(list_of_retreats, key= lambda x: x[2], reverse=True)

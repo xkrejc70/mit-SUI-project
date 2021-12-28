@@ -121,7 +121,3 @@ def create_cf_svm_model(name):
 
     model_path = models_dir_filepath(f"{name}_cf_svm.model")
     save_model(cf, model_path)
-
-
-#l_regr = load_model(model_path)
-#print(l_regr.predict([[20, 96, 19, 15, 34, 175, 3]]))
