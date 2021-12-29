@@ -32,7 +32,7 @@ case $1 in
     ;;
 
   8)
-    python3 ./scripts/dicewars-tournament.py -r -g 4 -n 50 --ai-under-test xkuder04.xkuder04 -b 101 -l logy # EVALUEATION TOURNAMENT 4
+    python3 ./scripts/dicewars-tournament.py -r -g 4 -n 50 --ai-under-test xkuder04.xkuder04 -l logy # EVALUEATION TOURNAMENT 4
     ;;
 
   9)

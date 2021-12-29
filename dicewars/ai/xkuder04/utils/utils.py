@@ -131,7 +131,6 @@ def best_winning_attack(board, player_name):
 def evaluate_board(board: Board, player_name: int, players_ordered: List[int]) -> float:
     players = [Mplayer(board, player_name) for player_name in players_ordered]
     total_areas = sum(player.n_all_areas for player in players)
-    total_dices = sum(player.n_dice for player in players)
 
     player = players[player_name - 1]
 

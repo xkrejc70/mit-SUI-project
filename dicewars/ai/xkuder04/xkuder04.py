@@ -30,7 +30,7 @@ class AI:
         self.logger = logging.getLogger('AI')
         self.min_time_left = 6
         self.max_attacks_per_round = 10
-        self.depth = 4
+        self.depth = 6
         self.mattack = Mattack(self.depth, self.players_order, self.players_ordered, self.player_index, self.min_time_left)
         self.transfer_route = []
         self.num_players = len(players_order)
