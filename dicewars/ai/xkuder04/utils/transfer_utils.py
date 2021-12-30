@@ -3,7 +3,6 @@ from dicewars.client.game.area import Area
 from dicewars.ai.xkuder04.Mplayer import Mplayer
 from dicewars.ai.xkuder04.utils.utils import probability_of_successful_attack
 import numpy as np
-import time
 from .debug import debug_print, DP_FLAG
 from .transfer_tree import transfer_tree
 

@@ -1,7 +1,5 @@
 import logging
 import random
-import copy
-import numpy as np
 import time
 
 from .Mplayer import Mplayer
@@ -9,13 +7,6 @@ from .Mattack import Mattack
 from .utils.utils import best_winning_attack, evaluate_board, print_start
 from .utils.debug import DP_FLAG, debug_print
 from .utils.transfer_utils import get_best_transfer_route, final_support, retreat_transfers
-
-from numpy.lib.function_base import append
-from dicewars.client.game import player
-
-from dicewars.client.game.board import Board
-from dicewars.client.game.area import Area
-from typing import Iterator, List, Text, Tuple
 
 from dicewars.client.ai_driver import BattleCommand, EndTurnCommand, TransferCommand
 
@@ -45,12 +36,21 @@ class AI:
             self.transfer_route = []
             self.made_attack = 0
 
-        if x:= self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn): return x
-        if x:= self.attack_n_times(board, time_left): return x
-        if x:= self.retreat_forces(board, nb_transfers_this_turn): return x
+        result_transfer_deep = self.part_transfer_deep(board, nb_transfers_this_turn, nb_moves_this_turn)
+        if result_transfer_deep != None:
+            return result_transfer_deep
+
+        result_attack_n_times = self.attack_n_times(board, time_left)
+        if result_attack_n_times != None:
+            return result_attack_n_times
+
+        result_retreat = self.retreat_forces(board, nb_transfers_this_turn)
+        if result_retreat != None:
+            return result_retreat
         
         return EndTurnCommand()
 
+    # Move to second line endengered dice from first line
     def retreat_forces(self, board, nb_transfers_this_turn):
         # Continue with retreats
         list_of_reatreats = retreat_transfers(board, self.player_name)
@@ -63,6 +63,7 @@ class AI:
                     return TransferCommand(source, destination)
         return None
 
+    # Do attack provided by expectimaxn max N times
     def attack_n_times(self, board, time_left):
         move, evaluation = self.mattack.best_result(board, time_left, self.start_turn_time)
         debug_print(f"Best evaluation {evaluation}", flag=DP_FLAG.ATTACK)
@@ -95,17 +96,21 @@ class AI:
                             debug_print(f"No attack", flag=DP_FLAG.ATTACK)
         return None
 
-    # Final support, transfer dice close to borders Todelete
+    # Final support, transfer dice close to borders
     def part_final_transfer(self, board, nb_transfers_this_turn):
         player = Mplayer(board, self.player_name)
         if nb_transfers_this_turn < self.max_transfers:
 
             # Support borders
             if nb_transfers_this_turn < 2:
-                if x:= self.part_final_transfer_deep(board, 0, 4): return x
+                result_final_transfer_deep = self.part_final_transfer_deep(board, 0, 4)
+                if result_final_transfer_deep != None:
+                    return result_final_transfer_deep
             
             if nb_transfers_this_turn < 4:
-                if x:= self.part_final_transfer_deep(board, 0, 2): return x
+                result_final_transfer_deep = self.part_final_transfer_deep(board, 0, 2)
+                if result_final_transfer_deep != None:
+                    return result_final_transfer_deep
 
             transfer = final_support(player, board)
             if transfer:
@@ -115,9 +120,13 @@ class AI:
             else:
                 # Support arrea in 2nd line
                 if nb_transfers_this_turn < 2:
-                    if x:= self.part_final_transfer_deep(board, 1, 4): return x
+                    result_final_transfer_deep = self.part_final_transfer_deep(board, 1, 4)
+                    if result_final_transfer_deep != None:
+                        return result_final_transfer_deep
 
-                if x:= self.part_final_transfer_deep(board, 1, 2): return x
+                result_final_transfer_deep = self.part_final_transfer_deep(board, 1, 2)
+                if result_final_transfer_deep != None:
+                    return result_final_transfer_deep
 
         else:
             debug_print(f"Out of transfers ({nb_transfers_this_turn}/{self.max_transfers})", flag=DP_FLAG.TRANSFER)
@@ -157,7 +166,7 @@ class AI:
                         debug_print(f"No attack", flag=DP_FLAG.ATTACK)
         return None
 
-    # First support Todelete
+    # Transfer deep
     def part_transfer_deep(self, board, nb_transfers_this_turn, nb_moves_this_turn):
         player = Mplayer(board, self.player_name)
         available_steps = self.max_transfers - nb_transfers_this_turn     
@@ -173,7 +182,7 @@ class AI:
             return TransferCommand(transfer[0], transfer[1])
         return None
 
-    # Final support Todelete
+    # Final support deep
     def part_final_transfer_deep(self, board, start_depth, available_steps):
         player = Mplayer(board, self.player_name)
         if not self.transfer_route:

@@ -1,7 +1,5 @@
-from dicewars.client.game.board import Board
-from dicewars.client.game.area import Area
 from numpy import inf
-from dicewars.ai.utils import save_state, probability_of_successful_attack, attack_succcess_probability
+from dicewars.ai.utils import probability_of_successful_attack
 from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board
 from .utils.models_util import load_model, models_dir_filepath
 import time
@@ -26,9 +24,15 @@ class Mattack:
     def best_result_for_given_depth(self, board, player_index, depth):
         reasonable_attacks = resonable_attacks_for_player(self.players_order[player_index], board, self.players_ordered, self.clf)
         # Do leaf part of search
-        if x:= self.part_leaf(reasonable_attacks, depth, board): return x
+        result_leaf = self.part_leaf(reasonable_attacks, depth, board)
+        if result_leaf != None:
+            return result_leaf
         # Do recursive part of search
-        if x:= self.part_recursive(reasonable_attacks, depth, board, player_index): return x
+        result_recursive = self.part_recursive(reasonable_attacks, depth, board, player_index)
+        if result_recursive != None:
+            return result_recursive
+
+        return None
 
     # Return vector for leaf evaluation
     def part_leaf(self, reasonable_attacks, depth, board):

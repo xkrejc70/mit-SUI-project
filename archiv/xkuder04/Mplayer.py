@@ -1,7 +1,3 @@
-
-from numpy.lib.function_base import piecewise
-
-
 class Mplayer:
     def __init__(self, board, player_name : int):
         self.player_name = player_name

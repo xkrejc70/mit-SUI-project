@@ -1,15 +1,9 @@
-import copy
-from os import PRIO_PROCESS
 import pickle
-from posixpath import supports_unicode_filenames
 from dicewars.client.game.board import Board
-from dicewars.client.game.area import Area
-from typing import Iterator, List, Tuple
+from typing import List
 from ..Mplayer import Mplayer
-from dicewars.ai.utils import attack_succcess_probability, probability_of_successful_attack, probability_of_holding_area, possible_attacks
-from .models_util import load_model, models_dir_filepath
+from dicewars.ai.utils import probability_of_successful_attack, probability_of_holding_area, possible_attacks
 from .debug import DP_FLAG, debug_print
-import time
 from .transfer_utils import player_board2dist_dict, dist_dict2dist_counts, dist_counts2direction
 
 def largest_region(board, player_name):
@@ -131,7 +125,6 @@ def best_winning_attack(board, player_name):
 def evaluate_board(board: Board, player_name: int, players_ordered: List[int]) -> float:
     players = [Mplayer(board, player_name) for player_name in players_ordered]
     total_areas = sum(player.n_all_areas for player in players)
-    total_dices = sum(player.n_dice for player in players)
 
     player = players[player_name - 1]
 
