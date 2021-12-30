@@ -177,7 +177,7 @@ class NN_model(nn.Module):
 def create_cf_nn(X, y, epochs = 1000):
     model = NN_model()
     criterion = nn.CrossEntropyLoss()
-    optim = torch.optim.Adam(model.parameters(), lr=0.0001)
+    optim = torch.optim.Adam(model.parameters(), lr=0.01)
 
     losses = []
     for i in range(epochs):
