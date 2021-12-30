@@ -1,4 +1,6 @@
 import pickle
+import torch
+import numpy as np
 from dicewars.client.game.board import Board
 from typing import List
 from ..Mplayer import Mplayer
@@ -77,6 +79,8 @@ def resonable_attacks_for_player(player: int, board: Board, players_ordered, clf
         return []
 
     list_of_attacks = []
+    #results = clf.predict(feature_list)
+    feature_list = torch.from_numpy(np.array(feature_list)).type(torch.FloatTensor)
     results = clf.predict(feature_list)
     for move, result in zip(moves, results):
         if bool(result):
