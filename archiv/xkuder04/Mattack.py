@@ -1,7 +1,7 @@
 from numpy import inf
 from dicewars.ai.utils import probability_of_successful_attack
-from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board
-from .utils.models_util import load_model, models_dir_filepath
+from dicewars.ai.xkuder04.utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board
+from dicewars.ai.xkuder04.utils.models_util import load_model, models_dir_filepath
 import time
 
 class Mattack:
@@ -12,7 +12,8 @@ class Mattack:
         self.player_index = player_index
         self.min_time_left = min_time_left
         self.half_min_time_left = min_time_left/2
-        self.clf = load_model(models_dir_filepath("eval_state_4_cf_rf.model"))
+        #self.clf = load_model(models_dir_filepath("eval_state_4_cf_rf.model"))
+        self.clf = load_model(models_dir_filepath("eval_state_4_cf_nn.model"))
 
     # Return best move for given depth
     def best_result(self, board, time_left, start_turn_time):

@@ -1,4 +1,4 @@
-from .debug import debug_print, DP_FLAG
+from dicewars.ai.xkuder04.utils.debug import debug_print, DP_FLAG
 
 class transfer_tree:
     def __init__(self, dist_dict):

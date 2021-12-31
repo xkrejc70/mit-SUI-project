@@ -1,4 +1,4 @@
-from .models_util import model_data_dir_filepath
+from dicewars.ai.xkuder04.utils.models_util import model_data_dir_filepath
 
 class DP_FLAG:
     UNKNOWN = 0

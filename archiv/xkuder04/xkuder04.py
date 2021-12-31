@@ -2,11 +2,11 @@ import logging
 import random
 import time
 
-from .Mplayer import Mplayer
-from .Mattack import Mattack
-from .utils.utils import best_winning_attack, evaluate_board, print_start
-from .utils.debug import DP_FLAG, debug_print
-from .utils.transfer_utils import get_best_transfer_route, final_support, retreat_transfers
+from dicewars.ai.xkuder04.Mplayer import Mplayer
+from dicewars.ai.xkuder04.Mattack import Mattack
+from dicewars.ai.xkuder04.utils.utils import best_winning_attack, evaluate_board, print_start
+from dicewars.ai.xkuder04.utils.debug import DP_FLAG, debug_print
+from dicewars.ai.xkuder04.utils.transfer_utils import get_best_transfer_route, final_support, retreat_transfers
 
 from dicewars.client.ai_driver import BattleCommand, EndTurnCommand, TransferCommand
 

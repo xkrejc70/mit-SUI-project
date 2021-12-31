@@ -3,8 +3,8 @@ from dicewars.client.game.area import Area
 from dicewars.ai.xkuder04.Mplayer import Mplayer
 from dicewars.ai.xkuder04.utils.utils import probability_of_successful_attack
 import numpy as np
-from .debug import debug_print, DP_FLAG
-from .transfer_tree import transfer_tree
+from dicewars.ai.xkuder04.utils.debug import debug_print, DP_FLAG
+from dicewars.ai.xkuder04.utils.transfer_tree import transfer_tree
 
 def get_best_transfer_route(player, board: Board, start_depth, available_steps):
     dist_dict = player_board2dist_dict(player, board)

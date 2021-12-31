@@ -1,7 +1,7 @@
 from numpy import inf
 from dicewars.ai.utils import probability_of_successful_attack
-from .utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board
-from .utils.models_util import load_model, models_dir_filepath
+from dicewars.ai.xkuder04.utils.utils import resonable_attacks_for_player, simulate_lossing_move, simulate_succesfull_move, evaluate_board
+from dicewars.ai.xkuder04.utils.models_util import load_model, models_dir_filepath
 import time
 
 class Mattack:

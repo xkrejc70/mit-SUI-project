@@ -1,10 +1,12 @@
 import pickle
+import torch
+import numpy as np
 from dicewars.client.game.board import Board
 from typing import List
-from ..Mplayer import Mplayer
+from dicewars.ai.xkuder04.Mplayer import Mplayer
 from dicewars.ai.utils import probability_of_successful_attack, probability_of_holding_area, possible_attacks
-from .debug import DP_FLAG, debug_print
-from .transfer_utils import player_board2dist_dict, dist_dict2dist_counts, dist_counts2direction
+from dicewars.ai.xkuder04.utils.debug import DP_FLAG, debug_print
+from dicewars.ai.xkuder04.utils.transfer_utils import player_board2dist_dict, dist_dict2dist_counts, dist_counts2direction
 
 def largest_region(board, player_name):
     players_regions = board.get_players_regions(player_name)
@@ -77,6 +79,8 @@ def resonable_attacks_for_player(player: int, board: Board, players_ordered, clf
         return []
 
     list_of_attacks = []
+    #results = clf.predict(feature_list)
+    feature_list = torch.from_numpy(np.array(feature_list)).type(torch.FloatTensor)
     results = clf.predict(feature_list)
     for move, result in zip(moves, results):
         if bool(result):
