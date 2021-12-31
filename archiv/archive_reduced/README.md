@@ -1,0 +1,1 @@
+Do tohoto odevzdávaného archivu jseme nahráli jen datové sady a modely které se nám podařilo dostat do odevzdávacího limitu 2MB. Všechny data jsou dostupné na v našem repozitáři (https://gitlab.com/xsojka04/sui) ve složce archiv.
