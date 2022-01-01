@@ -72,6 +72,8 @@ def resonable_attacks_for_player(player: int, board: Board, players_ordered, clf
             adjacent_area = board.get_area(adj)
             if adjacent_area.get_owner_name() != player:
                 features = area_predictor_features(area, adjacent_area, player, board, players_ordered)
+                #prob = probability_of_successful_attack_and_one_turn_hold(player, board, area, adjacent_area)
+                #debug_print(features+[prob], flag=DP_FLAG.TRAIN_DATA)
                 feature_list.append(features)
                 moves.append((area, adjacent_area))
     
