@@ -1,5 +1,7 @@
 # Dice Wars
 
+Obtained points: 19/20
+
 Dice Wars is a strategy game where players take turns to attack adjacent territories to expand
 their area. Each territory contains a number of dice determining player's presence
 and strength. The objective of the game is to conquer all territories and thus eliminate each opponent.
